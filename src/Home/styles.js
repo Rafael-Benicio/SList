@@ -35,13 +35,14 @@ const styles = StyleSheet.create({
 		width:widthWi*0.9,
 		height:heightHe*0.17,
 		borderRadius:8,
-		opacity:0.9
+		opacity:0.8
 		// resizeMode: 'stretch',
 	},
 	itemText:{
 		position:'absolute',
 		bottom:0,
 		fontSize:20,
+		color:'#fff',
 		fontWeight:'bold',
 		marginLeft:widthWi*0.02
 	},
