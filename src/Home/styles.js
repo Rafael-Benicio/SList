@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
 		height:heightHe*0.17,
 		borderRadius:8,
 		opacity:0.8
-		// resizeMode: 'stretch',
 	},
 	itemText:{
 		position:'absolute',
@@ -46,6 +45,15 @@ const styles = StyleSheet.create({
 		fontWeight:'bold',
 		marginLeft:widthWi*0.02
 	},
+	itemGear:{
+		position:'absolute',
+		width:widthWi*0.1,
+		height:widthWi*0.1,
+		bottom:heightHe*0.17-(widthWi*0.1),
+		right:0,
+		alignItems:'center',
+		justifyContent:'center',
+	},
 	addButton:{
 		backgroundColor:'#0f0',
 		height: widthWi*0.14,
@@ -54,6 +62,11 @@ const styles = StyleSheet.create({
 		justifyContent:'center',
 		alignItems:'center'
 	},
+	showSetImg:{
+		position:'absolute',
+		left:widthWi*0.5,
+		top:heightHe*0.5
+	}
 })
 
 export default styles
