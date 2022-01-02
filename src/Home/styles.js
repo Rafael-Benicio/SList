@@ -64,9 +64,56 @@ const styles = StyleSheet.create({
 	},
 	showSetImg:{
 		position:'absolute',
-		left:widthWi*0.5,
-		top:heightHe*0.5
-	}
+		left:widthWi*0.5-widthWi*0.8/2,
+		top:heightHe*0.5-widthWi*0.8/2,
+		width:widthWi*0.8,
+		height:widthWi*0.8,
+		backgroundColor:'#fff',
+		opacity:0.97,
+		borderRadius:8,
+		borderWidth:2,
+		borderColor:'#000',
+		padding:widthWi*0.8*0.05,
+	},
+	setImgHead:{
+		flexDirection:'row',
+		justifyContent:'space-between',
+		alignItems:'center',
+		// backgroundColor:'#f00',
+		height:widthWi*0.8*0.15,
+	},
+	setImgDesc:{
+		height:widthWi*0.8*0.15,
+		// backgroundColor:'#0f0',
+	     justifyContent:'center'
+	},
+	setImgViewButtons:{
+		// backgroundColor:'#000',
+		flex:1,
+	     justifyContent:'space-around'
+	},
+	setImgBtnTxt:{
+		color:'#fff',
+		fontWeight:'bold',
+		fontSize:Math.floor(widthWi*0.8/13),
+	},
+	setImgHeadTxt:{
+		fontWeight:'bold',
+		fontSize:Math.floor(widthWi*0.8/9)
+	},
+	setImgButtons:{
+		flexDirection:'row',
+		justifyContent:'space-between',
+		alignItems:'center'
+	},
+	setImgButton:{
+		backgroundColor:'#a0f',
+		borderRadius:4,
+		width:widthWi*0.8/2.3,
+		height:widthWi*0.8/8,
+		alignItems:'center',
+		justifyContent:'center'
+	},
 })
 
 export default styles

@@ -7,49 +7,50 @@ import styles from "./styles"
 export default function App() {
   const [itemLista,setItemLista]=useState([{image:require('./../../assets/icon.png'),name:'Nome1',imageSet:1}])
   const [imageSet,setImageSet]=useState(['cover', 'contain', 'stretch', 'repeat', 'center'])
-  const [showSMode,serShowSMode]=useState(true)
+  const [showSMode,setShowSMode]=useState(true)
 
   function selectResizeMode(){
     if(showSMode){
     return(
-        <View style={styles.showSetImg}>
-            <View>
-              <Text>Capa</Text>
-              <TouchableOpacity>
-                <Text>
-                  Padrão
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View>
-            <Text>Configuração da imagem de capa</Text>
-            </View>
-            <View>
-            <TouchableOpacity>
-              <Text>
-                Conter
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text>
-                Esticar
-              </Text>
-            </TouchableOpacity>
-            </View>
-            <View>
-            <TouchableOpacity>
-              <Text>
-                Repetir
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text>
-                Centralizar
-              </Text>
-            </TouchableOpacity>
-            </View>
-
-        </View>
+          <View style={styles.showSetImg}>
+              <View style={styles.setImgHead}>
+                <Text style={styles.setImgHeadTxt}>CAPA</Text>
+                <TouchableOpacity style={styles.setImgButton}>
+                  <Text style={styles.setImgBtnTxt}>
+                    Padrão
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.setImgDesc}>
+                <Text>Configuração da imagem de capa</Text>
+              </View>
+              <View style={styles.setImgViewButtons}>
+              <View style={styles.setImgButtons}>
+                <TouchableOpacity style={styles.setImgButton}>
+                  <Text style={styles.setImgBtnTxt}>
+                    Conter
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.setImgButton}>
+                  <Text style={styles.setImgBtnTxt}>
+                    Esticar
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.setImgButtons}>
+                <TouchableOpacity style={styles.setImgButton}>
+                  <Text style={styles.setImgBtnTxt}>
+                    Repetir
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.setImgButton}>
+                  <Text style={styles.setImgBtnTxt}>
+                    Centralizar
+                  </Text>
+                </TouchableOpacity>
+              </View>
+          </View>
+          </View>
       )
     }
   }
@@ -70,7 +71,7 @@ export default function App() {
                 <TouchableOpacity activeOpacity={0.8}>
                     <Image style={[styles.itemImg,{resizeMode:imageSet[i.imageSet]}]} source={i.image}/>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemGear}>
+                <TouchableOpacity style={styles.itemGear} onPress={()=>(showSMode)? setShowSMode(false):setShowSMode(true)}>
                   <Icon name="gear" color="#fff" size={20}/>
                 </TouchableOpacity>
                 <Text style={styles.itemText}>{i.name}</Text>
