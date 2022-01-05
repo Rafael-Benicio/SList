@@ -75,6 +75,21 @@ export default function App() {
                   </View>
                 </View>
               </View>
+              {/*Configurador do nome da Lista*/}
+                <View>
+                  <View style={styles.setImgHead}>
+                    <Text style={styles.setImgHeadTxt}>IMAGEM</Text>
+                  </View>
+                  <View style={styles.setImgDesc}>
+                    <Text>Configura a imagem de {tmpList.name}</Text>
+                  </View>
+                  <View style={styles.setNameView}>
+                  <TextInput style={styles.setNameInput} multiline={false}/>
+                  <TouchableOpacity style={[styles.setNameBtn,{backgroundColor:'#a0f'}]} onPress={()=>setName(tmp)}>
+                    <Icon name="gear" color="#fff" size={20}/>
+                  </TouchableOpacity>
+                  </View>
+                </View>
             </ScrollView>
           </View>
       )
