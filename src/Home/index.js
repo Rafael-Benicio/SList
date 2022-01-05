@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Text, View,TouchableOpacity,Image, AsyncStorage,StatusBar } from 'react-native';
+import { Text, View,TouchableOpacity,Image, AsyncStorage,StatusBar, ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 import styles from "./styles"
@@ -13,56 +13,89 @@ export default function App() {
 
   // Janela de configuração de item da lista
   function selectResizeMode(){
+    const [tmp,setTmp]=useState('')
+    // Is pra testar se o conteudo vai ou não ser exibido
     if(showSMode){
     return(
-          <View style={styles.showSetImg}>
-              <View style={styles.setImgHead}>
-                <Text style={styles.setImgHeadTxt}>CAPA</Text>
-                <TouchableOpacity style={styles.setImgButton} onPress={()=>setCapa(0)}> 
-                  <Text style={styles.setImgBtnTxt}>
-                    Padrão
-                  </Text>
-                </TouchableOpacity>
+          // Configurador do item da lista
+          <View style={styles.showSetItem}>
+              <ScrollView>
+                {/*Configurador do nome da Lista*/}
+                <View>
+                  <View style={styles.setImgHead}>
+                    <Text style={styles.setImgHeadTxt}>NOME</Text>
+                  </View>
+                  <View style={styles.setImgDesc}>
+                    <Text>Configura o nome de {tmpList.name}</Text>
+                  </View>
+                  <View style={styles.setNameView}>
+                  <TextInput style={styles.setNameInput} value={tmp} onChangeText={tmp => setTmp(tmp)} maxLength={10} multiline={false}/>
+                  <TouchableOpacity style={styles.setNameBtn} onPress={()=>setName(tmp)}>
+                    <Icon name="check" color="#fff" size={20}/>
+                  </TouchableOpacity>
+                  </View>
+                </View>
+                {/*Configurador da imagen da lista*/}
+                <View>
+                  <View style={styles.setImgHead}>
+                    <Text style={styles.setImgHeadTxt}>CAPA</Text>
+                    <TouchableOpacity style={styles.setImgButton} onPress={()=>setCapa(0)}> 
+                      <Text style={styles.setImgBtnTxt}>
+                        Padrão
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.setImgDesc}>
+                    <Text>Configuração da imagem de capa de {tmpList.name}</Text>
+                  </View>
+                  <View style={styles.setImgViewButtons}>
+                  <View style={styles.setImgButtons}>
+                    <TouchableOpacity style={styles.setImgButton} onPress={()=>setCapa(1)}>
+                      <Text style={styles.setImgBtnTxt}>
+                        Conter
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.setImgButton} onPress={()=>setCapa(2)}>
+                      <Text style={styles.setImgBtnTxt}>
+                        Esticar
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.setImgButtons}>
+                    <TouchableOpacity style={styles.setImgButton} onPress={()=>setCapa(3)}>
+                      <Text style={styles.setImgBtnTxt}>
+                        Repetir
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.setImgButton} onPress={()=>setCapa(4)}>
+                      <Text style={styles.setImgBtnTxt}>
+                        Centralizar
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
               </View>
-              <View style={styles.setImgDesc}>
-                <Text>Configuração da imagem de capa de {tmpList.name}</Text>
-              </View>
-              <View style={styles.setImgViewButtons}>
-              <View style={styles.setImgButtons}>
-                <TouchableOpacity style={styles.setImgButton} onPress={()=>setCapa(1)}>
-                  <Text style={styles.setImgBtnTxt}>
-                    Conter
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.setImgButton} onPress={()=>setCapa(2)}>
-                  <Text style={styles.setImgBtnTxt}>
-                    Esticar
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.setImgButtons}>
-                <TouchableOpacity style={styles.setImgButton} onPress={()=>setCapa(3)}>
-                  <Text style={styles.setImgBtnTxt}>
-                    Repetir
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.setImgButton} onPress={()=>setCapa(4)}>
-                  <Text style={styles.setImgBtnTxt}>
-                    Centralizar
-                  </Text>
-                </TouchableOpacity>
-              </View>
-          </View>
+            </ScrollView>
           </View>
       )
     }
   }
 
   // Configurar item da lista
-  function setCapa(i){
-    itemLista[tmpList.dataPos].imageSet=i
-    setShowSMode(false)
-    saveData(itemLista)
+  function setCapa(i){ 
+    if(i!=itemLista[tmpList.dataPos].imageSet){
+      itemLista[tmpList.dataPos].imageSet=i
+      setShowSMode(false)
+      saveData(itemLista)
+    }
+  }
+  // Configurar o nome do item da lista
+  function setName(i){ 
+    if(i!='' && i!=itemLista[tmpList.dataPos].name){
+      itemLista[tmpList.dataPos].name=i
+      setShowSMode(false)
+      saveData(itemLista)
+    }
   }
 
   // Carrega os dados

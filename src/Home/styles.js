@@ -63,10 +63,10 @@ const styles = StyleSheet.create({
 		justifyContent:'center',
 		alignItems:'center'
 	},
-	showSetImg:{
+	showSetItem:{
 		position:'absolute',
 		left:widthWi*0.5-sISize/2,
-		top:heightHe*0.5-sISize/2,
+		top:heightHe*0.5-sISize/1.5,
 		width:sISize,
 		height:sISize,
 		backgroundColor:'#fff',
@@ -75,6 +75,27 @@ const styles = StyleSheet.create({
 		borderWidth:2,
 		borderColor:'#000',
 		padding:sISize*0.05,
+	},
+	setNameView:{
+		flexDirection:'row',
+		justifyContent:'space-between',
+		height:sISize*0.2,
+		alignItems:'center'
+	},
+	setNameInput:{
+		backgroundColor:'#ddd',
+		borderRadius:8,
+		width:sISize*0.7,
+		height:sISize*0.1,
+		paddingHorizontal:10,
+	},
+	setNameBtn:{
+		justifyContent:'center',
+		alignItems:'center',
+		backgroundColor:'#0f0',
+		width:sISize*0.1,
+		height:sISize*0.1,
+		borderRadius:8,
 	},
 	setImgHead:{
 		flexDirection:'row',
@@ -91,6 +112,7 @@ const styles = StyleSheet.create({
 	setImgViewButtons:{
 		// backgroundColor:'#000',
 		flex:1,
+		height:sISize*0.5,
 	     justifyContent:'space-around'
 	},
 	setImgBtnTxt:{
