@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Text, View,TouchableOpacity,Image, AsyncStorage,StatusBar, ScrollView, TextInput } from 'react-native';
+import { Text, View,TouchableOpacity,TouchableWithoutFeedback,Image, AsyncStorage,StatusBar, ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 import styles from "./styles"
@@ -119,7 +119,7 @@ export default function App() {
   // Exibi uma janela para criar e configurar uma lista
   function createItemList(){
     const [tmp,setTmp]=useState('')
-    const [show,setShow]=useState(false)
+    const [tipo,setTipo]=useState(true)
 
     if(showCrMo){
     return(
@@ -145,8 +145,17 @@ export default function App() {
                   <View style={styles.setImgDesc}>
                     <Text>Qual é o tipo de lista?</Text>
                   </View>
-                  <View style={styles.setNameView}>
-                  <TextInput style={styles.setNameInput} value={tmp} onChangeText={tmp => setTmp(tmp)} maxLength={10} multiline={false}/>
+                  <View style={styles.setRadioView}>
+                    <TouchableOpacity style={(tipo)?styles.setRadioBtnok:styles.setRadioBtn} onPress={()=>setTipo(true)}>
+                      <Text>
+                        Número
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={(!tipo)?styles.setRadioBtnok:styles.setRadioBtn} onPress={()=>setTipo(false)}>
+                      <Text>
+                        Sim/Não
+                      </Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
                 {/*Configurador do nome da Lista*/}
@@ -163,8 +172,13 @@ export default function App() {
                     <Icon name="gear" color="#fff" size={20}/>
                   </TouchableOpacity>
                   </View>
-                
-                
+                <View>
+                  <View style={styles.setImgHead}>
+                    <TouchableOpacity style={styles.saveBtn}>
+                      <Text style={styles.setImgBtnTxt}>SALVAR</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
               </View>
             </ScrollView>
           </View>

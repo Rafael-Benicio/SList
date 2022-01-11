@@ -137,6 +137,36 @@ const styles = StyleSheet.create({
 		alignItems:'center',
 		justifyContent:'center'
 	},
+	setRadioView:{
+		// flexDirection:'row',
+		justifyContent:'space-between',
+		height:sISize*0.3,
+		alignItems:'flex-start',
+	},
+	setRadioBtn:{
+		justifyContent:'center',
+		width:sISize*0.7,
+		height:sISize*0.14,
+		borderRadius:8,
+		paddingHorizontal:8,
+		backgroundColor:'#ddd'
+
+	},
+	setRadioBtnok:{
+		justifyContent:'center',
+		width:sISize*0.7,
+		height:sISize*0.14,
+		borderRadius:8,
+		paddingHorizontal:8,
+		backgroundColor:'#ccffc4',
+		borderWidth:1,
+		borderColor:'#0a0',
+	},
+	saveBtn:{
+		backgroundColor:'#0f0',
+		borderRadius:8,
+		padding:8
+	},
 })
 
 export default styles
