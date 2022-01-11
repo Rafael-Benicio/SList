@@ -162,10 +162,30 @@ const styles = StyleSheet.create({
 		borderWidth:1,
 		borderColor:'#0a0',
 	},
-	saveBtn:{
-		backgroundColor:'#0f0',
+	saveBtnOK:{
+		width:sISize*0.25,
+		alignItems:'center',
+		backgroundColor:'#ccffc4',
 		borderRadius:8,
+		borderWidth:2,
+		borderColor:'#0a0',
 		padding:8
+	},
+	saveBtnNot:{
+		alignItems:'center',
+		width:sISize*0.25,
+		backgroundColor:'#ff7774',
+		borderRadius:8,
+		borderWidth:1,
+		borderColor:'#a00',
+		padding:8
+	},
+	saveSetView:{
+		flexDirection:'row',
+		justifyContent:'space-between',
+		alignItems:'center',
+		// backgroundColor:'#f00',
+		height:sISize*0.20,
 	},
 })
 

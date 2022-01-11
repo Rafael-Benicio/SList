@@ -1,16 +1,18 @@
 import React, {useState} from 'react';
-import { Text, View,TouchableOpacity,TouchableWithoutFeedback,Image, AsyncStorage,StatusBar, ScrollView, TextInput } from 'react-native';
+import { Text, View,TouchableOpacity,TouchableWithoutFeedback,Image,StatusBar, ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from "./styles"
 
 export default function App() {
-  const [itemLista,setItemLista]=useState([])
+  const [itemLista,setItemLista]=useState({data:[]})
   const [imageSet,setImageSet]=useState(['cover', 'contain', 'stretch', 'repeat', 'center'])
   const [tmpList,setTmpList]=useState({name:'',dataPos:0})
   const [showSMode,setShowSMode]=useState(false)
   const [showCrMo,setShowCrMo]=useState(true)
-  // {name:'Nome1',image:require('./../../assets/icon.png'),imageSet:1}
+  const [canSave,setCanSave]=useState(true)
+  // 
 
   // Cria elementos da tela
   // Janela de configuração de item da lista
@@ -99,7 +101,7 @@ export default function App() {
   }
   // Lista de itens
   function showItemList(){
-    itemLista.map((i,index)=>(
+    itemLista.data.map((i,index)=>(
       <View key={index} style={styles.itemList}>
           <TouchableOpacity activeOpacity={0.8}>
               <Image style={[styles.itemImg,{resizeMode:imageSet[i.imageSet]}]} source={i.image}/>
@@ -173,10 +175,13 @@ export default function App() {
                   </TouchableOpacity>
                   </View>
                 <View>
-                  <View style={styles.setImgHead}>
-                    <TouchableOpacity style={styles.saveBtn}>
-                      <Text style={styles.setImgBtnTxt}>SALVAR</Text>
+                  <View style={styles.saveSetView}>
+                    <TouchableOpacity style={(canSave)?styles.saveBtnOK:styles.saveBtnNot} onPress={()=>setShowCrMo(false)}>
+                        <Icon name="check" color={(canSave)?'#0a0':'#600'} size={30}/>
                     </TouchableOpacity>
+                    {
+                      TextAviso()
+                    }
                   </View>
                 </View>
               </View>
@@ -184,20 +189,22 @@ export default function App() {
           </View>
     )}
   }
+  // Mansagem de aviso
+  function TextAviso(){if(!canSave) return <Text style={{color:'#f00'}}>coloque ao menos um nome pra lista</Text>}
 
   // funçãos de configuração
   // Configurar item da lista
   function setCapa(i){ 
-    if(i!=itemLista[tmpList.dataPos].imageSet){
-      itemLista[tmpList.dataPos].imageSet=i
+    if(i!=itemLista.data[tmpList.dataPos].imageSet){
+      itemLista.data[tmpList.dataPos].imageSet=i
       setShowSMode(false)
       saveData(itemLista)
     }
   }
   // Configurar o nome do item da lista
   function setName(i){ 
-    if(i!='' && i!=itemLista[tmpList.dataPos].name){
-      itemLista[tmpList.dataPos].name=i
+    if(i!='' && i!=itemLista.data[tmpList.dataPos].name){
+      itemLista.data[tmpList.dataPos].name=i
       setShowSMode(false)
       saveData(itemLista)
     }
@@ -206,18 +213,17 @@ export default function App() {
   // Carrega os dados
   async function loadData(){
     try{      
-        let i=await  AsyncStorage.getItem('i_List')
-        let j=JSON.parse(i)       
-        if (j==null) j=[]
-        setItemLista(j)
+        const i=await  AsyncStorage.getItem('@i_List')
+        return (i!=null)?JSON.parse(i):[]
     }catch(error){
       console.log('Erro ao Obter dados');
+      RDados()
     }
   }
   // Salva os dados
-  async function saveData(n=itemLista){
+  async function saveData(n){
         try {
-            await AsyncStorage.setItem('i_List',JSON.stringify(n))
+            await AsyncStorage.setItem('@i_List',JSON.stringify(n))
             console.log('====================================');
             console.log('Dados Salvos');
             console.log('====================================');
@@ -226,7 +232,11 @@ export default function App() {
         }
   }
 
-  loadData()
+  // Configurar os dados para o estado inicial
+  async function RDados (){
+    await AsyncStorage.setItem('Key',JSON.stringify({data:[]}))
+        alert("Dados Resetados")
+  } 
 
   return (
     <View style={styles.background}>
@@ -242,7 +252,7 @@ export default function App() {
           showItemList()
         }
         {/*Buttão de adicinar à lista*/}
-        <TouchableOpacity activeOpacity={0.55} style={styles.addButton}>
+        <TouchableOpacity activeOpacity={0.55} style={styles.addButton} onPress={()=>setShowCrMo(true)}>
           <Text>+</Text>
         </TouchableOpacity>
       </View>
