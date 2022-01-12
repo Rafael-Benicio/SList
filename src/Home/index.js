@@ -10,7 +10,7 @@ export default function App() {
   const [imageSet,setImageSet]=useState(['cover', 'contain', 'stretch', 'repeat', 'center'])
   const [tmpList,setTmpList]=useState({name:'',dataPos:0})
   const [showSMode,setShowSMode]=useState(false)
-  const [showCrMo,setShowCrMo]=useState(true)
+  const [showCrMo,setShowCrMo]=useState(false)
   const [canSave,setCanSave]=useState(true)
   // 
 
@@ -95,13 +95,21 @@ export default function App() {
                   </View>
                 </View>
             </ScrollView>
+            {/*But~ao para fechar tela*/}
+            <View style={styles.closeView}>
+              <TouchableOpacity style={styles.closeBtn} onPress={()=>{setTmp('');setShowSMode(false)}}>
+                <Icon name="close" color="#600" size={20}/>
+              </TouchableOpacity>
+            </View>
           </View>
       )
     }
   }
   // Lista de itens
   function showItemList(){
-    itemLista.data.map((i,index)=>(
+    let x=itemLista.data
+    return(
+    x.map((i,index)=>(
       <View key={index} style={styles.itemList}>
           <TouchableOpacity activeOpacity={0.8}>
               <Image style={[styles.itemImg,{resizeMode:imageSet[i.imageSet]}]} source={i.image}/>
@@ -117,6 +125,7 @@ export default function App() {
           <Text style={styles.itemText}>{i.name}</Text>
       </View>
     ))
+    )
   }
   // Exibi uma janela para criar e configurar uma lista
   function createItemList(){
@@ -126,7 +135,7 @@ export default function App() {
     if(showCrMo){
     return(
      <View style={styles.showSetItem}>
-              <ScrollView>
+              <ScrollView showsVerticalScrollIndicator={false}>
                 {/*Configurador do nome da Lista*/}
                 <View>
                   <View style={styles.setImgHead}>
@@ -176,7 +185,7 @@ export default function App() {
                   </View>
                 <View>
                   <View style={styles.saveSetView}>
-                    <TouchableOpacity style={(canSave)?styles.saveBtnOK:styles.saveBtnNot} onPress={()=>setShowCrMo(false)}>
+                    <TouchableOpacity style={(canSave)?styles.saveBtnOK:styles.saveBtnNot} onPress={()=>dataCanSave(tmp,tipo)}>
                         <Icon name="check" color={(canSave)?'#0a0':'#600'} size={30}/>
                     </TouchableOpacity>
                     {
@@ -186,11 +195,28 @@ export default function App() {
                 </View>
               </View>
             </ScrollView>
+            {/*But~ao para fechar tela*/}
+            <View style={styles.closeView}>
+              <TouchableOpacity style={styles.closeBtn} onPress={()=>{setShowCrMo(false);setTmp('');setTipo(true)}}>
+                <Icon name="close" color="#600" size={20}/>
+              </TouchableOpacity>
+            </View>
           </View>
     )}
   }
+
+  function dataCanSave(name,tipo){
+    if(name==''){
+      setCanSave(false)
+    }else{
+      setShowCrMo(false)
+      itemLista.data.push({name:name,imageSet:0,image:require("./../../assets/icon.png")})
+      saveData(itemLista)
+    }
+  }
+
   // Mansagem de aviso
-  function TextAviso(){if(!canSave) return <Text style={{color:'#f00'}}>coloque ao menos um nome pra lista</Text>}
+  function TextAviso(){if(!canSave) return <Text style={{color:'#f00',fontSize:15}}>Por favor, coloque um{"\n"}nome em sua lista</Text>}
 
   // funçãos de configuração
   // Configurar item da lista

@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 		width:widthWi*0.9,
 		height:heightHe*0.17,
 		borderRadius:8,
-		opacity:0.8
+		opacity:0.7
 	},
 	itemText:{
 		position:'absolute',
@@ -186,6 +186,21 @@ const styles = StyleSheet.create({
 		alignItems:'center',
 		// backgroundColor:'#f00',
 		height:sISize*0.20,
+	},
+	closeView:{
+		position:'absolute',
+		left:sISize*0.83,
+		marginTop:sISize*0.02,
+	},
+	closeBtn:{
+		width:sISize*0.14,
+		height:sISize*0.14,
+		backgroundColor:'#ff7774',
+		borderRadius:8,
+		borderWidth:1,
+		borderColor:'#a00',
+		alignItems:'center',
+		justifyContent:'center',
 	},
 })
 
