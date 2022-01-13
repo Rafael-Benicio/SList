@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Text, View,TouchableOpacity,TouchableWithoutFeedback,Image,StatusBar, ScrollView, TextInput } from 'react-native';
+import { Text, View,TouchableOpacity,Image,StatusBar, ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -110,7 +110,7 @@ import styles from "./styles"
     return(
     itemLista.data.map((i,index)=>(
       <View key={index} style={styles.itemList}>
-          <TouchableOpacity activeOpacity={0.8} onPress={()=>navigation.navigate('List')}>
+          <TouchableOpacity activeOpacity={0.8} onPress={()=>navigation.navigate('List',{name:i.name,tipo:i.tipo})}>
               <Image style={[styles.itemImg,{resizeMode:imageSet[i.imageSet]}]} source={i.image}/>
           </TouchableOpacity>
         {/*Engrenagem deconfiguração  */}
@@ -180,13 +180,13 @@ import styles from "./styles"
                   </View>
                   <View style={styles.setNameView}>
                   <TextInput style={styles.setNameInput} multiline={false}/>
-                  <TouchableOpacity style={[styles.setNameBtn,{backgroundColor:'#a0f'}]} onPress={()=>setName(tmp)}>
+                  <TouchableOpacity style={[styles.setNameBtn,{backgroundColor:'#a0f'}]}>
                     <Icon name="gear" color="#fff" size={20}/>
                   </TouchableOpacity>
                   </View>
                 <View>
                   <View style={styles.saveSetView}>
-                    <TouchableOpacity style={(canSave)?styles.saveBtnOK:styles.saveBtnNot} onPress={()=>dataCanSave(tmp,tipo)}>
+                    <TouchableOpacity style={(canSave)?styles.saveBtnOK:styles.saveBtnNot} onPress={()=>dataCanSave(tmp.trim(),tipo)}>
                         <Icon name="check" color={(canSave)?'#0a0':'#600'} size={30}/>
                     </TouchableOpacity>
                     {
@@ -207,11 +207,18 @@ import styles from "./styles"
   }
 
   function dataCanSave(name,tipo){
-    if(name==''){
+    let canr=itemLista.data.map((i)=>{
+      if(i.name==name){
+        return 1
+    }})
+
+
+
+    if(name=='' || canr==1){
       setCanSave(false)
     }else{
       setShowCrMo(false)
-      itemLista.data.push({name:name,imageSet:0,image:require("./../../assets/icon.png")})
+      itemLista.data.push({name,imageSet:0,image:require("./../../assets/icon.png"),tipo})
       saveData(itemLista)
     }
   }
