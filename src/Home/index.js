@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from "./styles"
 
-export default function App() {
+ const Home=function({navigation, route}){
   const [itemLista,setItemLista]=useState({data:[]})
   const [imageSet,setImageSet]=useState(['cover', 'contain', 'stretch', 'repeat', 'center'])
   const [tmpList,setTmpList]=useState({name:'',dataPos:0})
@@ -23,7 +23,7 @@ export default function App() {
     return(
           // Configurador do item da lista
           <View style={styles.showSetItem}>
-              <ScrollView>
+              <ScrollView showsVerticalScrollIndicator={false}>
                 {/*Configurador do nome da Lista*/}
                 <View>
                   <View style={styles.setImgHead}>
@@ -107,22 +107,23 @@ export default function App() {
   }
   // Lista de itens
   function showItemList(){
-    let x=itemLista.data
     return(
-    x.map((i,index)=>(
+    itemLista.data.map((i,index)=>(
       <View key={index} style={styles.itemList}>
-          <TouchableOpacity activeOpacity={0.8}>
+          <TouchableOpacity activeOpacity={0.8} onPress={()=>navigation.navigate('List')}>
               <Image style={[styles.itemImg,{resizeMode:imageSet[i.imageSet]}]} source={i.image}/>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.itemGear} onPress={
-            ()=>{
-              setTmpList({name:i.name,dataPos:index});
-              (showSMode)? setShowSMode(false):setShowSMode(true);
-            }
+        {/*Engrenagem deconfiguração  */}
+        <TouchableOpacity style={styles.itemGear} onPress={
+          ()=>{
+            setTmpList({name:i.name,dataPos:index});
+            (showSMode)? setShowSMode(false):setShowSMode(true);
+          }
           }>
-            <Icon name="gear" color="#fff" size={20}/>
-          </TouchableOpacity>
-          <Text style={styles.itemText}>{i.name}</Text>
+          <Icon name="gear" color="#fff" size={20}/>
+        </TouchableOpacity>
+        {/*Texto com nome da lista*/}
+        <Text style={styles.itemText}>{i.name}</Text>
       </View>
     ))
     )
@@ -223,7 +224,6 @@ export default function App() {
   function setCapa(i){ 
     if(i!=itemLista.data[tmpList.dataPos].imageSet){
       itemLista.data[tmpList.dataPos].imageSet=i
-      setShowSMode(false)
       saveData(itemLista)
     }
   }
@@ -231,7 +231,6 @@ export default function App() {
   function setName(i){ 
     if(i!='' && i!=itemLista.data[tmpList.dataPos].name){
       itemLista.data[tmpList.dataPos].name=i
-      setShowSMode(false)
       saveData(itemLista)
     }
   }
@@ -292,3 +291,4 @@ export default function App() {
   );
 }
 
+export default Home;
