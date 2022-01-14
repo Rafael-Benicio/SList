@@ -12,7 +12,7 @@ import styles from "./styles"
   const [showSMode,setShowSMode]=useState(false)
   const [showCrMo,setShowCrMo]=useState(false)
   const [canSave,setCanSave]=useState(true)
-  // 
+  
 
   // Cria elementos da tela
   // Janela de configuração de item da lista
@@ -110,7 +110,7 @@ import styles from "./styles"
     return(
     itemLista.data.map((i,index)=>(
       <View key={index} style={styles.itemList}>
-          <TouchableOpacity activeOpacity={0.8} onPress={()=>navigation.navigate('List',{name:i.name,tipo:i.tipo})}>
+          <TouchableOpacity activeOpacity={0.8} onPress={()=>navigation.navigate('List',{id:i.id,name:i.name,tipo:i.tipo})}>
               <Image style={[styles.itemImg,{resizeMode:imageSet[i.imageSet]}]} source={i.image}/>
           </TouchableOpacity>
         {/*Engrenagem deconfiguração  */}
@@ -186,7 +186,12 @@ import styles from "./styles"
                   </View>
                 <View>
                   <View style={styles.saveSetView}>
-                    <TouchableOpacity style={(canSave)?styles.saveBtnOK:styles.saveBtnNot} onPress={()=>dataCanSave(tmp.trim(),tipo)}>
+                    <TouchableOpacity style={(canSave)?styles.saveBtnOK:styles.saveBtnNot} onPress={()=>{
+                        dataCanSave(tmp.trim(),tipo);
+                        setTmp('');
+                        setTipo(true);
+                        setShowCrMo(false)
+                      }}>
                         <Icon name="check" color={(canSave)?'#0a0':'#600'} size={30}/>
                     </TouchableOpacity>
                     {
@@ -207,18 +212,14 @@ import styles from "./styles"
   }
 
   function dataCanSave(name,tipo){
-    let canr=itemLista.data.map((i)=>{
-      if(i.name==name){
-        return 1
-    }})
-
-
-
-    if(name=='' || canr==1){
+    if(name==''){
       setCanSave(false)
     }else{
       setShowCrMo(false)
-      itemLista.data.push({name,imageSet:0,image:require("./../../assets/icon.png"),tipo})
+      // [id]=nome
+      let key=(Math.floor(Math.random()*8999)+1000).toString(16)
+      itemLista.data.push({id:key,name,imageSet:0,image:require("./../../assets/icon.png"),tipo})
+      console.log(itemLista)
       saveData(itemLista)
     }
   }
@@ -246,7 +247,7 @@ import styles from "./styles"
   async function loadData(){
     try{      
         const i=await  AsyncStorage.getItem('@i_List')
-        return (i!=null)?JSON.parse(i):[]
+        setItemLista((i!=null)?JSON.parse(i):[])
     }catch(error){
       console.log('Erro ao Obter dados');
       RDados()
@@ -266,9 +267,12 @@ import styles from "./styles"
 
   // Configurar os dados para o estado inicial
   async function RDados (){
-    await AsyncStorage.setItem('Key',JSON.stringify({data:[]}))
+    await AsyncStorage.setItem('@i_List',JSON.stringify({data:[]}))
         alert("Dados Resetados")
   } 
+
+  loadData();
+  // RDados()
 
   return (
     <View style={styles.background}>
