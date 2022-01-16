@@ -32,6 +32,41 @@ const styles = StyleSheet.create({
 		paddingVertical: heightHe*0.02,
 		alignItems:'center',
 	},
+	itemView:{
+		flexDirection:'row',
+		backgroundColor:'#eeeeee',
+		height: widthWi*0.12,
+
+	},
+	itemBtnText:{
+		height: widthWi*0.12,
+		width:widthWi*0.64,
+		// backgroundColor:'#f00',
+		justifyContent:'center',
+		paddingHorizontal:widthWi*0.05
+	},
+	itemText:{
+	},
+	itemBtns:{
+		height: widthWi*0.12,
+		flexDirection:'row',
+		alignItems:'center',
+		width:widthWi*0.36,
+		// backgroundColor:'#0f0',
+	},
+	itemBtn:{
+		height: widthWi*0.12,
+		justifyContent:'center',
+		backgroundColor:'#0f0',
+		width:widthWi*0.12,
+		alignItems:'center'
+	},
+	itemInput:{
+		height: widthWi*0.12,
+		backgroundColor:'#fff',
+		width:widthWi*0.12,
+
+	}
 })
 
 export default styles

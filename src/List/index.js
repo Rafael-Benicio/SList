@@ -1,49 +1,72 @@
 import React, {useState} from 'react';
-import { View, Text, TouchableOpacity, StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput,StatusBar } from 'react-native';
 
 import styles from "./styles"
 
 const List=function({navigation, route}){
   const parentData=route.params
-  const [data,setData]=useState([])
+  const [data,setData]=useState({data:[{name:'Souso',record:0,desc:'dhdedhekjfhkejfhkf,diehdiehi'}]})
   // img:require("./../../assets/icon.png"),name:'Nome'
 
   function listElement(){
+    const [tmp,setTmp]=useState(data.data[0].record)
     return(
-            <View>
+            <View style={styles.itemView}>
+              <TouchableOpacity style={styles.itemBtnText}>
+                <Text style={styles.itemText}>{data.data[0].name}</Text>
+              </TouchableOpacity>
+              <View style={styles.itemBtns}>
+              <TouchableOpacity style={styles.itemBtn}><Text>+</Text></TouchableOpacity>
+              <TextInput 
+              style={styles.itemInput} 
+              value={tmp} 
+              onChangeText={tmp =>setTmp(filterValue(tmp))} 
+              maxLength={4} 
+              multiline={false}
+              keyboardType={"phone-pad"}
+              />
+              <TouchableOpacity style={styles.itemBtn}><Text>-</Text></TouchableOpacity>
+              </View>
             </View>
           )
   }
 
-    // Carrega os dados
-  async function loadData(){
-    try{      
-        const i=await  AsyncStorage.getItem('@'+parentData.id)
-        setData((i!=null)?JSON.parse(i):[])
-    }catch(error){
-      console.log('Erro ao Obter dados');
-      RDados()
-    }
-  }
-  // Salva os dados
-  async function saveData(n){
-        try {
-            await AsyncStorage.setItem('@'+parentData.id,JSON.stringify(n))
-            console.log('====================================');
-            console.log('Dados Salvos');
-            console.log('====================================');
-        } catch (error) {
-            console.log('Erro');
-        }
+  function filterValue(x){
+    let can=true
+
+    // data.data[0].record=tmp
+    // setData(data)
   }
 
-  // Configurar os dados para o estado inicial
-  async function RDados (){
-    await AsyncStorage.setItem('@'+parentData.id,JSON.stringify({data:[]}))
-        console.log("Dados Resetados")
-  } 
+  //   // Carrega os dados
+  // async function loadData(){
+  //   try{      
+  //       const i=await  AsyncStorage.getItem('@'+parentData.id)
+  //       setData((i!=null)?JSON.parse(i):[])
+  //   }catch(error){
+  //     console.log('Erro ao Obter dados');
+  //     RDados()
+  //   }
+  // }
+  // // Salva os dados
+  // async function saveData(n){
+  //       try {
+  //           await AsyncStorage.setItem('@'+parentData.id,JSON.stringify(n))
+  //           console.log('====================================');
+  //           console.log('Dados Salvos');
+  //           console.log('====================================');
+  //       } catch (error) {
+  //           console.log('Erro');
+  //       }
+  // }
 
-  loadData()
+  // // Configurar os dados para o estado inicial
+  // async function RDados (){
+  //   await AsyncStorage.setItem('@'+parentData.id,JSON.stringify({data:[]}))
+  //       console.log("Dados Resetados")
+  // } 
+
+  // loadData()
 
   return (
     <View style={styles.background}>
