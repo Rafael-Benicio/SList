@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal:widthWi*0.05
 	},
 	itemText:{
+		fontSize:widthWi*0.08
 	},
 	itemBtns:{
 		height: widthWi*0.12,
@@ -65,6 +66,8 @@ const styles = StyleSheet.create({
 		height: widthWi*0.12,
 		backgroundColor:'#fff',
 		width:widthWi*0.12,
+		fontSize:Math.floor(widthWi*0.05),
+		textAlign:'center', 
 
 	}
 })
