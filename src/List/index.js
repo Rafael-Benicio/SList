@@ -10,33 +10,53 @@ const List=function({navigation, route}){
 
   function listElement(){
     const [tmp,setTmp]=useState(data.data[0].record)
+    const addUm=()=>{
+      data.data[0].record+=1
+      setTmp(tmp+1)
+      setData(data)
+    }
+    const subUm=()=>{
+      data.data[0].record-=1
+      setTmp(tmp-1)
+      setData(data)
+    }
+    // trata
+    const filterValue=(x)=>{
+      data.data[0].record=parseInt(x)
+      setData(data)
+      return parseInt(x)
+    }
+
     return(
             <View style={styles.itemView}>
               <TouchableOpacity style={styles.itemBtnText}>
                 <Text style={styles.itemText}>{data.data[0].name}</Text>
               </TouchableOpacity>
               <View style={styles.itemBtns}>
-              <TouchableOpacity style={styles.itemBtn}><Text>+</Text></TouchableOpacity>
+              <TouchableOpacity 
+                style={styles.itemBtn} 
+                onPress={()=>addUm()}
+                ><Text>+</Text></TouchableOpacity>
               <TextInput 
-              style={styles.itemInput} 
-              value={tmp} 
-              onChangeText={tmp =>setTmp(filterValue(tmp))} 
-              maxLength={4} 
-              multiline={false}
-              keyboardType={"phone-pad"}
+                style={styles.itemInput} 
+                value={`${tmp}`} 
+                onChangeText={tmp =>setTmp(filterValue(tmp))} 
+                maxLength={4} 
+                multiline={false}
+                keyboardType={"phone-pad"}
+                selectionColor={"#fff"}
               />
-              <TouchableOpacity style={styles.itemBtn}><Text>-</Text></TouchableOpacity>
+              <TouchableOpacity 
+                style={styles.itemBtn}
+                onPress={()=>subUm()}
+                ><Text>-</Text></TouchableOpacity>
               </View>
             </View>
           )
   }
 
-  function filterValue(x){
-    let can=true
 
-    // data.data[0].record=tmp
-    // setData(data)
-  }
+
 
   //   // Carrega os dados
   // async function loadData(){
