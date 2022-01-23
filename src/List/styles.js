@@ -33,6 +33,9 @@ const styles = StyleSheet.create({
 		alignItems:'center',
 	},
 	itemView:{
+		backgroundColor:'#dddd',
+	},
+	itemViewValues:{
 		flexDirection:'row',
 		backgroundColor:'#eeeeee',
 		height: widthWi*0.12,
@@ -68,8 +71,15 @@ const styles = StyleSheet.create({
 		width:widthWi*0.12,
 		fontSize:Math.floor(widthWi*0.05),
 		textAlign:'center', 
-
-	}
+	},
+	itemDescView:{
+		height: widthWi*0.11,
+		paddingHorizontal:widthWi*0.05,
+		paddingVertical:heightHe*0.005
+	},
+	itemDescText:{
+		color:'#000'
+	},
 })
 
 export default styles
