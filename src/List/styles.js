@@ -3,6 +3,7 @@ import {StyleSheet, Dimensions} from 'react-native'
 
 const widthWi = Dimensions.get('window').width;
 const heightHe = Dimensions.get('window').height;
+const sISize= widthWi*0.8
 
 const styles = StyleSheet.create({
 	background:{
@@ -79,6 +80,85 @@ const styles = StyleSheet.create({
 	},
 	itemDescText:{
 		color:'#000'
+	},
+	showSetItem:{
+		position:'absolute',
+		left:widthWi*0.5-sISize/2,
+		top:heightHe*0.5-sISize/1.5,
+		width:sISize,
+		height:sISize,
+		backgroundColor:'#fff',
+		opacity:0.97,
+		borderRadius:8,
+		borderWidth:2,
+		borderColor:'#000',
+		padding:sISize*0.05,
+	},
+	closeView:{
+		position:'absolute',
+		left:sISize*0.83,
+		marginTop:sISize*0.02,
+	},
+	closeBtn:{
+		width:sISize*0.14,
+		height:sISize*0.14,
+		backgroundColor:'#ff7774',
+		borderRadius:8,
+		borderWidth:1,
+		borderColor:'#a00',
+		alignItems:'center',
+		justifyContent:'center',
+	},
+	setNameInput:{
+		backgroundColor:'#ddd',
+		borderRadius:8,
+		width:sISize*0.7,
+		height:sISize*0.1,
+		paddingHorizontal:10,
+	},
+	setHeight:{
+		height:sISize*0.3,
+	},
+	setImgDesc:{
+		height:sISize*0.15,
+		// backgroundColor:'#0f0',
+	     justifyContent:'center'
+	},
+	setImgHead:{
+		flexDirection:'row',
+		justifyContent:'space-between',
+		alignItems:'center',
+		// backgroundColor:'#f00',
+		height:sISize*0.15,
+	},
+	setImgHeadTxt:{
+		fontWeight:'bold',
+		fontSize:Math.floor(sISize/9)
+	},
+	saveBtnOK:{
+		width:sISize*0.25,
+		alignItems:'center',
+		backgroundColor:'#ccffc4',
+		borderRadius:8,
+		borderWidth:2,
+		borderColor:'#0a0',
+		padding:8
+	},
+	saveBtnNot:{
+		alignItems:'center',
+		width:sISize*0.25,
+		backgroundColor:'#ff7774',
+		borderRadius:8,
+		borderWidth:1,
+		borderColor:'#a00',
+		padding:8
+	},
+	saveSetView:{
+		flexDirection:'row',
+		justifyContent:'space-between',
+		alignItems:'center',
+		// backgroundColor:'#f00',
+		height:sISize*0.20,
 	},
 })
 

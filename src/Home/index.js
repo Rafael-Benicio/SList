@@ -143,7 +143,7 @@ import styles from "./styles"
                     <Text style={styles.setImgHeadTxt}>NOME</Text>
                   </View>
                   <View style={styles.setImgDesc}>
-                    <Text>Escreva o nome da lista</Text>
+                    <Text><Text style={{color:'#f00'}}>*</Text> Escreva o nome do item</Text>
                   </View>
                   <View style={styles.setNameView}>
                   <TextInput style={styles.setNameInput} value={tmp} onChangeText={tmp => setTmp(tmp)} maxLength={10} multiline={false}/>
@@ -271,7 +271,7 @@ import styles from "./styles"
         alert("Dados Resetados")
   } 
 
-  loadData();
+  loadData()
   // RDados()
 
   return (
