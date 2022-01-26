@@ -5,10 +5,10 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 const List=function({navigation, route}){
   const parentData=route.params  
-  const [showCrMo,setShowCrMo]=useState(true)
+  const [showCrMo,setShowCrMo]=useState(false)
   const [data,setData]=useState({data:[
-          {name:'Souso',record:0,desc:'Um pequeno texto da minha parte para falar algo e descrever essa x obra'},
-          {name:'João',record:1,desc:'Um pequeno texto da minha parte para falar algo e descrever essa x obra'}]})
+          {id:'wkjwk',name:'Souso',record:0,desc:'Um pequeno texto da minha parte para falar algo e descrever essa x obra'},
+          {id:'djekj',name:'João',record:1,desc:'Um pequeno texto da minha parte para falar algo e descrever essa x obra'}]})
   // {data:[{name:'Souso',record:0,desc:'Um pequeno texto da minha '}]}
   // img:require("./../../assets/icon.png"),name:'Nome'
 
@@ -48,7 +48,7 @@ const List=function({navigation, route}){
     } 
 
     return(
-            <View style={styles.itemView}>
+            <View key={data.data[index].id} style={styles.itemView}>
               <View style={styles.itemViewValues}>
                 <TouchableOpacity style={styles.itemBtnText} onPress={()=>setDescShow((descShow)?false:true)}>
                   <Text style={styles.itemText}>{data.data[index].name}</Text>
@@ -86,7 +86,6 @@ const List=function({navigation, route}){
   function createItemList(){
     const [tmp,setTmp]=useState('')
     const [tmpText,setTmpText]=useState('')
-    const [tipo,setTipo]=useState(true)
 
     if(showCrMo){
     return(
@@ -117,7 +116,9 @@ const List=function({navigation, route}){
                   </View>
                 </View>
                 <View style={styles.saveSetView}>
-                    <TouchableOpacity style={(true)?styles.saveBtnOK:styles.saveBtnNot}>
+                    <TouchableOpacity 
+                      style={(true)?styles.saveBtnOK:styles.saveBtnNot} 
+                      onPress={()=>{setShowCrMo(!(createNewData(tmp,tmpText)))}}>
                         <Icon name="check" color={(true)?'#0a0':'#600'} size={30}/>
                     </TouchableOpacity>
                     {
@@ -127,12 +128,25 @@ const List=function({navigation, route}){
             </ScrollView>
             {/*But~ao para fechar tela*/}
             <View style={styles.closeView}>
-              <TouchableOpacity style={styles.closeBtn}>
+              <TouchableOpacity style={styles.closeBtn} onPress={()=>{setShowCrMo(false);setTmp('')}}>
                 <Icon name="close" color="#600" size={20}/>
               </TouchableOpacity>
             </View>
           </View>
     )}
+  }
+
+  // Checa se os dados passado são minimos pra criar um novo item
+  function createNewData(name,desc){
+    if(name!=''){
+      // {id:'wkjwk',name:'',record:0,desc:''},
+      let key=(Math.floor(Math.random()*8999)+1000).toString(16)
+      data.data.push({id:key,name,record:0,desc})
+      setData(data)
+      return true
+    }else{
+      return false
+    }
   }
 
   // // Carrega os dados
@@ -179,7 +193,7 @@ const List=function({navigation, route}){
       }
       <View style={styles.listItem}>
         {/*Buttão de adicinar à lista*/}
-        <TouchableOpacity activeOpacity={0.55} style={styles.addButton}>
+        <TouchableOpacity activeOpacity={0.55} style={styles.addButton} onPress={()=>setShowCrMo(true)}>
           <Text>+</Text>
         </TouchableOpacity>
       </View>
