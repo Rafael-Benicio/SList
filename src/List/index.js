@@ -2,84 +2,95 @@ import React, {useState} from 'react';
 import { View, Text, TouchableOpacity, TextInput,StatusBar, ScrollView } from 'react-native';
 import styles from "./styles"
 import Icon from 'react-native-vector-icons/FontAwesome'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const List=function({navigation, route}){
   const parentData=route.params  
   const [showCrMo,setShowCrMo]=useState(false)
-  const [data,setData]=useState({data:[
-          {id:'wkjwk',name:'Souso',record:0,desc:'Um pequeno texto da minha parte para falar algo e descrever essa x obra'},
-          {id:'djekj',name:'João',record:1,desc:'Um pequeno texto da minha parte para falar algo e descrever essa x obra'}]})
-  // {data:[{name:'Souso',record:0,desc:'Um pequeno texto da minha '}]}
-  // img:require("./../../assets/icon.png"),name:'Nome'
+  const [data,setData]=useState({data:[]})
+  const [showDesc,setShowDesc]=useState([])
+  // {id:'wkjwk',name:'Souso',record:0,desc:'Um pequea'},
 
+  // Descobre o index do elemento com base no id
+  function getIndex(id){
+    let key=0
+    data.data.map((i,index)=>{
+      if(i.id==id) key=index
+    })
+    return key
+  }
 
-  // Cria elemento da lista
-  function listElement(index){
-    const [tmp,setTmp]=useState(data.data[index].record)
-    const [descShow,setDescShow]=useState(false)
-    // Adiciona 1 em record
-    const addUm=()=>{
-      data.data[index].record+=1
-      setTmp(tmp+1)
-      setData(data)
-    }
-    // Subtrai 1 de record
-    const subUm=()=>{
-      data.data[index].record-=1
-      setTmp(tmp-1)
-      setData(data)
-    }
-    // Trata o valor passado por onChangeText
-    const filterValue=(x)=>{
-      data.data[index].record=parseInt(x)
-      setData(data)
-      return parseInt(x)
-    }
+  // Somo um em um record
+  function addUm(id){
+    console.log(getIndex(id))
+    data.data[getIndex(id)].record+=1
+    saveData(data)
+  }
+
+  // Subtrai 1 de record
+  function subUm(id){
+    data.data[getIndex(id)].record-=1
+    saveData(data)
+  }
+
+  // Trata o valor passado por onChangeText
+  function filterValue(x,id){
+    data.data[getIndex(id)].record=parseInt(x)
+    saveData(data)
+    return parseInt(x)
+  }
+
+  function listElement(){
     // Elemento description
-    const description=()=>{
-      if(descShow){
-
-      return(
-          <View style={styles.itemDescView}>
-            <Text style={styles.itemDescText}>{data.data[index].desc}</Text>
-          </View>
-        )
-      }
-    } 
-
     return(
-            <View key={data.data[index].id} style={styles.itemView}>
-              <View style={styles.itemViewValues}>
-                <TouchableOpacity style={styles.itemBtnText} onPress={()=>setDescShow((descShow)?false:true)}>
-                  <Text style={styles.itemText}>{data.data[index].name}</Text>
-                </TouchableOpacity>
-              <View style={styles.itemBtns}>
-              <TouchableOpacity 
-                style={styles.itemBtn} 
-                onPress={()=>addUm()}
-                ><Text style={{fontSize:25}}>+</Text>
-              </TouchableOpacity>
-              <TextInput 
-                style={styles.itemInput} 
-                value={`${tmp}`} 
-                onChangeText={tmp =>setTmp(filterValue(tmp))} 
-                maxLength={4} 
-                multiline={false}
-                keyboardType={"phone-pad"}
-                selectionColor={"#fff"}
-              />
-              <TouchableOpacity 
-                style={styles.itemBtn}
-                onPress={()=>subUm()}
-                ><Text style={{fontSize:35}}>-</Text>
-              </TouchableOpacity>
+      data.data.map((i,index)=>{
+
+        function description(){
+          if(!(i.desc=='')){
+            return(
+              <View style={styles.itemDescView}>
+                <Text style={styles.itemDescText}>{i.desc}</Text>
               </View>
-              </View>
-              {
-                description()
-              }
+            )
+          }
+        } 
+
+        return(
+          <View key={i.id} style={styles.itemView}>
+            <View style={styles.itemViewValues}>
+              <TouchableOpacity style={styles.itemBtnText}>
+                <Text style={styles.itemText}>{i.name}</Text>
+              </TouchableOpacity>
+            <View style={styles.itemBtns}>
+            <TouchableOpacity 
+              style={styles.itemBtn} 
+              onPress={()=>addUm(i.id)}
+              ><Text style={{fontSize:25}}>+</Text>
+            </TouchableOpacity>
+            <TextInput 
+              style={styles.itemInput} 
+              value={`${i.record}`} 
+              onChangeText={tmp =>filterValue(tmp,i.id)} 
+              maxLength={4} 
+              multiline={false}
+              keyboardType={"phone-pad"}
+              selectionColor={"#fff"}
+            />
+            <TouchableOpacity 
+              style={styles.itemBtn}
+              onPress={()=>subUm(i.id)}
+              ><Text style={{fontSize:35}}>-</Text>
+            </TouchableOpacity>
             </View>
+            </View>
+            {
+              description()
+            }
+          </View>
           )
+        }
+      )
+    )
   }
 
   // Exibi uma janela para criar e configurar uma lista
@@ -142,42 +153,44 @@ const List=function({navigation, route}){
       // {id:'wkjwk',name:'',record:0,desc:''},
       let key=(Math.floor(Math.random()*8999)+1000).toString(16)
       data.data.push({id:key,name,record:0,desc})
-      setData(data)
+      console.log(data.data)
+      saveData(data)
       return true
     }else{
       return false
     }
   }
 
-  // // Carrega os dados
-  // async function loadData(){
-  //   try{      
-  //       const i=await  AsyncStorage.getItem('@'+parentData.id)
-  //       setData((i!=null)?JSON.parse(i):[])
-  //   }catch(error){
-  //     console.log('Erro ao Obter dados');
-  //     RDados()
-  //   }
-  // }
-  // // Salva os dados
-  // async function saveData(n){
-  //       try {
-  //           await AsyncStorage.setItem('@'+parentData.id,JSON.stringify(n))
-  //           console.log('====================================');
-  //           console.log('Dados Salvos');
-  //           console.log('====================================');
-  //       } catch (error) {
-  //           console.log('Erro');
-  //       }
-  // }
+  // Carrega os dados
+  async function loadData(){
+    try{      
+        const i=await  AsyncStorage.getItem('@'+parentData.id)
+        setData((i!=null)?JSON.parse(i):{data:[]})
+    }catch(error){
+      console.log('Erro ao Obter dados');
+      RDados()
+    }
+  }
 
-  // // Configurar os dados para o estado inicial
-  // async function RDados (){
-  //   await AsyncStorage.setItem('@'+parentData.id,JSON.stringify({data:[]}))
-  //       console.log("Dados Resetados")
-  // } 
+  // Salva os dados
+  async function saveData(n){
+        try {
+            await AsyncStorage.setItem('@'+parentData.id,JSON.stringify(n))
+            console.log('====================================');
+            console.log('Dados Salvos');
+            console.log('====================================');
+        } catch (error) {
+            console.log('Erro');
+        }
+  }
 
-  // loadData()
+  // Configurar os dados para o estado inicial
+  async function RDados (){
+    await AsyncStorage.setItem('@'+parentData.id,JSON.stringify({data:[]}))
+        console.log("Dados Resetados")
+  } 
+
+  loadData()
 
   return (
     <View style={styles.background}>
@@ -189,7 +202,7 @@ const List=function({navigation, route}){
         </TouchableOpacity>
       </View>
       {
-        data.data.map((i,index)=>listElement(index))
+        listElement()
       }
       <View style={styles.listItem}>
         {/*Buttão de adicinar à lista*/}
