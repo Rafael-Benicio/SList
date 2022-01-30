@@ -8,8 +8,7 @@ const List=function({navigation, route}){
   const parentData=route.params  
   const [showCrMo,setShowCrMo]=useState(false)
   const [data,setData]=useState({data:[]})
-  const [showDesc,setShowDesc]=useState([])
-  // {id:'wkjwk',name:'Souso',record:0,desc:'Um pequea'},
+  // {id:'wkjwk',name:'Souso',record:0,desc:'Um pequea',showDesc:false},
 
   // Descobre o index do elemento com base no id
   function getIndex(id){
@@ -46,7 +45,7 @@ const List=function({navigation, route}){
       data.data.map((i,index)=>{
 
         function description(){
-          if(!(i.desc=='')){
+          if(!(i.desc=='')&& i.showDesc){
             return(
               <View style={styles.itemDescView}>
                 <Text style={styles.itemDescText}>{i.desc}</Text>
@@ -152,7 +151,7 @@ const List=function({navigation, route}){
     if(name!=''){
       // {id:'wkjwk',name:'',record:0,desc:''},
       let key=(Math.floor(Math.random()*8999)+1000).toString(16)
-      data.data.push({id:key,name,record:0,desc})
+      data.data.push({id:key,name,record:0,desc,showDesc:false})
       console.log(data.data)
       saveData(data)
       return true
