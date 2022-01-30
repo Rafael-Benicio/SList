@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, TouchableOpacity, TextInput,StatusBar, ScrollView } from 'react-native';
+import {AppState, View, Text, TouchableOpacity, TextInput,StatusBar, ScrollView } from 'react-native';
 import styles from "./styles"
 import Icon from 'react-native-vector-icons/FontAwesome'
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,6 +10,10 @@ const List=function({navigation, route}){
   const [data,setData]=useState({data:[]})
   const [ldData,setLdData]=useState(true)
   // {id:'wkjwk',name:'Souso',record:0,desc:'Um pequea',showDesc:false},
+
+  useEffect(() => {
+    if (AppState.currentState!="active") return saveData(data)
+  })
 
   // Descobre o index do elemento com base no id
   function getIndex(id){
@@ -31,7 +35,7 @@ const List=function({navigation, route}){
       data.data.map((i,index)=>{
 
         function description(){
-          if(!(i.desc=='')&& i.showDesc){
+          if(i.showDesc){
             return(
               <View style={styles.itemDescView}>
                 <Text style={styles.itemDescText}>{i.desc}</Text>
@@ -44,7 +48,8 @@ const List=function({navigation, route}){
           <View key={i.id} style={styles.itemView}>
             <View style={styles.itemViewValues}>
               <TouchableOpacity 
-                style={styles.itemBtnText}  
+                style={styles.itemBtnText} 
+                disabled={(i.desc=='')} 
                 onPress={()=>setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].showDesc=(i.showDesc)?false:true}})}>
                 <Text style={styles.itemText}>{i.name}</Text>
               </TouchableOpacity>
