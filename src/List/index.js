@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, TouchableOpacity, TextInput,StatusBar, ScrollView } from 'react-native';
 import styles from "./styles"
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -8,6 +8,7 @@ const List=function({navigation, route}){
   const parentData=route.params  
   const [showCrMo,setShowCrMo]=useState(false)
   const [data,setData]=useState({data:[]})
+  const [ldData,setLdData]=useState(true)
   // {id:'wkjwk',name:'Souso',record:0,desc:'Um pequea',showDesc:false},
 
   // Descobre o index do elemento com base no id
@@ -19,24 +20,9 @@ const List=function({navigation, route}){
     return key
   }
 
-  // Somo um em um record
-  function addUm(id){
-    console.log(getIndex(id))
-    data.data[getIndex(id)].record+=1
-    saveData(data)
-  }
-
-  // Subtrai 1 de record
-  function subUm(id){
-    data.data[getIndex(id)].record-=1
-    saveData(data)
-  }
-
   // Trata o valor passado por onChangeText
   function filterValue(x,id){
-    data.data[getIndex(id)].record=parseInt(x)
-    saveData(data)
-    return parseInt(x)
+    setData({...data,...data.data[getIndex(id)].record=parseInt(x)})
   }
 
   function listElement(){
@@ -57,13 +43,15 @@ const List=function({navigation, route}){
         return(
           <View key={i.id} style={styles.itemView}>
             <View style={styles.itemViewValues}>
-              <TouchableOpacity style={styles.itemBtnText}>
+              <TouchableOpacity 
+                style={styles.itemBtnText}  
+                onPress={()=>setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].showDesc=(i.showDesc)?false:true}})}>
                 <Text style={styles.itemText}>{i.name}</Text>
               </TouchableOpacity>
             <View style={styles.itemBtns}>
             <TouchableOpacity 
               style={styles.itemBtn} 
-              onPress={()=>addUm(i.id)}
+              onPress={()=>setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].record=i.record+1}})}
               ><Text style={{fontSize:25}}>+</Text>
             </TouchableOpacity>
             <TextInput 
@@ -77,7 +65,7 @@ const List=function({navigation, route}){
             />
             <TouchableOpacity 
               style={styles.itemBtn}
-              onPress={()=>subUm(i.id)}
+              onPress={()=>setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].record=i.record-1}})}
               ><Text style={{fontSize:35}}>-</Text>
             </TouchableOpacity>
             </View>
@@ -189,14 +177,17 @@ const List=function({navigation, route}){
         console.log("Dados Resetados")
   } 
 
-  loadData()
+  if(ldData){
+    loadData()
+    setLdData(false)
+  }
 
   return (
     <View style={styles.background}>
       <StatusBar backgroundColor="#000"/>
       {/*Cabeçalho*/}
       <View style={styles.header}>
-        <TouchableOpacity onPress={()=>navigation.navigate('Home')}>
+        <TouchableOpacity onPress={()=>{saveData(data);navigation.navigate('Home')}}>
         <Text style={styles.headerText}>{parentData.name}</Text>
         </TouchableOpacity>
       </View>
