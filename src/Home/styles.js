@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
 	showSetItem:{
 		position:'absolute',
 		left:widthWi*0.5-sISize/2,
-		top:heightHe*0.5-sISize/1.5,
+		top:heightHe*0.5-sISize/1.3,
 		width:sISize,
 		height:sISize,
 		backgroundColor:'#fff',
@@ -161,6 +161,19 @@ const styles = StyleSheet.create({
 		backgroundColor:'#ccffc4',
 		borderWidth:1,
 		borderColor:'#0a0',
+	},
+	setDeleteBtn:{
+		backgroundColor:'#f00',
+		width:sISize*0.3,
+		height:sISize*0.15,
+		borderRadius:8,
+		alignItems:'center',
+		justifyContent:'center'
+	},
+	setDeleteBtnText:{
+		color:'#fff',
+		fontWeight:'bold',
+		fontSize:sISize*0.05,
 	},
 	saveBtnOK:{
 		width:sISize*0.25,

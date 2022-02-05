@@ -95,6 +95,20 @@ import styles from "./styles"
                   </TouchableOpacity>
                   </View>
                 </View>
+              {/*Deletar item*/}
+                <View>
+                  <View style={styles.setImgHead}>
+                    <Text style={styles.setImgHeadTxt}>DELETAR</Text>
+                  </View>
+                  <View style={styles.setImgDesc}>
+                    <Text><Text style={{color:'#f00',fontWeight:'bold'}}>DELETAR</Text> o item {tmpList.name}</Text>
+                  </View>
+                  <View style={styles.setNameView}>
+                  <TouchableOpacity style={styles.setDeleteBtn} onPress={()=>setName(tmp)}>
+                    <Text style={styles.setDeleteBtnText}>DELETAR</Text>
+                  </TouchableOpacity>
+                  </View>
+                </View>
             </ScrollView>
             {/*But~ao para fechar tela*/}
             <View style={styles.closeView}>
