@@ -1,3 +1,5 @@
+'use strict'
+
 import React, {useState} from 'react';
 import { Text, View,TouchableOpacity,Image,StatusBar, ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -104,7 +106,7 @@ import styles from "./styles"
                     <Text><Text style={{color:'#f00',fontWeight:'bold'}}>DELETAR</Text> o item {tmpList.name}</Text>
                   </View>
                   <View style={styles.setNameView}>
-                  <TouchableOpacity style={styles.setDeleteBtn} onPress={()=>setName(tmp)}>
+                  <TouchableOpacity style={styles.setDeleteBtn} onPress={()=>{DeleteOperations()}}>
                     <Text style={styles.setDeleteBtnText}>DELETAR</Text>
                   </TouchableOpacity>
                   </View>
@@ -120,6 +122,7 @@ import styles from "./styles"
       )
     }
   }
+
   // Lista de itens
   function showItemList(){
     return(
@@ -278,6 +281,37 @@ import styles from "./styles"
         } catch (error) {
             console.log('Erro');
         }
+  }
+  // Chamar operações de detete
+  function DeleteOperations(){
+    DeleteInnerItemData()
+    DeleteItem()
+    setShowSMode(false)
+  }
+  // Função para deletar dados de dentro de um item item da lista
+  async function DeleteInnerItemData(){
+    try{
+      await AsyncStorage.removeItem('@'+itemLista.data[tmpList.dataPos].id);
+      console.log('====================================');
+      console.log('Dados Deletados');
+      console.log('====================================');
+    }catch(err){
+      console.log('rolou :'+err)
+    }
+  }
+  // Funçao para deletar item da lista
+  function DeleteItem(){
+    let dt=[]
+
+    for(let i=0;i<itemLista.data.length;i++){
+      if(i!=tmpList.dataPos){
+        dt.push(itemLista.data[i])
+      }
+    }
+
+    itemLista.data=dt
+
+    saveData(itemLista)
   }
 
   // Configurar os dados para o estado inicial
