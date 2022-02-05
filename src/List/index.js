@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {AppState, View, Text, TouchableOpacity, TextInput,StatusBar, ScrollView } from 'react-native';
 import styles from "./styles"
+import globals from "./../globals"
 import Icon from 'react-native-vector-icons/FontAwesome'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -93,35 +94,35 @@ const List=function({navigation, route}){
 
     if(showCrMo){
     return(
-     <View style={styles.showSetItem}>
+     <View style={globals.showSetItem}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 {/*Configurador do nome da Lista*/}
                 <View>
-                  <View style={styles.setImgHead}>
-                    <Text style={styles.setImgHeadTxt}>NOME</Text>
+                  <View style={globals.setImgHead}>
+                    <Text style={globals.setImgHeadTxt}>NOME</Text>
                   </View>
-                  <View style={styles.setImgDesc}>
+                  <View style={globals.setImgDesc}>
                     <Text><Text style={{color:'#f00'}}>*</Text> Escreva o nome da lista</Text>
                   </View>
                   <View style={styles.setNameView}>
-                    <TextInput style={styles.setNameInput} value={tmp} onChangeText={tmp => setTmp(tmp)} maxLength={10} multiline={false}/>
+                    <TextInput style={globals.setNameInput} value={tmp} onChangeText={tmp => setTmp(tmp)} maxLength={10} multiline={false}/>
                   </View>
                 </View>
                 {/*Configura o tipo de lista*/}
                 <View>
-                  <View style={styles.setImgHead}>
-                    <Text style={styles.setImgHeadTxt}>COMENTÁRIO</Text>
+                  <View style={globals.setImgHead}>
+                    <Text style={globals.setImgHeadTxt}>COMENTÁRIO</Text>
                   </View>
-                  <View style={styles.setImgDesc}>
+                  <View style={globals.setImgDesc}>
                     <Text>Escreva um comentário</Text>
                   </View>
                   <View style={styles.setNameView}>
-                    <TextInput style={[styles.setNameInput,styles.setHeight]} value={tmpText} onChangeText={tmp => setTmpText(tmp)} maxLength={500} multiline={true}/>
+                    <TextInput style={[globals.setNameInput,styles.setHeight]} value={tmpText} onChangeText={tmp => setTmpText(tmp)} maxLength={500} multiline={true}/>
                   </View>
                 </View>
-                <View style={styles.saveSetView}>
+                <View style={globals.saveSetView}>
                     <TouchableOpacity 
-                      style={(canSave)?styles.saveBtnOK:styles.saveBtnNot} 
+                      style={(canSave)?globals.saveBtnOK:globals.saveBtnNot} 
                       onPress={()=>{
                         let t=createNewData(tmp,tmpText)
                         setShowCrMo(!t)
@@ -137,8 +138,8 @@ const List=function({navigation, route}){
                   </View>
             </ScrollView>
             {/*But~ao para fechar tela*/}
-            <View style={styles.closeView}>
-              <TouchableOpacity style={styles.closeBtn} onPress={()=>{setShowCrMo(false);setTmp('')}}>
+            <View style={globals.closeView}>
+              <TouchableOpacity style={globals.closeBtn} onPress={()=>{setShowCrMo(false);setTmp('')}}>
                 <Icon name="close" color="#600" size={20}/>
               </TouchableOpacity>
             </View>
@@ -199,20 +200,20 @@ const List=function({navigation, route}){
   }
 
   return (
-    <View style={styles.background}>
+    <View style={globals.background}>
       <StatusBar backgroundColor="#000"/>
       {/*Cabeçalho*/}
-      <View style={styles.header}>
+      <View style={globals.header}>
         <TouchableOpacity onPress={()=>{saveData(data);navigation.navigate('Home')}}>
-        <Text style={styles.headerText}>{parentData.name}</Text>
+        <Text style={globals.headerText}>{parentData.name}</Text>
         </TouchableOpacity>
       </View>
       {
         listElement()
       }
-      <View style={styles.listItem}>
+      <View style={globals.listItem}>
         {/*Buttão de adicinar à lista*/}
-        <TouchableOpacity activeOpacity={0.55} style={styles.addButton} onPress={()=>setShowCrMo(true)}>
+        <TouchableOpacity activeOpacity={0.55} style={globals.addButton} onPress={()=>setShowCrMo(true)}>
           <Text>+</Text>
         </TouchableOpacity>
       </View>

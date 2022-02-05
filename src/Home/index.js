@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from "./styles"
+import globals from "./../globals"
 
  const Home=function({navigation, route}){
   const [itemLista,setItemLista]=useState({data:[]})
@@ -25,18 +26,18 @@ import styles from "./styles"
     if(showSMode){
     return(
           // Configurador do item da lista
-          <View style={styles.showSetItem}>
+          <View style={globals.showSetItem}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 {/*Configurador do nome da Lista*/}
                 <View>
-                  <View style={styles.setImgHead}>
-                    <Text style={styles.setImgHeadTxt}>NOME</Text>
+                  <View style={globals.setImgHead}>
+                    <Text style={globals.setImgHeadTxt}>NOME</Text>
                   </View>
-                  <View style={styles.setImgDesc}>
+                  <View style={globals.setImgDesc}>
                     <Text>Configura o nome de {tmpList.name}</Text>
                   </View>
                   <View style={styles.setNameView}>
-                  <TextInput style={styles.setNameInput} value={tmp} onChangeText={tmp => setTmp(tmp)} maxLength={10} multiline={false}/>
+                  <TextInput style={globals.setNameInput} value={tmp} onChangeText={tmp => setTmp(tmp)} maxLength={10} multiline={false}/>
                   <TouchableOpacity style={styles.setNameBtn} onPress={()=>setName(tmp)}>
                     <Icon name="check" color="#fff" size={20}/>
                   </TouchableOpacity>
@@ -44,15 +45,15 @@ import styles from "./styles"
                 </View>
                 {/*Configurador da imagen da lista*/}
                 <View>
-                  <View style={styles.setImgHead}>
-                    <Text style={styles.setImgHeadTxt}>CAPA</Text>
+                  <View style={globals.setImgHead}>
+                    <Text style={globals.setImgHeadTxt}>CAPA</Text>
                     <TouchableOpacity style={styles.setImgButton} onPress={()=>setCapa(0)}> 
                       <Text style={styles.setImgBtnTxt}>
                         Padrão
                       </Text>
                     </TouchableOpacity>
                   </View>
-                  <View style={styles.setImgDesc}>
+                  <View style={globals.setImgDesc}>
                     <Text>Configuração da imagem de capa de {tmpList.name}</Text>
                   </View>
                   <View style={styles.setImgViewButtons}>
@@ -84,14 +85,14 @@ import styles from "./styles"
               </View>
               {/*Configurador do nome da Lista*/}
                 <View>
-                  <View style={styles.setImgHead}>
-                    <Text style={styles.setImgHeadTxt}>IMAGEM</Text>
+                  <View style={globals.setImgHead}>
+                    <Text style={globals.setImgHeadTxt}>IMAGEM</Text>
                   </View>
-                  <View style={styles.setImgDesc}>
+                  <View style={globals.setImgDesc}>
                     <Text>Configura a imagem de {tmpList.name}</Text>
                   </View>
                   <View style={styles.setNameView}>
-                  <TextInput style={styles.setNameInput} multiline={false}/>
+                  <TextInput style={globals.setNameInput} multiline={false}/>
                   <TouchableOpacity style={[styles.setNameBtn,{backgroundColor:'#a0f'}]} onPress={()=>setName(tmp)}>
                     <Icon name="gear" color="#fff" size={20}/>
                   </TouchableOpacity>
@@ -99,10 +100,10 @@ import styles from "./styles"
                 </View>
               {/*Deletar item*/}
                 <View>
-                  <View style={styles.setImgHead}>
-                    <Text style={styles.setImgHeadTxt}>DELETAR</Text>
+                  <View style={globals.setImgHead}>
+                    <Text style={globals.setImgHeadTxt}>DELETAR</Text>
                   </View>
-                  <View style={styles.setImgDesc}>
+                  <View style={globals.setImgDesc}>
                     <Text><Text style={{color:'#f00',fontWeight:'bold'}}>DELETAR</Text> o item {tmpList.name}</Text>
                   </View>
                   <View style={styles.setNameView}>
@@ -113,7 +114,7 @@ import styles from "./styles"
                 </View>
             </ScrollView>
             {/*But~ao para fechar tela*/}
-            <View style={styles.closeView}>
+            <View style={globals.closeView}>
               <TouchableOpacity style={styles.closeBtn} onPress={()=>{setTmp('');setShowSMode(false)}}>
                 <Icon name="close" color="#600" size={20}/>
               </TouchableOpacity>
@@ -157,22 +158,22 @@ import styles from "./styles"
               <ScrollView showsVerticalScrollIndicator={false}>
                 {/*Configurador do nome da Lista*/}
                 <View>
-                  <View style={styles.setImgHead}>
-                    <Text style={styles.setImgHeadTxt}>NOME</Text>
+                  <View style={globals.setImgHead}>
+                    <Text style={globals.setImgHeadTxt}>NOME</Text>
                   </View>
-                  <View style={styles.setImgDesc}>
+                  <View style={globals.setImgDesc}>
                     <Text><Text style={{color:'#f00'}}>*</Text> Escreva o nome do item</Text>
                   </View>
                   <View style={styles.setNameView}>
-                  <TextInput style={styles.setNameInput} value={tmp} onChangeText={tmp => setTmp(tmp)} maxLength={10} multiline={false}/>
+                  <TextInput style={globals.setNameInput} value={tmp} onChangeText={tmp => setTmp(tmp)} maxLength={10} multiline={false}/>
                   </View>
                 </View>
                 {/*Configura o tipo de lista*/}
                 <View>
-                  <View style={styles.setImgHead}>
-                    <Text style={styles.setImgHeadTxt}>TIPO</Text>
+                  <View style={globals.setImgHead}>
+                    <Text style={globals.setImgHeadTxt}>TIPO</Text>
                   </View>
-                  <View style={styles.setImgDesc}>
+                  <View style={globals.setImgDesc}>
                     <Text>Qual é o tipo de lista?</Text>
                   </View>
                   <View style={styles.setRadioView}>
@@ -190,21 +191,21 @@ import styles from "./styles"
                 </View>
                 {/*Configurador do nome da Lista*/}
                 <View>
-                  <View style={styles.setImgHead}>
-                    <Text style={styles.setImgHeadTxt}>IMAGEM</Text>
+                  <View style={globals.setImgHead}>
+                    <Text style={globals.setImgHeadTxt}>IMAGEM</Text>
                   </View>
-                  <View style={styles.setImgDesc}>
+                  <View style={globals.setImgDesc}>
                     <Text>Selecione uma capa da sua lista</Text>
                   </View>
                   <View style={styles.setNameView}>
-                  <TextInput style={styles.setNameInput} multiline={false}/>
+                  <TextInput style={globals.setNameInput} multiline={false}/>
                   <TouchableOpacity style={[styles.setNameBtn,{backgroundColor:'#a0f'}]}>
                     <Icon name="gear" color="#fff" size={20}/>
                   </TouchableOpacity>
                   </View>
                 <View>
-                  <View style={styles.saveSetView}>
-                    <TouchableOpacity style={(canSave)?styles.saveBtnOK:styles.saveBtnNot} onPress={()=>{
+                  <View style={globals.saveSetView}>
+                    <TouchableOpacity style={(canSave)?globals.saveBtnOK:globals.saveBtnNot} onPress={()=>{
                         dataCanSave(tmp.trim(),tipo);
                         setTmp('');
                         setTipo(true);
@@ -221,7 +222,7 @@ import styles from "./styles"
             </ScrollView>
             {/*But~ao para fechar tela*/}
             <View style={styles.closeView}>
-              <TouchableOpacity style={styles.closeBtn} onPress={()=>{setShowCrMo(false);setTmp('');setTipo(true)}}>
+              <TouchableOpacity style={globals.closeBtn} onPress={()=>{setShowCrMo(false);setTmp('');setTipo(true)}}>
                 <Icon name="close" color="#600" size={20}/>
               </TouchableOpacity>
             </View>
@@ -326,21 +327,21 @@ import styles from "./styles"
   }
 
   return (
-    <View style={styles.background}>
+    <View style={globals.background}>
       <StatusBar backgroundColor="#000"/>
       {/*Cabeçalho*/}
-      <View style={styles.header}>
-        <Text style={styles.headerText}>SList</Text>
+      <View style={globals.header}>
+        <Text style={globals.headerText}>SList</Text>
       </View>
       {/*Lista*/}
       <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={styles.listItem}>
+      <View style={globals.listItem}>
         {/*Itens com listas*/}
         {
           showItemList()
         }
         {/*Buttão de adicinar à lista*/}
-        <TouchableOpacity activeOpacity={0.55} style={styles.addButton} onPress={()=>setShowCrMo(true)}>
+        <TouchableOpacity activeOpacity={0.55} style={globals.addButton} onPress={()=>setShowCrMo(true)}>
           <Text>+</Text>
         </TouchableOpacity>
       </View>
