@@ -12,6 +12,7 @@ import styles from "./styles"
   const [showSMode,setShowSMode]=useState(false)
   const [showCrMo,setShowCrMo]=useState(false)
   const [canSave,setCanSave]=useState(true)
+  const [ldData,setLdData]=useState(true)
   
 
   // Cria elementos da tela
@@ -271,8 +272,10 @@ import styles from "./styles"
         alert("Dados Resetados")
   } 
 
-  loadData()
-  // RDados()
+  if(ldData){
+    loadData()
+    setLdData(false)
+  }
 
   return (
     <View style={styles.background}>
