@@ -9,6 +9,7 @@ const List=function({navigation, route}){
   const [showCrMo,setShowCrMo]=useState(false)
   const [data,setData]=useState({data:[]})
   const [ldData,setLdData]=useState(true)
+  const [canSave,setCanSave]=useState(true)
   // {id:'wkjwk',name:'Souso',record:0,desc:'Um pequea',showDesc:false},
 
   useEffect(() => {
@@ -120,12 +121,18 @@ const List=function({navigation, route}){
                 </View>
                 <View style={styles.saveSetView}>
                     <TouchableOpacity 
-                      style={(true)?styles.saveBtnOK:styles.saveBtnNot} 
-                      onPress={()=>{setShowCrMo(!(createNewData(tmp,tmpText)))}}>
-                        <Icon name="check" color={(true)?'#0a0':'#600'} size={30}/>
+                      style={(canSave)?styles.saveBtnOK:styles.saveBtnNot} 
+                      onPress={()=>{
+                        let t=createNewData(tmp,tmpText)
+                        setShowCrMo(!t)
+                        setTmp((t)?'':tmp)
+                        setTmpText((t)?'':tmpText)
+                        setCanSave((t)?true:false)
+                      }}>
+                        <Icon name="check" color={(canSave)?'#0a0':'#600'} size={30}/>
                     </TouchableOpacity>
                     {
-                      // TextAviso()
+                      TextAviso()
                     }
                   </View>
             </ScrollView>
@@ -152,6 +159,10 @@ const List=function({navigation, route}){
       return false
     }
   }
+
+  // Mansagem de aviso
+  function TextAviso(){if(!canSave) return <Text style={{color:'#f00',fontSize:15}}>Por favor, coloque um{"\n"}nome em sua lista</Text>}
+
 
   // Carrega os dados
   async function loadData(){

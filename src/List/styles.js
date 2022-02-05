@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
 	showSetItem:{
 		position:'absolute',
 		left:widthWi*0.5-sISize/2,
-		top:heightHe*0.5-sISize/1.5,
+		top:heightHe*0.5-sISize/1.3,
 		width:sISize,
 		height:sISize,
 		backgroundColor:'#fff',
