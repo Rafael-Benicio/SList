@@ -285,6 +285,7 @@ import styles from "./styles"
         <Text style={styles.headerText}>SList</Text>
       </View>
       {/*Lista*/}
+      <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.listItem}>
         {/*Itens com listas*/}
         {
@@ -295,6 +296,7 @@ import styles from "./styles"
           <Text>+</Text>
         </TouchableOpacity>
       </View>
+      </ScrollView>
       {
         selectResizeMode()
       }
