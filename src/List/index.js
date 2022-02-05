@@ -139,7 +139,7 @@ const List=function({navigation, route}){
             </ScrollView>
             {/*But~ao para fechar tela*/}
             <View style={globals.closeView}>
-              <TouchableOpacity style={globals.closeBtn} onPress={()=>{setShowCrMo(false);setTmp('')}}>
+              <TouchableOpacity style={[globals.closeBtn,globals.alCenter]} onPress={()=>{setShowCrMo(false);setTmp('')}}>
                 <Icon name="close" color="#600" size={20}/>
               </TouchableOpacity>
             </View>
@@ -213,7 +213,7 @@ const List=function({navigation, route}){
       }
       <View style={globals.listItem}>
         {/*Buttão de adicinar à lista*/}
-        <TouchableOpacity activeOpacity={0.55} style={globals.addButton} onPress={()=>setShowCrMo(true)}>
+        <TouchableOpacity activeOpacity={0.55} style={[globals.addButton,globals.alCenter]} onPress={()=>setShowCrMo(true)}>
           <Text>+</Text>
         </TouchableOpacity>
       </View>

@@ -13,12 +13,10 @@ const styles = StyleSheet.create({
 		flexDirection:'row',
 		backgroundColor:'#eeeeee',
 		height: widthWi*0.12,
-
 	},
 	itemBtnText:{
 		height: widthWi*0.12,
 		width:widthWi*0.64,
-		// backgroundColor:'#f00',
 		justifyContent:'center',
 		paddingHorizontal:widthWi*0.05
 	},
@@ -30,7 +28,6 @@ const styles = StyleSheet.create({
 		flexDirection:'row',
 		alignItems:'center',
 		width:widthWi*0.36,
-		// backgroundColor:'#0f0',
 	},
 	itemBtn:{
 		height: widthWi*0.12,

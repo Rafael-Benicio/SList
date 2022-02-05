@@ -33,8 +33,6 @@ const styles = StyleSheet.create({
 		height:widthWi*0.1,
 		bottom:heightHe*0.17-(widthWi*0.1),
 		right:0,
-		alignItems:'center',
-		justifyContent:'center',
 	},
 
 	setNameView:{
@@ -44,15 +42,12 @@ const styles = StyleSheet.create({
 		alignItems:'center'
 	},
 	setNameBtn:{
-		justifyContent:'center',
-		alignItems:'center',
 		backgroundColor:'#0f0',
 		width:sISize*0.1,
 		height:sISize*0.1,
 		borderRadius:8,
 	},
 	setImgViewButtons:{
-		// backgroundColor:'#000',
 		flex:1,
 		height:sISize*0.5,
 	     justifyContent:'space-around'
@@ -72,11 +67,8 @@ const styles = StyleSheet.create({
 		borderRadius:4,
 		width:sISize/2.3,
 		height:sISize/8,
-		alignItems:'center',
-		justifyContent:'center'
 	},
 	setRadioView:{
-		// flexDirection:'row',
 		justifyContent:'space-between',
 		height:sISize*0.3,
 		alignItems:'flex-start',
@@ -105,8 +97,6 @@ const styles = StyleSheet.create({
 		width:sISize*0.3,
 		height:sISize*0.15,
 		borderRadius:8,
-		alignItems:'center',
-		justifyContent:'center'
 	},
 	setDeleteBtnText:{
 		color:'#fff',

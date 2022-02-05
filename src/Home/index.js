@@ -47,7 +47,7 @@ import globals from "./../globals"
                 <View>
                   <View style={globals.setImgHead}>
                     <Text style={globals.setImgHeadTxt}>CAPA</Text>
-                    <TouchableOpacity style={styles.setImgButton} onPress={()=>setCapa(0)}> 
+                    <TouchableOpacity style={[styles.setImgButton,globals.alCenter]} onPress={()=>setCapa(0)}> 
                       <Text style={styles.setImgBtnTxt}>
                         Padrão
                       </Text>
@@ -58,24 +58,24 @@ import globals from "./../globals"
                   </View>
                   <View style={styles.setImgViewButtons}>
                   <View style={styles.setImgButtons}>
-                    <TouchableOpacity style={styles.setImgButton} onPress={()=>setCapa(1)}>
+                    <TouchableOpacity style={[styles.setImgButton,globals.globals]} onPress={()=>setCapa(1)}>
                       <Text style={styles.setImgBtnTxt}>
                         Conter
                       </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.setImgButton} onPress={()=>setCapa(2)}>
+                    <TouchableOpacity style={[styles.setImgButton,globals.alCenter]} onPress={()=>setCapa(2)}>
                       <Text style={styles.setImgBtnTxt}>
                         Esticar
                       </Text>
                     </TouchableOpacity>
                   </View>
                   <View style={styles.setImgButtons}>
-                    <TouchableOpacity style={styles.setImgButton} onPress={()=>setCapa(3)}>
+                    <TouchableOpacity style={[styles.setImgButton,globals.alCenter]} onPress={()=>setCapa(3)}>
                       <Text style={styles.setImgBtnTxt}>
                         Repetir
                       </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.setImgButton} onPress={()=>setCapa(4)}>
+                    <TouchableOpacity style={[styles.setImgButton,globals.alCenter]} onPress={()=>setCapa(4)}>
                       <Text style={styles.setImgBtnTxt}>
                         Centralizar
                       </Text>
@@ -107,7 +107,7 @@ import globals from "./../globals"
                     <Text><Text style={{color:'#f00',fontWeight:'bold'}}>DELETAR</Text> o item {tmpList.name}</Text>
                   </View>
                   <View style={styles.setNameView}>
-                  <TouchableOpacity style={styles.setDeleteBtn} onPress={()=>{DeleteOperations()}}>
+                  <TouchableOpacity style={[styles.setDeleteBtn,globals.alCenter]} onPress={()=>{DeleteOperations()}}>
                     <Text style={styles.setDeleteBtnText}>DELETAR</Text>
                   </TouchableOpacity>
                   </View>
@@ -133,7 +133,7 @@ import globals from "./../globals"
               <Image style={[styles.itemImg,{resizeMode:imageSet[i.imageSet]}]} source={i.image}/>
           </TouchableOpacity>
         {/*Engrenagem deconfiguração  */}
-        <TouchableOpacity style={styles.itemGear} onPress={
+        <TouchableOpacity style={[styles.itemGear,globals.alCenter]} onPress={
           ()=>{
             setTmpList({name:i.name,dataPos:index});
             (showSMode)? setShowSMode(false):setShowSMode(true);
@@ -199,7 +199,7 @@ import globals from "./../globals"
                   </View>
                   <View style={styles.setNameView}>
                   <TextInput style={globals.setNameInput} multiline={false}/>
-                  <TouchableOpacity style={[styles.setNameBtn,{backgroundColor:'#a0f'}]}>
+                  <TouchableOpacity style={[styles.setNameBtn,{backgroundColor:'#a0f'},globals.alCenter]}>
                     <Icon name="gear" color="#fff" size={20}/>
                   </TouchableOpacity>
                   </View>

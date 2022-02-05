@@ -6,6 +6,10 @@ const heightHe = Dimensions.get('window').height;
 const sISize= widthWi*0.8
 
 const globals = StyleSheet.create({
+	alCenter:{
+		justifyContent:'center',
+		alignItems:'center'
+	},
 	background:{
 		backgroundColor:'#a0f',
 		flex:1
@@ -26,8 +30,6 @@ const globals = StyleSheet.create({
 		height: widthWi*0.14,
 		width: widthWi*0.14,
 		borderRadius:8,
-		justifyContent:'center',
-		alignItems:'center'
 	},
 	listItem:{
 		paddingVertical: heightHe*0.02,
@@ -58,8 +60,6 @@ const globals = StyleSheet.create({
 		borderRadius:8,
 		borderWidth:1,
 		borderColor:'#a00',
-		alignItems:'center',
-		justifyContent:'center',
 	},
 	saveSetView:{
 		flexDirection:'row',
@@ -93,7 +93,6 @@ const globals = StyleSheet.create({
 		flexDirection:'row',
 		justifyContent:'space-between',
 		alignItems:'center',
-		// backgroundColor:'#f00',
 		height:sISize*0.15,
 	},
 	setImgDesc:{
