@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, TextInput,StatusBar, ScrollView } from 'react-native';
+import {AppState ,View, Text, TouchableOpacity, TextInput,StatusBar, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
@@ -15,9 +15,18 @@ const List=function({navigation, route}){
   const [ldData,setLdData]=useState(true)
   const [canSave,setCanSave]=useState(true)
 
-  // useEffect(() => {
-  //   if (AppState.currentState!="active") return saveData(data)
-  // })
+  // salva os dados caso usuario saia do app
+  useEffect(() => {
+    AppState.addEventListener('change', state => {
+    if (state === 'background') {
+      console.log('back')
+      saveData(data)
+    } else if (state === 'inactive') {
+      console.log('inactive')
+      saveData(data)
+    }
+    });
+  })
 
   // Descobre o index do elemento com base no id
   function getIndex(id){
