@@ -1,5 +1,3 @@
-'use strict'
-
 import React, {useState} from 'react';
 import { Text, View,TouchableOpacity,Image,StatusBar, ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -7,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from "./styles"
 import globals from "./../globals"
+import TextAviso from "./../components/TextAviso"
 
  const Home=function({navigation, route}){
   const [itemLista,setItemLista]=useState({data:[]})
@@ -215,7 +214,7 @@ import globals from "./../globals"
                         <Icon name="check" color={(canSave)?'#0a0':'#600'} size={30}/>
                     </TouchableOpacity>
                     {
-                      TextAviso()
+                      TextAviso(canSave)
                     }
                   </View>
                 </View>
@@ -244,9 +243,6 @@ import globals from "./../globals"
       return true
     }
   }
-
-  // Mansagem de aviso
-  function TextAviso(){if(!canSave) return <Text style={{color:'#f00',fontSize:15}}>Por favor, coloque um{"\n"}nome em sua lista</Text>}
 
   // funçãos de configuração
   // Configurar item da lista

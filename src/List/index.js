@@ -1,9 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {AppState, View, Text, TouchableOpacity, TextInput,StatusBar, ScrollView } from 'react-native';
-import styles from "./styles"
-import globals from "./../globals"
-import Icon from 'react-native-vector-icons/FontAwesome'
+import {View, Text, TouchableOpacity, TextInput,StatusBar, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/FontAwesome'
+
+import globals from "./../globals"
+import styles from "./styles"
+
+import TextAviso from "./../components/TextAviso"
 
 const List=function({navigation, route}){
   const parentData=route.params  
@@ -11,11 +14,10 @@ const List=function({navigation, route}){
   const [data,setData]=useState({data:[]})
   const [ldData,setLdData]=useState(true)
   const [canSave,setCanSave]=useState(true)
-  // {id:'wkjwk',name:'Souso',record:0,desc:'Um pequea',showDesc:false},
 
-  useEffect(() => {
-    if (AppState.currentState!="active") return saveData(data)
-  })
+  // useEffect(() => {
+  //   if (AppState.currentState!="active") return saveData(data)
+  // })
 
   // Descobre o index do elemento com base no id
   function getIndex(id){
@@ -31,11 +33,12 @@ const List=function({navigation, route}){
     setData({...data,...data.data[getIndex(id)].record=parseInt(x)})
   }
 
+  // Gera lista de elementos
   function listElement(){
-    // Elemento description
     return(
       data.data.map((i,index)=>{
 
+        // Elemento description
         function description(){
           if(i.showDesc){
             return(
@@ -120,6 +123,7 @@ const List=function({navigation, route}){
                     <TextInput style={[globals.setNameInput,styles.setHeight]} value={tmpText} onChangeText={tmp => setTmpText(tmp)} maxLength={500} multiline={true}/>
                   </View>
                 </View>
+                {/*Botão de salvar dados*/}
                 <View style={globals.saveSetView}>
                     <TouchableOpacity 
                       style={(canSave)?globals.saveBtnOK:globals.saveBtnNot} 
@@ -133,7 +137,7 @@ const List=function({navigation, route}){
                         <Icon name="check" color={(canSave)?'#0a0':'#600'} size={30}/>
                     </TouchableOpacity>
                     {
-                      TextAviso()
+                      TextAviso(canSave)
                     }
                   </View>
             </ScrollView>
@@ -160,10 +164,6 @@ const List=function({navigation, route}){
       return false
     }
   }
-
-  // Mansagem de aviso
-  function TextAviso(){if(!canSave) return <Text style={{color:'#f00',fontSize:15}}>Por favor, coloque um{"\n"}nome em sua lista</Text>}
-
 
   // Carrega os dados
   async function loadData(){
