@@ -213,7 +213,7 @@ const List=function({navigation, route}){
       }
       <View style={globals.listItem}>
         {/*Buttão de adicinar à lista*/}
-        <TouchableOpacity activeOpacity={0.55} style={[globals.addButton,globals.alCenter]} onPress={()=>setShowCrMo(true)}>
+        <TouchableOpacity activeOpacity={0.55} style={[globals.addButton,globals.alCenter]} onPress={()=>{setShowCrMo(true);setCanSave(true)}}>
           <Text>+</Text>
         </TouchableOpacity>
       </View>

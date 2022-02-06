@@ -154,7 +154,7 @@ import globals from "./../globals"
 
     if(showCrMo){
     return(
-     <View style={styles.showSetItem}>
+     <View style={globals.showSetItem}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 {/*Configurador do nome da Lista*/}
                 <View>
@@ -206,10 +206,11 @@ import globals from "./../globals"
                 <View>
                   <View style={globals.saveSetView}>
                     <TouchableOpacity style={(canSave)?globals.saveBtnOK:globals.saveBtnNot} onPress={()=>{
-                        dataCanSave(tmp.trim(),tipo);
-                        setTmp('');
-                        setTipo(true);
-                        setShowCrMo(false)
+                        if(dataCanSave(tmp.trim(),tipo)){                  
+                          setTmp('');
+                          setTipo(true);
+                          setShowCrMo(false)
+                        }
                       }}>
                         <Icon name="check" color={(canSave)?'#0a0':'#600'} size={30}/>
                     </TouchableOpacity>
@@ -221,8 +222,8 @@ import globals from "./../globals"
               </View>
             </ScrollView>
             {/*But~ao para fechar tela*/}
-            <View style={styles.closeView}>
-              <TouchableOpacity style={globals.closeBtn} onPress={()=>{setShowCrMo(false);setTmp('');setTipo(true)}}>
+            <View style={globals.closeView}>
+              <TouchableOpacity style={[globals.closeBtn,globals.alCenter]} onPress={()=>{setShowCrMo(false);setTmp('');setTipo(true)}}>
                 <Icon name="close" color="#600" size={20}/>
               </TouchableOpacity>
             </View>
@@ -240,6 +241,7 @@ import globals from "./../globals"
       itemLista.data.push({id:key,name,imageSet:0,image:require("./../../assets/icon.png"),tipo})
       console.log(itemLista)
       saveData(itemLista)
+      return true
     }
   }
 
@@ -341,7 +343,7 @@ import globals from "./../globals"
           showItemList()
         }
         {/*Buttão de adicinar à lista*/}
-        <TouchableOpacity activeOpacity={0.55} style={globals.addButton} onPress={()=>setShowCrMo(true)}>
+        <TouchableOpacity activeOpacity={0.55} style={[globals.addButton,globals.alCenter]} onPress={()=>{setShowCrMo(true);setCanSave(true)}}>
           <Text>+</Text>
         </TouchableOpacity>
       </View>
