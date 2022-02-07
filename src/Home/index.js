@@ -37,7 +37,7 @@ import TextAviso from "./../components/TextAviso"
                   </View>
                   <View style={styles.setNameView}>
                   <TextInput style={globals.setNameInput} value={tmp} onChangeText={tmp => setTmp(tmp)} maxLength={10} multiline={false}/>
-                  <TouchableOpacity style={styles.setNameBtn} onPress={()=>setName(tmp)}>
+                  <TouchableOpacity style={[styles.setNameBtn,globals.alCenter]} onPress={()=>setName(tmp)}>
                     <Icon name="check" color="#fff" size={20}/>
                   </TouchableOpacity>
                   </View>
@@ -92,7 +92,7 @@ import TextAviso from "./../components/TextAviso"
                   </View>
                   <View style={styles.setNameView}>
                   <TextInput style={globals.setNameInput} multiline={false}/>
-                  <TouchableOpacity style={[styles.setNameBtn,{backgroundColor:'#a0f'}]} onPress={()=>setName(tmp)}>
+                  <TouchableOpacity style={[styles.setNameBtn,{backgroundColor:'#a0f'},globals.alCenter]} onPress={()=>setName(tmp)}>
                     <Icon name="gear" color="#fff" size={20}/>
                   </TouchableOpacity>
                   </View>
@@ -114,7 +114,7 @@ import TextAviso from "./../components/TextAviso"
             </ScrollView>
             {/*But~ao para fechar tela*/}
             <View style={globals.closeView}>
-              <TouchableOpacity style={styles.closeBtn} onPress={()=>{setTmp('');setShowSMode(false)}}>
+              <TouchableOpacity style={[globals.closeBtn,globals.alCenter]} onPress={()=>{setTmp('');setShowSMode(false)}}>
                 <Icon name="close" color="#600" size={20}/>
               </TouchableOpacity>
             </View>
