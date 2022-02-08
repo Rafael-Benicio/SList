@@ -14,6 +14,7 @@ const List=function({navigation, route}){
   const [data,setData]=useState({data:[]})
   const [ldData,setLdData]=useState(true)
   const [canSave,setCanSave]=useState(true)
+  const [erase,setErase]=useState(false)
 
   // salva os dados caso usuario saia do app
   useEffect(() => {
@@ -49,48 +50,60 @@ const List=function({navigation, route}){
 
         // Elemento description
         function description(){
-          if(i.showDesc){
             return(
               <View style={styles.itemDescView}>
                 <Text style={styles.itemDescText}>{i.desc}</Text>
               </View>
             )
-          }
         } 
 
         return(
           <View key={i.id} style={styles.itemView}>
             <View style={styles.itemViewValues}>
+              { erase &&
+              <TouchableOpacity 
+                style={[globals.alCenter,styles.itemTrash]}
+                // onPress={()=>setErase(false)}
+                >
+                <Icon name="trash" color={'#fff'} size={30}/>
+              </TouchableOpacity>}
               <TouchableOpacity 
                 style={styles.itemBtnText} 
                 disabled={(i.desc=='')} 
-                onPress={()=>setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].showDesc=(i.showDesc)?false:true}})}>
-                <Text style={styles.itemText}>{i.name}</Text>
+                onPress={()=>setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].showDesc=(i.showDesc)?false:true}})}
+                ><Text style={styles.itemText}>{i.name}</Text>
               </TouchableOpacity>
             <View style={styles.itemBtns}>
-            <TouchableOpacity 
-              style={styles.itemBtn} 
-              onPress={()=>setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].record=i.record+1}})}
-              ><Text style={{fontSize:25}}>+</Text>
-            </TouchableOpacity>
+            {!erase && 
+              <TouchableOpacity 
+                style={[styles.itemBtn,globals.alCenter,{backgroundColor:'#0f0'}]} 
+                disabled={erase}
+                onPress={()=>setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].record=i.record+1}})}
+                ><Text style={{fontSize:25}}>+</Text>
+              </TouchableOpacity>
+            }
             <TextInput 
-              style={styles.itemInput} 
+              style={(erase)?styles.itemInputE:styles.itemInput} 
               value={`${i.record}`} 
               onChangeText={tmp =>filterValue(tmp,i.id)} 
               maxLength={4} 
               multiline={false}
               keyboardType={"phone-pad"}
               selectionColor={"#fff"}
+              editable={!erase}
             />
+            { !erase &&
             <TouchableOpacity 
-              style={styles.itemBtn}
+              style={[styles.itemBtn,globals.alCenter,{backgroundColor:'#0f0'}]}
+              disabled={erase}
               onPress={()=>setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].record=i.record-1}})}
               ><Text style={{fontSize:35}}>-</Text>
             </TouchableOpacity>
+            }
             </View>
             </View>
             {
-              description()
+              i.showDesc && description()
             }
           </View>
           )
@@ -104,7 +117,6 @@ const List=function({navigation, route}){
     const [tmp,setTmp]=useState('')
     const [tmpText,setTmpText]=useState('')
 
-    if(showCrMo){
     return(
      <View style={globals.showSetItem}>
               <ScrollView showsVerticalScrollIndicator={false}>
@@ -157,7 +169,7 @@ const List=function({navigation, route}){
               </TouchableOpacity>
             </View>
           </View>
-    )}
+    )
   }
 
   // Checa se os dados passado são minimos pra criar um novo item
@@ -208,13 +220,25 @@ const List=function({navigation, route}){
     setLdData(false)
   }
 
+  console.log(data)
+
   return (
     <View style={globals.background}>
       <StatusBar backgroundColor="#000"/>
       {/*Cabeçalho*/}
       <View style={globals.header}>
-        <TouchableOpacity onPress={()=>{saveData(data);navigation.navigate('Home')}}>
+        <TouchableOpacity 
+          onPress={()=>{saveData(data);navigation.navigate('Home')}}
+          style={[styles.backBtnView,]}
+          >
         <Text style={globals.headerText}>{parentData.name}</Text>
+        </TouchableOpacity>
+        {/*Botão para mostrar botões de apagar*/}
+        <TouchableOpacity 
+          onPress={()=>setErase((erase)?false:true)}
+          style={[globals.alCenter,styles.itemBtn]}
+          >
+        <Icon name="trash" color={(erase)?"#900":'#fff'} size={30}/>
         </TouchableOpacity>
       </View>
       {
@@ -227,7 +251,7 @@ const List=function({navigation, route}){
         </TouchableOpacity>
       </View>
       {
-        createItemList()
+        showCrMo && createItemList()
       }
     </View>
   );

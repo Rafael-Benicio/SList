@@ -17,8 +17,10 @@ const globals = StyleSheet.create({
 	header:{
 		backgroundColor:'#b6f',
 		height:heightHe*0.11,
-		justifyContent:'center',
-		paddingHorizontal:widthWi*0.05
+		justifyContent:'space-between',
+		alignItems:'center',
+		paddingHorizontal:widthWi*0.05,
+		flexDirection:'row',
 	},
 	headerText:{
 		fontSize:30,
