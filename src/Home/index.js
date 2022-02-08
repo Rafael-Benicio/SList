@@ -7,8 +7,6 @@ import styles from "./styles"
 import globals from "./../globals"
 import TextAviso from "./../components/TextAviso"
 
-// import Constants from 'expo-constants'
-// import * as Pemissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 
  const Home=function({navigation, route}){

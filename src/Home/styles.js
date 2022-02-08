@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 		width:widthWi*0.9,
 		height:heightHe*0.17,
 		borderRadius:8,
-		opacity:0.7
+		opacity:0.85
 	},
 	itemText:{
 		position:'absolute',
@@ -102,6 +102,22 @@ const styles = StyleSheet.create({
 		color:'#fff',
 		fontWeight:'bold',
 		fontSize:sISize*0.05,
+	},
+	imageSets:{
+		width:sISize*0.7,
+		height:sISize*0.7,
+		backgroundColor:'#eee',
+	},
+	test:{
+		flexDirection:'row',
+		justifyContent:'space-between',
+		height:sISize*0.7,
+		alignItems:'flex-start',
+	},
+	setBtnConfirmation:{
+		width:sISize*0.15,
+		height:sISize*0.15,
+		borderRadius:8,
 	},
 
 })
