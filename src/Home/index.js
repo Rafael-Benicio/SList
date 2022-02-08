@@ -7,6 +7,10 @@ import styles from "./styles"
 import globals from "./../globals"
 import TextAviso from "./../components/TextAviso"
 
+// import Constants from 'expo-constants'
+// import * as Pemissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
+
  const Home=function({navigation, route}){
   const [itemLista,setItemLista]=useState({data:[]})
   const [imageSet,setImageSet]=useState(['cover', 'contain', 'stretch', 'repeat', 'center'])
@@ -15,12 +19,13 @@ import TextAviso from "./../components/TextAviso"
   const [showCrMo,setShowCrMo]=useState(false)
   const [canSave,setCanSave]=useState(true)
   const [ldData,setLdData]=useState(true)
-  
+  const [image, setImage] = useState(null);
 
   // Cria elementos da tela
   // Janela de configuração de item da lista
   function selectResizeMode(){
     const [tmp,setTmp]=useState('')
+    const [ask,setAsk]=useState(false)
     // Is pra testar se o conteudo vai ou não ser exibido
     if(showSMode){
     return(
@@ -57,7 +62,7 @@ import TextAviso from "./../components/TextAviso"
                   </View>
                   <View style={styles.setImgViewButtons}>
                   <View style={styles.setImgButtons}>
-                    <TouchableOpacity style={[styles.setImgButton,globals.globals]} onPress={()=>setCapa(1)}>
+                    <TouchableOpacity style={[styles.setImgButton,globals.alCenter]} onPress={()=>setCapa(1)}>
                       <Text style={styles.setImgBtnTxt}>
                         Conter
                       </Text>
@@ -90,9 +95,11 @@ import TextAviso from "./../components/TextAviso"
                   <View style={globals.setImgDesc}>
                     <Text>Configura a imagem de {tmpList.name}</Text>
                   </View>
-                  <View style={styles.setNameView}>
-                  <TextInput style={globals.setNameInput} multiline={false}/>
-                  <TouchableOpacity style={[styles.setNameBtn,{backgroundColor:'#a0f'},globals.alCenter]} onPress={()=>setName(tmp)}>
+                  <View style={(image)?styles.test:styles.setNameView}>
+                  {image &&<Image source={{ uri: image }} style={[styles.imageSets,{resizeMode:'contain',}]} />}
+                  <TouchableOpacity 
+                    style={[styles.setNameBtn,{backgroundColor:'#a0f'},globals.alCenter]} 
+                    onPress={()=>pickImage()}>
                     <Icon name="gear" color="#fff" size={20}/>
                   </TouchableOpacity>
                   </View>
@@ -103,18 +110,35 @@ import TextAviso from "./../components/TextAviso"
                     <Text style={globals.setImgHeadTxt}>DELETAR</Text>
                   </View>
                   <View style={globals.setImgDesc}>
-                    <Text><Text style={{color:'#f00',fontWeight:'bold'}}>DELETAR</Text> o item {tmpList.name}</Text>
+                    <Text><Text style={{color:'#f00',fontWeight:'bold'}}>DELETAR</Text> o item {tmpList.name} </Text>
+                    {ask && <Text style={{color:'#600'}}>Certeza  que quer <Text style={{color:'#f00',fontWeight:'bold'}}>DELETAR</Text> o item <Text style={{textDecorationLine: 'underline'}}>'{tmpList.name}'</Text></Text>}
                   </View>
                   <View style={styles.setNameView}>
-                  <TouchableOpacity style={[styles.setDeleteBtn,globals.alCenter]} onPress={()=>{DeleteOperations()}}>
+                  <TouchableOpacity 
+                    style={[styles.setDeleteBtn,globals.alCenter]} 
+                    onPress={()=>setAsk(true)}>
                     <Text style={styles.setDeleteBtnText}>DELETAR</Text>
                   </TouchableOpacity>
+                    { ask &&
+                    <TouchableOpacity 
+                      style={[styles.setBtnConfirmation,globals.alCenter,{backgroundColor:'#f00'}]}
+                      onPress={()=>{setAsk(false)}}>
+                      <Icon name="close" color="#600" size={20}/>
+                    </TouchableOpacity>
+                    }
+                    { ask &&
+                    <TouchableOpacity 
+                      style={[styles.setBtnConfirmation,globals.alCenter,{backgroundColor:'#0f0'}]} 
+                      onPress={()=>{DeleteOperations();setImage(null)}}>
+                      <Icon name="check" color="#060" size={20}/>
+                    </TouchableOpacity>
+                    }
                   </View>
                 </View>
             </ScrollView>
             {/*But~ao para fechar tela*/}
             <View style={globals.closeView}>
-              <TouchableOpacity style={[globals.closeBtn,globals.alCenter]} onPress={()=>{setTmp('');setShowSMode(false)}}>
+              <TouchableOpacity style={[globals.closeBtn,globals.alCenter]} onPress={()=>{setTmp('');setShowSMode(false);setImage(null);setImage(null);setAsk(false)}}>
                 <Icon name="close" color="#600" size={20}/>
               </TouchableOpacity>
             </View>
@@ -122,14 +146,13 @@ import TextAviso from "./../components/TextAviso"
       )
     }
   }
-
   // Lista de itens
   function showItemList(){
     return(
     itemLista.data.map((i,index)=>(
       <View key={index} style={styles.itemList}>
           <TouchableOpacity activeOpacity={0.8} onPress={()=>navigation.navigate('List',{id:i.id,name:i.name,tipo:i.tipo})}>
-              <Image style={[styles.itemImg,{resizeMode:imageSet[i.imageSet]}]} source={i.image}/>
+              <Image style={[styles.itemImg,{resizeMode:imageSet[i.imageSet]}]} source={{uri:i.image}}/>
           </TouchableOpacity>
         {/*Engrenagem deconfiguração  */}
         <TouchableOpacity style={[styles.itemGear,globals.alCenter]} onPress={
@@ -164,7 +187,12 @@ import TextAviso from "./../components/TextAviso"
                     <Text><Text style={{color:'#f00'}}>*</Text> Escreva o nome do item</Text>
                   </View>
                   <View style={styles.setNameView}>
-                  <TextInput style={globals.setNameInput} value={tmp} onChangeText={tmp => setTmp(tmp)} maxLength={10} multiline={false}/>
+                  <TextInput 
+                    style={globals.setNameInput} 
+                    value={tmp} 
+                    onChangeText={tmp => setTmp(tmp)} 
+                    maxLength={10} 
+                    multiline={false}/>
                   </View>
                 </View>
                 {/*Configura o tipo de lista*/}
@@ -176,12 +204,16 @@ import TextAviso from "./../components/TextAviso"
                     <Text>Qual é o tipo de lista?</Text>
                   </View>
                   <View style={styles.setRadioView}>
-                    <TouchableOpacity style={(tipo)?styles.setRadioBtnok:styles.setRadioBtn} onPress={()=>setTipo(true)}>
+                    <TouchableOpacity 
+                      style={(tipo)?styles.setRadioBtnok:styles.setRadioBtn} 
+                      onPress={()=>setTipo(true)}>
                       <Text>
                         Número
                       </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={(!tipo)?styles.setRadioBtnok:styles.setRadioBtn} onPress={()=>setTipo(false)}>
+                    <TouchableOpacity 
+                      style={(!tipo)?styles.setRadioBtnok:styles.setRadioBtn} 
+                      onPress={()=>setTipo(false)}>
                       <Text>
                         Sim/Não
                       </Text>
@@ -196,18 +228,23 @@ import TextAviso from "./../components/TextAviso"
                   <View style={globals.setImgDesc}>
                     <Text>Selecione uma capa da sua lista</Text>
                   </View>
-                  <View style={styles.setNameView}>
-                  <TextInput style={globals.setNameInput} multiline={false}/>
-                  <TouchableOpacity style={[styles.setNameBtn,{backgroundColor:'#a0f'},globals.alCenter]}>
+                  <View style={(image)?styles.test:styles.setNameView}>
+                  {image &&<Image source={{ uri: image }} style={[styles.imageSets,{resizeMode:'contain',}]} />}
+                  <TouchableOpacity 
+                    style={[styles.setNameBtn,{backgroundColor:'#a0f'},globals.alCenter]} 
+                    onPress={()=>pickImage(false)}>
                     <Icon name="gear" color="#fff" size={20}/>
                   </TouchableOpacity>
                   </View>
                 <View>
                   <View style={globals.saveSetView}>
-                    <TouchableOpacity style={(canSave)?globals.saveBtnOK:globals.saveBtnNot} onPress={()=>{
-                        if(dataCanSave(tmp.trim(),tipo)){                  
+                    <TouchableOpacity 
+                      style={(canSave)?globals.saveBtnOK:globals.saveBtnNot} 
+                      onPress={()=>{
+                        if(dataCanSave(tmp.trim(),tipo,image)){                  
                           setTmp('');
                           setTipo(true);
+                          setImage(null)
                           setShowCrMo(false)
                         }
                       }}>
@@ -222,28 +259,28 @@ import TextAviso from "./../components/TextAviso"
             </ScrollView>
             {/*But~ao para fechar tela*/}
             <View style={globals.closeView}>
-              <TouchableOpacity style={[globals.closeBtn,globals.alCenter]} onPress={()=>{setShowCrMo(false);setTmp('');setTipo(true)}}>
+              <TouchableOpacity 
+                style={[globals.closeBtn,globals.alCenter]} 
+                onPress={()=>{setShowCrMo(false);setTmp('');setTipo(true);setImage(null)}}>
                 <Icon name="close" color="#600" size={20}/>
               </TouchableOpacity>
             </View>
           </View>
     )}
   }
-
-  function dataCanSave(name,tipo){
+  function dataCanSave(name,tipo,uri){
     if(name==''){
       setCanSave(false)
     }else{
       setShowCrMo(false)
       // [id]=nome
       let key=(Math.floor(Math.random()*8999)+1000).toString(16)
-      itemLista.data.push({id:key,name,imageSet:0,image:require("./../../assets/icon.png"),tipo})
+      itemLista.data.push({id:key,name,imageSet:0,image:(uri!=null)?uri:"./../../assets/icon.png",tipo})
       console.log(itemLista)
       saveData(itemLista)
       return true
     }
   }
-
   // funçãos de configuração
   // Configurar item da lista
   function setCapa(i){ 
@@ -256,15 +293,37 @@ import TextAviso from "./../components/TextAviso"
   function setName(i){ 
     if(i!='' && i!=itemLista.data[tmpList.dataPos].name){
       itemLista.data[tmpList.dataPos].name=i
+      setTmpList({name:i,dataPos:0})
       saveData(itemLista)
     }
   }
+  // consfigura nova imagem capa
+  function setNewImage(i){
+      console.log(itemLista)
+      // if(i!='' && i!=itemLista.data[tmpList.dataPos].name){
+      itemLista.data[tmpList.dataPos].image=i
+      saveData(itemLista) 
+  }
+  // Escolher imagem
+  async function pickImage(can=true) {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+      if(can) setNewImage(result.uri)
+    }
+  };
 
   // Carrega os dados
   async function loadData(){
     try{      
         const i=await  AsyncStorage.getItem('@i_List')
-        setItemLista((i!=null)?JSON.parse(i):[])
+        setItemLista((i!=null)?JSON.parse(i):{data:[]})
     }catch(error){
       console.log('Erro ao Obter dados');
       RDados()
@@ -312,7 +371,6 @@ import TextAviso from "./../components/TextAviso"
 
     saveData(itemLista)
   }
-
   // Configurar os dados para o estado inicial
   async function RDados (){
     await AsyncStorage.setItem('@i_List',JSON.stringify({data:[]}))
