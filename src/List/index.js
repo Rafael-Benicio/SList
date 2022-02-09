@@ -65,7 +65,7 @@ const List=function({navigation, route}){
               { erase &&
               <TouchableOpacity 
                 style={[globals.alCenter,styles.itemTrash]}
-                // onPress={()=>setErase(false)}
+                onPress={()=>deleteItem(i.id)}
                 >
                 <Icon name="trash" color={'#fff'} size={30}/>
               </TouchableOpacity>}
@@ -185,6 +185,18 @@ const List=function({navigation, route}){
     }
   }
 
+  // delete itens da lista
+  function deleteItem(id){
+    let dt=[]
+    for(let i=0;i<data.data.length;i++){
+      if(i!=getIndex(id)) dt.push(data.data[i])
+    }
+    data.data=dt
+    console.log(data)
+    saveData(data)
+    setLdData(true)
+  }
+
   // Carrega os dados
   async function loadData(){
     try{      
@@ -219,7 +231,7 @@ const List=function({navigation, route}){
     setLdData(false)
   }
 
-  console.log(data)
+  // console.log(data)
 
   return (
     <View style={globals.background}>
