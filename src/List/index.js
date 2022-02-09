@@ -15,6 +15,8 @@ const List=function({navigation, route}){
   const [ldData,setLdData]=useState(true)
   const [canSave,setCanSave]=useState(true)
   const [erase,setErase]=useState(false)
+  const [tmp,setTmp]=useState('')
+  const [tmpText,setTmpText]=useState('')
 
   // salva os dados caso usuario saia do app
   useEffect(() => {
@@ -114,9 +116,6 @@ const List=function({navigation, route}){
 
   // Exibi uma janela para criar e configurar uma lista
   function createItemList(){
-    const [tmp,setTmp]=useState('')
-    const [tmpText,setTmpText]=useState('')
-
     return(
      <View style={globals.showSetItem}>
               <ScrollView showsVerticalScrollIndicator={false}>
