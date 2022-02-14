@@ -9,7 +9,7 @@ import TextAviso from "./../components/TextAviso"
 
 import * as ImagePicker from 'expo-image-picker';
 
- const Home=function({navigation, route}){
+const Home=function({navigation, route}){
   const [itemLista,setItemLista]=useState({data:[]})
   const [imageSet,setImageSet]=useState(['cover', 'contain', 'stretch', 'repeat', 'center'])
   const [tmpList,setTmpList]=useState({name:'',dataPos:0})
@@ -18,14 +18,14 @@ import * as ImagePicker from 'expo-image-picker';
   const [canSave,setCanSave]=useState(true)
   const [ldData,setLdData]=useState(true)
   const [image, setImage] = useState(null);
+  const [tmp,setTmp]=useState('')
+  const [ask,setAsk]=useState(false)
+  const [tipo,setTipo]=useState(true)
 
   // Cria elementos da tela
   // Janela de configuração de item da lista
   function selectResizeMode(){
-    const [tmp,setTmp]=useState('')
-    const [ask,setAsk]=useState(false)
     // Is pra testar se o conteudo vai ou não ser exibido
-    if(showSMode){
     return(
           // Configurador do item da lista
           <View style={globals.showSetItem}>
@@ -142,7 +142,6 @@ import * as ImagePicker from 'expo-image-picker';
             </View>
           </View>
       )
-    }
   }
   // Lista de itens
   function showItemList(){
@@ -169,10 +168,6 @@ import * as ImagePicker from 'expo-image-picker';
   }
   // Exibi uma janela para criar e configurar uma lista
   function createItemList(){
-    const [tmp,setTmp]=useState('')
-    const [tipo,setTipo]=useState(true)
-
-    if(showCrMo){
     return(
      <View style={globals.showSetItem}>
               <ScrollView showsVerticalScrollIndicator={false}>
@@ -187,7 +182,7 @@ import * as ImagePicker from 'expo-image-picker';
                   <View style={styles.setNameView}>
                   <TextInput 
                     style={globals.setNameInput} 
-                    value={tmp} 
+                      value={tmp} 
                     onChangeText={tmp => setTmp(tmp)} 
                     maxLength={10} 
                     multiline={false}/>
@@ -264,7 +259,7 @@ import * as ImagePicker from 'expo-image-picker';
               </TouchableOpacity>
             </View>
           </View>
-    )}
+    )
   }
   function dataCanSave(name,tipo,uri){
     if(name==''){
@@ -372,7 +367,7 @@ import * as ImagePicker from 'expo-image-picker';
   // Configurar os dados para o estado inicial
   async function RDados (){
     await AsyncStorage.setItem('@i_List',JSON.stringify({data:[]}))
-        alert("Dados Resetados")
+    alert("Dados Resetados")
   } 
 
   if(ldData){
@@ -401,10 +396,10 @@ import * as ImagePicker from 'expo-image-picker';
       </View>
       </ScrollView>
       {
-        selectResizeMode()
+        showSMode && selectResizeMode()
       }
       {
-        createItemList()
+        showCrMo && createItemList()
       }
     </View>
   );
