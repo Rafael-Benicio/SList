@@ -31,7 +31,8 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#FFFFFF",
+        "versionCode":2,
       },
       "package": "com.rafelbenicio.SList"
     },
