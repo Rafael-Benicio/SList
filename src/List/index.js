@@ -19,7 +19,7 @@ const List=function({navigation, route}){
   const [tmpText,setTmpText]=useState('')
 
   // salva os dados caso usuario saia do app
-  useEffect(() => {
+  useEffect(()=>{
     AppState.addEventListener('change', state => {
     if (state === 'background') {
       console.log('back')
@@ -32,7 +32,7 @@ const List=function({navigation, route}){
   })
 
   // Descobre o index do elemento com base no id
-  function getIndex(id){
+  const getIndex=(id)=>{
     let key=0
     data.data.map((i,index)=>{
       if(i.id==id) key=index
@@ -41,17 +41,17 @@ const List=function({navigation, route}){
   }
 
   // Trata o valor passado por onChangeText
-  function filterValue(x,id){
+  const filterValue=(x,id)=>{
     setData({...data,...data.data[getIndex(id)].record=parseInt(x)})
   }
 
   // Gera lista de elementos
-  function listElement(){
+  const listElement=()=>{
     return(
-      data.data.map((i,index)=>{
+      data.data.map(i=>{
 
         // Elemento description
-        function description(){
+        const description=()=>{
             return(
               <View style={styles.itemDescView}>
                 <Text style={styles.itemDescText}>{i.desc}</Text>
@@ -62,47 +62,51 @@ const List=function({navigation, route}){
         return(
           <View key={i.id} style={styles.itemView}>
             <View style={styles.itemViewValues}>
+              {/* Lixeira */}
               { erase &&
               <TouchableOpacity 
                 style={[globals.alCenter,styles.itemTrash]}
-                onPress={()=>deleteItem(i.id)}
-                >
+                onPress={()=>deleteItem(i.id)}>
                 <Icon name="trash" color={'#fff'} size={30}/>
               </TouchableOpacity>}
+              {/* Butão com o nome do item */}
               <TouchableOpacity 
                 style={styles.itemBtnText} 
                 disabled={(i.desc=='')} 
                 onPress={()=>setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].showDesc=(i.showDesc)?false:true}})}
                 ><Text style={styles.itemText}>{i.name}</Text>
               </TouchableOpacity>
-            <View style={styles.itemBtns}>
-            {!erase && 
+              <View style={styles.itemBtns}>
+              {/* Botão de '-' */}
+              { !erase &&
               <TouchableOpacity 
-                style={[styles.itemBtn,globals.alCenter,{backgroundColor:'#0f0'}]} 
+                style={[styles.itemBtn,globals.alCenter,{backgroundColor:'#0f0'}]}
                 disabled={erase}
-                onPress={()=>setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].record=i.record+1}})}
-                ><Text style={{fontSize:25}}>+</Text>
+                onPress={()=>setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].record=i.record-1}})}
+                ><Text style={{fontSize:35}}>-</Text>
               </TouchableOpacity>
-            }
-            <TextInput 
-              style={(erase)?styles.itemInputE:styles.itemInput} 
-              value={`${i.record}`} 
-              onChangeText={tmp =>filterValue(tmp,i.id)} 
-              maxLength={4} 
-              multiline={false}
-              keyboardType={"phone-pad"}
-              selectionColor={"#fff"}
-              editable={!erase}
-            />
-            { !erase &&
-            <TouchableOpacity 
-              style={[styles.itemBtn,globals.alCenter,{backgroundColor:'#0f0'}]}
-              disabled={erase}
-              onPress={()=>setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].record=i.record-1}})}
-              ><Text style={{fontSize:35}}>-</Text>
-            </TouchableOpacity>
-            }
-            </View>
+              }
+              {/* Input de texto e exição */}
+              <TextInput 
+                style={(erase)?styles.itemInputE:styles.itemInput} 
+                value={`${i.record}`} 
+                onChangeText={tmp =>filterValue(tmp,i.id)} 
+                maxLength={4} 
+                multiline={false}
+                keyboardType={"phone-pad"}
+                selectionColor={"#fff"}
+                editable={!erase}
+              />            
+              {/* Botão de '+' */}
+              {!erase && 
+                <TouchableOpacity 
+                  style={[styles.itemBtn,globals.alCenter,{backgroundColor:'#0f0'}]} 
+                  disabled={erase}
+                  onPress={()=>setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].record=i.record+1}})}
+                  ><Text style={{fontSize:25}}>+</Text>
+                </TouchableOpacity>
+              }
+              </View>
             </View>
             {
               i.showDesc && description()
@@ -115,7 +119,7 @@ const List=function({navigation, route}){
   }
 
   // Exibi uma janela para criar e configurar uma lista
-  function createItemList(){
+  const createItemList=()=>{
     return(
      <View style={globals.showSetItem}>
               <ScrollView showsVerticalScrollIndicator={false}>
@@ -172,7 +176,7 @@ const List=function({navigation, route}){
   }
 
   // Checa se os dados passado são minimos pra criar um novo item
-  function createNewData(name,desc){
+  const createNewData=(name,desc)=>{
     if(name!=''){
       // {id:'wkjwk',name:'',record:0,desc:''},
       let key=(Math.floor(Math.random()*8999)+1000).toString(16)
@@ -186,7 +190,7 @@ const List=function({navigation, route}){
   }
 
   // delete itens da lista
-  function deleteItem(id){
+  const deleteItem=(id)=>{
     let dt=[]
     for(let i=0;i<data.data.length;i++){
       if(i!=getIndex(id)) dt.push(data.data[i])
@@ -198,7 +202,7 @@ const List=function({navigation, route}){
   }
 
   // Carrega os dados
-  async function loadData(){
+  const loadData=async()=>{
     try{      
         const i=await  AsyncStorage.getItem('@'+parentData.id)
         setData((i!=null)?JSON.parse(i):{data:[]})
@@ -209,7 +213,7 @@ const List=function({navigation, route}){
   }
 
   // Salva os dados
-  async function saveData(n){
+  const saveData=async(n)=>{
         try {
             await AsyncStorage.setItem('@'+parentData.id,JSON.stringify(n))
             console.log('====================================');
@@ -221,7 +225,7 @@ const List=function({navigation, route}){
   }
 
   // Configurar os dados para o estado inicial
-  async function RDados (){
+  const RDados=async()=>{
     await AsyncStorage.setItem('@'+parentData.id,JSON.stringify({data:[]}))
         console.log("Dados Resetados")
   } 

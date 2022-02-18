@@ -10,21 +10,27 @@ import TextAviso from "./../components/TextAviso"
 import * as ImagePicker from 'expo-image-picker';
 
 const Home=function({navigation, route}){
-  const [itemLista,setItemLista]=useState({data:[]})
+  const [data,setData]=useState({data:[]})
   const [imageSet,setImageSet]=useState(['cover', 'contain', 'stretch', 'repeat', 'center'])
   const [tmpList,setTmpList]=useState({name:'',dataPos:0})
+  // Mostra Janela de configurar
   const [showSMode,setShowSMode]=useState(false)
+  // Mostra Janela de criar
   const [showCrMo,setShowCrMo]=useState(false)
+  // Dis se pode ou não salvar os dados
   const [canSave,setCanSave]=useState(true)
-  const [ldData,setLdData]=useState(true)
-  const [image, setImage] = useState(null);
-  const [tmp,setTmp]=useState('')
+  // Pergunta se realmente quer apagar o item
   const [ask,setAsk]=useState(false)
-  const [tipo,setTipo]=useState(true)
+  // Faz com que os dados sejam carregados só uma vez
+  const [ldData,setLdData]=useState(true)
+  // A imagem que ira ser carregada pelo picker
+  const [image, setImage] = useState(null);
+  // Texto temporario
+  const [tmp,setTmp]=useState('')
 
-  // Cria elementos da tela
+  // Cria elementos da tela 
   // Janela de configuração de item da lista
-  function selectResizeMode(){
+  const selectResizeMode=()=>{
     // Is pra testar se o conteudo vai ou não ser exibido
     return(
           // Configurador do item da lista
@@ -144,11 +150,11 @@ const Home=function({navigation, route}){
       )
   }
   // Lista de itens
-  function showItemList(){
+  const showItemList=()=>{
     return(
-    itemLista.data.map((i,index)=>(
+    data.data.map((i,index)=>(
       <View key={index} style={styles.itemList}>
-          <TouchableOpacity activeOpacity={0.8} onPress={()=>navigation.navigate('List',{id:i.id,name:i.name,tipo:i.tipo})}>
+          <TouchableOpacity activeOpacity={0.8} onPress={()=>navigation.navigate('List',{id:i.id,name:i.name})}>
               <Image style={[styles.itemImg,{resizeMode:imageSet[i.imageSet]}]} source={{uri:i.image}}/>
           </TouchableOpacity>
         {/*Engrenagem deconfiguração  */}
@@ -167,7 +173,7 @@ const Home=function({navigation, route}){
     )
   }
   // Exibi uma janela para criar e configurar uma lista
-  function createItemList(){
+  const createItemList=()=>{
     return(
      <View style={globals.showSetItem}>
               <ScrollView showsVerticalScrollIndicator={false}>
@@ -183,36 +189,13 @@ const Home=function({navigation, route}){
                   <TextInput 
                     style={globals.setNameInput} 
                       value={tmp} 
-                    onChangeText={tmp => setTmp(tmp)} 
-                    maxLength={10} 
-                    multiline={false}/>
+                      onChangeText={tmp => setTmp(tmp)} 
+                      maxLength={10} 
+                      multiline={false}/>        
                   </View>
                 </View>
                 {/*Configura o tipo de lista*/}
-                <View>
-                  <View style={globals.setImgHead}>
-                    <Text style={globals.setImgHeadTxt}>TIPO</Text>
-                  </View>
-                  <View style={globals.setImgDesc}>
-                    <Text>Qual é o tipo de lista?</Text>
-                  </View>
-                  <View style={styles.setRadioView}>
-                    <TouchableOpacity 
-                      style={(tipo)?styles.setRadioBtnok:styles.setRadioBtn} 
-                      onPress={()=>setTipo(true)}>
-                      <Text>
-                        Número
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity 
-                      style={(!tipo)?styles.setRadioBtnok:styles.setRadioBtn} 
-                      onPress={()=>setTipo(false)}>
-                      <Text>
-                        Sim/Não
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
+
                 {/*Configurador do nome da Lista*/}
                 <View>
                   <View style={globals.setImgHead}>
@@ -234,11 +217,10 @@ const Home=function({navigation, route}){
                     <TouchableOpacity 
                       style={(canSave)?globals.saveBtnOK:globals.saveBtnNot} 
                       onPress={()=>{
-                        if(dataCanSave(tmp.trim(),tipo,image)){                  
-                          setTmp('');
-                          setTipo(true);
-                          setImage(null)
-                          setShowCrMo(false)
+                        if(dataCanSave(tmp.trim(),image)){                  
+                          setTmp('');                    
+                          setImage(null);
+                          setShowCrMo(false);
                         }
                       }}>
                         <Icon name="check" color={(canSave)?'#0a0':'#600'} size={30}/>
@@ -254,51 +236,72 @@ const Home=function({navigation, route}){
             <View style={globals.closeView}>
               <TouchableOpacity 
                 style={[globals.closeBtn,globals.alCenter]} 
-                onPress={()=>{setShowCrMo(false);setTmp('');setTipo(true);setImage(null)}}>
+                onPress={()=>{setShowCrMo(false);setTmp('');setImage(null)}}>
                 <Icon name="close" color="#600" size={20}/>
               </TouchableOpacity>
             </View>
           </View>
     )
   }
-  function dataCanSave(name,tipo,uri){
+  // Checa se pode salvar
+  const dataCanSave=(name,uri)=>{
     if(name==''){
       setCanSave(false)
     }else{
       setShowCrMo(false)
       // [id]=nome
       let key=(Math.floor(Math.random()*8999)+1000).toString(16)
-      itemLista.data.push({id:key,name,imageSet:0,image:(uri!=null)?uri:"./../../assets/icon.png",tipo})
-      console.log(itemLista)
-      saveData(itemLista)
+      data.data.push({id:key,name,imageSet:0,image:(uri!=null)?uri:"./../../assets/icon.png"})
+      console.log(data)
+      saveData(data)
       return true
     }
   }
   // funçãos de configuração
   // Configurar item da lista
-  function setCapa(i){ 
-    if(i!=itemLista.data[tmpList.dataPos].imageSet){
-      itemLista.data[tmpList.dataPos].imageSet=i
-      saveData(itemLista)
+  const setCapa=(i)=>{ 
+    if(i!=data.data[tmpList.dataPos].imageSet){
+      data.data[tmpList.dataPos].imageSet=i
+      saveData(data)
     }
   }
   // Configurar o nome do item da lista
-  function setName(i){ 
-    if(i!='' && i!=itemLista.data[tmpList.dataPos].name){
-      itemLista.data[tmpList.dataPos].name=i
+  const setName=(i)=>{ 
+    if(i!='' && i!=data.data[tmpList.dataPos].name){
+      data.data[tmpList.dataPos].name=i
       setTmpList({name:i,dataPos:0})
-      saveData(itemLista)
+      saveData(data)
     }
   }
   // consfigura nova imagem capa
-  function setNewImage(i){
-      console.log(itemLista)
+  const setNewImage=(i)=>{
+      console.log(data)
       // if(i!='' && i!=itemLista.data[tmpList.dataPos].name){
-      itemLista.data[tmpList.dataPos].image=i
-      saveData(itemLista) 
+      data.data[tmpList.dataPos].image=i
+      saveData(data) 
+  }
+  // Chamar operações de detete
+  const DeleteOperations=()=>{
+    DeleteInnerItemData()
+    DeleteItem()
+    setShowSMode(false)
+  }
+  // Funçao para deletar item da lista
+  const DeleteItem=()=>{
+    let dt=[]
+
+    for(let i=0;i<data.data.length;i++){
+      if(i!=tmpList.dataPos){
+        dt.push(data.data[i])
+      }
+    }
+
+    data.data=dt
+
+    saveData(data)
   }
   // Escolher imagem
-  async function pickImage(can=true) {
+  const pickImage=async(can=true)=>{
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -311,19 +314,18 @@ const Home=function({navigation, route}){
       if(can) setNewImage(result.uri)
     }
   };
-
   // Carrega os dados
-  async function loadData(){
+  const loadData=async()=>{
     try{      
         const i=await  AsyncStorage.getItem('@i_List')
-        setItemLista((i!=null)?JSON.parse(i):{data:[]})
+        setData((i!=null)?JSON.parse(i):{data:[]})
     }catch(error){
       console.log('Erro ao Obter dados');
       RDados()
     }
   }
   // Salva os dados
-  async function saveData(n){
+  const saveData=async(n)=>{
         try {
             await AsyncStorage.setItem('@i_List',JSON.stringify(n))
             console.log('====================================');
@@ -333,16 +335,10 @@ const Home=function({navigation, route}){
             console.log('Erro');
         }
   }
-  // Chamar operações de detete
-  function DeleteOperations(){
-    DeleteInnerItemData()
-    DeleteItem()
-    setShowSMode(false)
-  }
   // Função para deletar dados de dentro de um item item da lista
-  async function DeleteInnerItemData(){
+  const DeleteInnerItemData=async()=>{
     try{
-      await AsyncStorage.removeItem('@'+itemLista.data[tmpList.dataPos].id);
+      await AsyncStorage.removeItem('@'+data.data[tmpList.dataPos].id);
       console.log('====================================');
       console.log('Dados Deletados');
       console.log('====================================');
@@ -350,22 +346,8 @@ const Home=function({navigation, route}){
       console.log('rolou :'+err)
     }
   }
-  // Funçao para deletar item da lista
-  function DeleteItem(){
-    let dt=[]
-
-    for(let i=0;i<itemLista.data.length;i++){
-      if(i!=tmpList.dataPos){
-        dt.push(itemLista.data[i])
-      }
-    }
-
-    itemLista.data=dt
-
-    saveData(itemLista)
-  }
   // Configurar os dados para o estado inicial
-  async function RDados (){
+  const RDados=async()=>{
     await AsyncStorage.setItem('@i_List',JSON.stringify({data:[]}))
     alert("Dados Resetados")
   } 
@@ -390,7 +372,10 @@ const Home=function({navigation, route}){
           showItemList()
         }
         {/*Buttão de adicinar à lista*/}
-        <TouchableOpacity activeOpacity={0.55} style={[globals.addButton,globals.alCenter]} onPress={()=>{setShowCrMo(true);setCanSave(true)}}>
+        <TouchableOpacity 
+          activeOpacity={0.55} 
+          style={[globals.addButton,globals.alCenter]}
+          onPress={()=>{setShowCrMo(true);setCanSave(true)}}>
           <Text>+</Text>
         </TouchableOpacity>
       </View>
