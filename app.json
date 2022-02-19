@@ -8,7 +8,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "##49003d"
+      "backgroundColor": "#aa00ff"
     },
     "plugins": [
       [
@@ -31,7 +31,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "##49003d",
+        "backgroundColor": "#aa00ff",
       },
       "package": "com.rafelbenicio.SList"
     },
