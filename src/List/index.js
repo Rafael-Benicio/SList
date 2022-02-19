@@ -280,6 +280,7 @@ const List=function({navigation, route}){
         <Icon name="trash" color={(erase)?"#900":'#fff'} size={30}/>
         </TouchableOpacity>
       </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
       {
         listElement()
       }
@@ -289,6 +290,7 @@ const List=function({navigation, route}){
           <Text>+</Text>
         </TouchableOpacity>
       </View>
+      </ScrollView>
       {
         showCrMo && createItemList()
       }
