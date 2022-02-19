@@ -45,7 +45,12 @@ const Home=function({navigation, route}){
                     <Text>Configura o nome de {tmpList.name}</Text>
                   </View>
                   <View style={styles.setNameView}>
-                  <TextInput style={globals.setNameInput} value={tmp} onChangeText={tmp => setTmp(tmp)} maxLength={10} multiline={false}/>
+                  <TextInput 
+                    style={globals.setNameInput} 
+                    value={tmp} 
+                    onChangeText={tmp => setTmp(tmp)} 
+                    maxLength={25} 
+                    multiline={false}/> 
                   <TouchableOpacity style={[styles.setNameBtn,globals.alCenter]} onPress={()=>setName(tmp)}>
                     <Icon name="check" color="#fff" size={20}/>
                   </TouchableOpacity>
@@ -190,7 +195,7 @@ const Home=function({navigation, route}){
                     style={globals.setNameInput} 
                       value={tmp} 
                       onChangeText={tmp => setTmp(tmp)} 
-                      maxLength={10} 
+                      maxLength={25} 
                       multiline={false}/>        
                   </View>
                 </View>

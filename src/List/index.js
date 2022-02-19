@@ -44,6 +44,20 @@ const List=function({navigation, route}){
   const filterValue=(x,id)=>{
     setData({...data,...data.data[getIndex(id)].record=parseInt(x)})
   }
+  // Retorna o estilo de i.name
+  const nameSize=(i)=>{
+    if(i.length<=7){
+      return "itemText_1"
+    }else if(i.length<=11){
+      return "itemText_2"
+    }
+    else if(i.length<=20){
+      return "itemText_3"
+    }
+    else if(i.length<=25){
+      return "itemText_4"
+    }
+  }
 
   // Gera lista de elementos
   const listElement=()=>{
@@ -74,7 +88,7 @@ const List=function({navigation, route}){
                 style={styles.itemBtnText} 
                 disabled={(i.desc=='')} 
                 onPress={()=>setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].showDesc=(i.showDesc)?false:true}})}
-                ><Text style={styles.itemText}>{i.name}</Text>
+                ><Text style={styles[nameSize(i.name)]}>{i.name}</Text>
               </TouchableOpacity>
               <View style={styles.itemBtns}>
               {/* Botão de '-' */}
@@ -132,7 +146,12 @@ const List=function({navigation, route}){
                     <Text><Text style={{color:'#f00'}}>*</Text> Escreva o nome da lista</Text>
                   </View>
                   <View style={styles.setNameView}>
-                    <TextInput style={globals.setNameInput} value={tmp} onChangeText={tmp => setTmp(tmp)} maxLength={10} multiline={false}/>
+                    <TextInput 
+                      style={globals.setNameInput} 
+                      value={tmp} 
+                      onChangeText={tmp => setTmp(tmp)} 
+                      maxLength={25} 
+                      multiline={false}/>
                   </View>
                 </View>
                 {/*Configura o tipo de lista*/}
@@ -144,7 +163,12 @@ const List=function({navigation, route}){
                     <Text>Escreva um comentário</Text>
                   </View>
                   <View style={styles.setNameView}>
-                    <TextInput style={[globals.setNameInput,styles.setHeight]} value={tmpText} onChangeText={tmp => setTmpText(tmp)} maxLength={500} multiline={true}/>
+                    <TextInput 
+                      style={[globals.setNameInput,styles.setHeight]} 
+                      value={tmpText} 
+                      onChangeText={tmp => setTmpText(tmp)} 
+                      maxLength={100} 
+                      multiline={true}/>
                   </View>
                 </View>
                 {/*Botão de salvar dados*/}

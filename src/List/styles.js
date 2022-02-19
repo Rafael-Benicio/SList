@@ -26,8 +26,17 @@ const styles = StyleSheet.create({
 		height: wW12,
 		width: wW12,
 	},
-	itemText:{
+	itemText_1:{
 		fontSize:widthWi*0.08
+	},
+	itemText_2:{
+		fontSize:widthWi*0.055
+	},
+	itemText_3:{
+		fontSize:widthWi*0.052
+	},
+	itemText_4:{
+		fontSize:widthWi*0.04581
 	},
 	itemBtns:{
 		height: wW12,
