@@ -9,12 +9,19 @@ import styles from "./styles"
 import TextAviso from "./../components/TextAviso"
 
 const List=function({navigation, route}){
+  // Parametro passados por Home
   const parentData=route.params  
-  const [showCrMo,setShowCrMo]=useState(false)
+  // Informações carregadas do storage
   const [data,setData]=useState({data:[]})
+  // Janela para criação de item
+  const [showCrMo,setShowCrMo]=useState(false)
+  // Controla o carregamento da pagina
   const [ldData,setLdData]=useState(true)
+  // Checa se o elemento pode ou não ser salvo
   const [canSave,setCanSave]=useState(true)
+  // Exibição dos botões de apagar item
   const [erase,setErase]=useState(false)
+  // Caixas de texto da janela
   const [tmp,setTmp]=useState('')
   const [tmpText,setTmpText]=useState('')
 
@@ -31,19 +38,6 @@ const List=function({navigation, route}){
     });
   })
 
-  // Descobre o index do elemento com base no id
-  const getIndex=(id)=>{
-    let key=0
-    data.data.map((i,index)=>{
-      if(i.id==id) key=index
-    })
-    return key
-  }
-
-  // Trata o valor passado por onChangeText
-  const filterValue=(x,id)=>{
-    setData({...data,...data.data[getIndex(id)].record=parseInt(x)})
-  }
   // Retorna o estilo de i.name
   const nameSize=(i)=>{
     if(i.length<=7){
@@ -58,6 +52,96 @@ const List=function({navigation, route}){
       return "itemText_4"
     }
   }
+
+  // Checa se os dados passado são minimos pra criar um novo item
+  const createNewData=(name,desc)=>{
+    if(name!=''){
+      // {id:'wkjwk',name:'',record:0,desc:''},
+      let key=(Math.floor(Math.random()*8999)+1000).toString(16)
+      data.data.push({id:key,name,record:0,desc,showDesc:false})
+      console.log(data.data)
+      saveData(data)
+      return true
+    }else{
+      return false
+    }
+  }
+
+  // delete itens da lista
+  const deleteItem=(id)=>{
+    let dt=[]
+    for(let i=0;i<data.data.length;i++){
+      if(i!=getIndex(id)) dt.push(data.data[i])
+    }
+    data.data=dt
+    console.log(data)
+    saveData(data)
+    setLdData(true)
+  }
+
+  //Ordenar os dados pelo record
+  const orderRecord=()=>{    
+    let x=data.data.sort((a,b)=>{
+      if(a.record<b.record) return -1
+      else if(a.record>b.record) return 1
+    })
+
+    data.data=x
+    setData(data)
+    setLdData(true)
+  }
+    //Ordenar os dados pelo nome
+  const orderName=()=>{    
+    let x=data.data.sort((a,b)=>{
+      if(a.name<b.name) return -1
+      else if(a.name>b.name) return 1
+    })
+
+    data.data=x
+    setData(data)
+    setLdData(true)
+  }
+
+  // Descobre o index do elemento com base no id
+  const getIndex=(id)=>{
+    let key=0
+    data.data.map((i,index)=>{
+      if(i.id==id) key=index
+    })
+    return key
+  }
+
+  // Trata o valor passado por onChangeText
+  const filterValue=(x,id)=>{setData({...data,...data.data[getIndex(id)].record=parseInt(x)})}
+
+  // Carrega os dados
+  const loadData=async()=>{
+    try{      
+        const i=await  AsyncStorage.getItem('@'+parentData.id)
+        setData((i!=null)?JSON.parse(i):{data:[]})
+    }catch(error){
+      console.log('Erro ao Obter dados');
+      RDados()
+    }
+  }
+
+  // Salva os dados
+  const saveData=async(n)=>{
+        try {
+            await AsyncStorage.setItem('@'+parentData.id,JSON.stringify(n))
+            console.log('====================================');
+            console.log('Dados Salvos');
+            console.log('====================================');
+        } catch (error) {
+            console.log('Erro');
+        }
+  }
+
+  // Configurar os dados para o estado inicial
+  const RDados=async()=>{
+    await AsyncStorage.setItem('@'+parentData.id,JSON.stringify({data:[]}))
+        console.log("Dados Resetados")
+  } 
 
   // Gera lista de elementos
   const listElement=()=>{
@@ -199,67 +283,10 @@ const List=function({navigation, route}){
     )
   }
 
-  // Checa se os dados passado são minimos pra criar um novo item
-  const createNewData=(name,desc)=>{
-    if(name!=''){
-      // {id:'wkjwk',name:'',record:0,desc:''},
-      let key=(Math.floor(Math.random()*8999)+1000).toString(16)
-      data.data.push({id:key,name,record:0,desc,showDesc:false})
-      console.log(data.data)
-      saveData(data)
-      return true
-    }else{
-      return false
-    }
-  }
-
-  // delete itens da lista
-  const deleteItem=(id)=>{
-    let dt=[]
-    for(let i=0;i<data.data.length;i++){
-      if(i!=getIndex(id)) dt.push(data.data[i])
-    }
-    data.data=dt
-    console.log(data)
-    saveData(data)
-    setLdData(true)
-  }
-
-  // Carrega os dados
-  const loadData=async()=>{
-    try{      
-        const i=await  AsyncStorage.getItem('@'+parentData.id)
-        setData((i!=null)?JSON.parse(i):{data:[]})
-    }catch(error){
-      console.log('Erro ao Obter dados');
-      RDados()
-    }
-  }
-
-  // Salva os dados
-  const saveData=async(n)=>{
-        try {
-            await AsyncStorage.setItem('@'+parentData.id,JSON.stringify(n))
-            console.log('====================================');
-            console.log('Dados Salvos');
-            console.log('====================================');
-        } catch (error) {
-            console.log('Erro');
-        }
-  }
-
-  // Configurar os dados para o estado inicial
-  const RDados=async()=>{
-    await AsyncStorage.setItem('@'+parentData.id,JSON.stringify({data:[]}))
-        console.log("Dados Resetados")
-  } 
-
   if(ldData){
     loadData()
     setLdData(false)
   }
-
-  // console.log(data)
 
   return (
     <View style={globals.background}>
@@ -274,10 +301,12 @@ const List=function({navigation, route}){
         </TouchableOpacity>
         {/*Botão para mostrar botões de apagar*/}
         <TouchableOpacity 
-          onPress={()=>setErase((erase)?false:true)}
+          onPress={()=>orderName()}
+          // onPress={()=>setErase((erase)?false:true)}
           style={[globals.alCenter,styles.itemBtn]}
           >
-        <Icon name="trash" color={(erase)?"#900":'#fff'} size={30}/>
+        <Icon name="gear" color={(erase)?"#900":'#fff'} size={30}/>
+        {/*<Icon name="trash" color={(erase)?"#900":'#fff'} size={30}/>*/}
         </TouchableOpacity>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
