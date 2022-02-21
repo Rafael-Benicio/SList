@@ -15,6 +15,8 @@ const List=function({navigation, route}){
   const [data,setData]=useState({data:[]})
   // Janela para criação de item
   const [showCrMo,setShowCrMo]=useState(false)
+  // Janela para adiministração dos items
+  const [confLs,setConfLs]=useState(false)
   // Controla o carregamento da pagina
   const [ldData,setLdData]=useState(true)
   // Checa se o elemento pode ou não ser salvo
@@ -87,7 +89,7 @@ const List=function({navigation, route}){
     })
 
     data.data=x
-    setData(data)
+    saveData(data)
     setLdData(true)
   }
     //Ordenar os dados pelo nome
@@ -98,7 +100,7 @@ const List=function({navigation, route}){
     })
 
     data.data=x
-    setData(data)
+    saveData(data)
     setLdData(true)
   }
 
@@ -283,6 +285,59 @@ const List=function({navigation, route}){
     )
   }
 
+  // Administração dos item da lista
+  const configList=()=>{
+    return(
+     <View style={globals.showSetItem}>
+              <ScrollView showsVerticalScrollIndicator={false}>
+                {/*Configurador a ordem da lista*/}
+                <View>
+                  <View style={globals.setImgHead}>
+                    <Text style={globals.setImgHeadTxt}>ORDENAR</Text>
+                  </View>
+                  <View>
+                    <Text>Ordena os itens da lista por:</Text>
+                    <View style={[{justifyContent:'space-around'},styles.setHeight]}>
+                    <TouchableOpacity 
+                      onPress={()=>orderName()}
+                      style={globals.saveBtnOK}>
+                      <Text style={{color:'#0a0',fontWeight:'bold'}}>Nome</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                      onPress={()=>orderRecord()}
+                      style={globals.saveBtnOK}>
+                      <Text style={{color:'#0a0',fontWeight:'bold'}}>Valor</Text>
+                    </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+                {/*Deletar itens da lista*/}
+                <View>
+                  <View style={globals.setImgHead}>
+                    <Text style={globals.setImgHeadTxt}>DELETAR</Text>
+                  </View>
+                  <View style={globals.setImgDesc}>
+                    <Text>Poderá apagar os itens de seu desejo</Text>
+                  </View>
+                  <View style={styles.setNameView}>
+                    <TouchableOpacity 
+                      onPress={()=>{setErase(true);setConfLs(false)}}
+                      style={globals.saveBtnNot}>
+                      <Text style={{color:'#a00',fontWeight:'bold'}}>Deletar</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+            </ScrollView>
+            {/*But~ao para fechar tela*/} 
+            <View style={globals.closeView}>
+              <TouchableOpacity style={[globals.closeBtn,globals.alCenter]} onPress={()=>{setConfLs(false)}}>
+                <Icon name="close" color="#600" size={20}/>
+              </TouchableOpacity>
+            </View>
+          </View>
+    )
+  }
+
   if(ldData){
     loadData()
     setLdData(false)
@@ -301,12 +356,10 @@ const List=function({navigation, route}){
         </TouchableOpacity>
         {/*Botão para mostrar botões de apagar*/}
         <TouchableOpacity 
-          onPress={()=>orderName()}
-          // onPress={()=>setErase((erase)?false:true)}
+          onPress={()=>(erase)?setErase(false):setConfLs(true)}
           style={[globals.alCenter,styles.itemBtn]}
           >
         <Icon name="gear" color={(erase)?"#900":'#fff'} size={30}/>
-        {/*<Icon name="trash" color={(erase)?"#900":'#fff'} size={30}/>*/}
         </TouchableOpacity>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -315,13 +368,23 @@ const List=function({navigation, route}){
       }
       <View style={globals.listItem}>
         {/*Buttão de adicinar à lista*/}
-        <TouchableOpacity activeOpacity={0.55} style={[globals.addButton,globals.alCenter]} onPress={()=>{setShowCrMo(true);setCanSave(true)}}>
+        <TouchableOpacity 
+          activeOpacity={0.55} 
+          style={[globals.addButton,globals.alCenter]} 
+          onPress={()=>{
+            setShowCrMo(true);
+            setCanSave(true);
+            setErase(false)
+          }}>
           <Text>+</Text>
         </TouchableOpacity>
       </View>
       </ScrollView>
       {
         showCrMo && createItemList()
+      }
+      {
+        confLs && configList()
       }
     </View>
   );
