@@ -82,10 +82,10 @@ const List=function({navigation, route}){
   }
 
   //Ordenar os dados pelo record
-  const orderRecord=()=>{    
+  const orderRecord=(i=true)=>{    
     let x=data.data.sort((a,b)=>{
-      if(a.record<b.record) return -1
-      else if(a.record>b.record) return 1
+      if(a.record<b.record) return (i)?-1:1
+      else if(a.record>b.record) return (i)?1:-1
     })
 
     data.data=x
@@ -93,10 +93,10 @@ const List=function({navigation, route}){
     setLdData(true)
   }
     //Ordenar os dados pelo nome
-  const orderName=()=>{    
+  const orderName=(i=true)=>{    
     let x=data.data.sort((a,b)=>{
-      if(a.name<b.name) return -1
-      else if(a.name>b.name) return 1
+      if(a.name<b.name) return (i)?-1:1
+      else if(a.name>b.name) return (i)?1:-1
     })
 
     data.data=x
@@ -297,16 +297,30 @@ const List=function({navigation, route}){
                   </View>
                   <View>
                     <Text>Ordena os itens da lista por:</Text>
+                    <Text style={styles.itemText_2}>NOME:</Text>
                     <View style={[{justifyContent:'space-around'},styles.setHeight]}>
+                    <TouchableOpacity 
+                      onPress={()=>orderName(false)}
+                      style={globals.saveBtnOK}>
+                      <Icon name="angle-double-up" color="#060" size={25}/> 
+                    </TouchableOpacity>
                     <TouchableOpacity 
                       onPress={()=>orderName()}
                       style={globals.saveBtnOK}>
-                      <Text style={{color:'#0a0',fontWeight:'bold'}}>Nome</Text>
+                      <Icon name="angle-double-down" color="#060" size={25}/>
+                    </TouchableOpacity>
+                    </View>
+                    <Text style={styles.itemText_2}>VALOR:</Text>
+                    <View style={[{justifyContent:'space-around'},styles.setHeight]}>
+                    <TouchableOpacity 
+                      onPress={()=>orderRecord(false)}
+                      style={globals.saveBtnOK}>
+                      <Icon name="angle-double-up" color="#060" size={25}/> 
                     </TouchableOpacity>
                     <TouchableOpacity 
                       onPress={()=>orderRecord()}
                       style={globals.saveBtnOK}>
-                      <Text style={{color:'#0a0',fontWeight:'bold'}}>Valor</Text>
+                      <Icon name="angle-double-down" color="#060" size={25}/>
                     </TouchableOpacity>
                     </View>
                   </View>
