@@ -108,6 +108,10 @@ const globals = StyleSheet.create({
 		height:sISize*0.1,
 		paddingHorizontal:10,
 	},
+	itemBtn:{
+		height:widthWi*0.12,
+		width:widthWi*0.12,
+	},
 })
 
 export default globals

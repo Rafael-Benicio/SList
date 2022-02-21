@@ -44,10 +44,6 @@ const styles = StyleSheet.create({
 		alignItems:'center',
 		width:widthWi*0.36,
 	},
-	itemBtn:{
-		height: wW12,
-		width:wW12,
-	},
 	itemInput:{
 		height: wW12,
 		backgroundColor:'#fff',
