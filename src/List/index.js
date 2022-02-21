@@ -180,7 +180,7 @@ const List=function({navigation, route}){
               {/* Botão de '-' */}
               { !erase &&
               <TouchableOpacity 
-                style={[styles.itemBtn,globals.alCenter,{backgroundColor:'#0f0'}]}
+                style={[globals.itemBtn,globals.alCenter,{backgroundColor:'#0f0'}]}
                 disabled={erase}
                 onPress={()=>setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].record=i.record-1}})}
                 ><Text style={{fontSize:35}}>-</Text>
@@ -200,7 +200,7 @@ const List=function({navigation, route}){
               {/* Botão de '+' */}
               {!erase && 
                 <TouchableOpacity 
-                  style={[styles.itemBtn,globals.alCenter,{backgroundColor:'#0f0'}]} 
+                  style={[globals.itemBtn,globals.alCenter,{backgroundColor:'#0f0'}]} 
                   disabled={erase}
                   onPress={()=>setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].record=i.record+1}})}
                   ><Text style={{fontSize:25}}>+</Text>
@@ -371,9 +371,9 @@ const List=function({navigation, route}){
         {/*Botão para mostrar botões de apagar*/}
         <TouchableOpacity 
           onPress={()=>(erase)?setErase(false):setConfLs(true)}
-          style={[globals.alCenter,styles.itemBtn]}
+          style={[globals.alCenter,globals.itemBtn]}
           >
-        <Icon name="gear" color={(erase)?"#900":'#fff'} size={30}/>
+        <Icon name="bars" color={(erase)?"#900":'#fff'} size={30}/>
         </TouchableOpacity>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>

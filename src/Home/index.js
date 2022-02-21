@@ -368,6 +368,10 @@ const Home=function({navigation, route}){
       {/*Cabeçalho*/}
       <View style={globals.header}>
         <Text style={globals.headerText}>SList</Text>
+        <TouchableOpacity 
+          style={[globals.alCenter,globals.itemBtn]}>
+          <Icon name="bars" color="#fff" size={30}/>
+        </TouchableOpacity>
       </View>
       {/*Lista*/}
       <ScrollView showsVerticalScrollIndicator={false}>
