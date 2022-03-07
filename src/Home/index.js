@@ -307,6 +307,13 @@ const Home=function({navigation, route}){
   }
   // Escolher imagem
   const pickImage=async(can=true)=>{
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("Você negou o acesso a galeria");
+      return;
+    }
+    
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
