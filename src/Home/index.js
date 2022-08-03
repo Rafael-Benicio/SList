@@ -273,7 +273,7 @@ const Home=function({navigation, route}){
 
                   <TouchableOpacity 
                     style={[globals.saveBtnOK,{backgroundColor:'#a0f',borderWidth:0},globals.alCenter]} 
-                    onPress={()=>console.log("função de exporta")}>
+                    onPress={()=>generateDataBase()}>
                     <Text style={{color:'#fff',fontWeight:'bold'}}>Exportar</Text>
                   </TouchableOpacity>
 
@@ -290,7 +290,7 @@ const Home=function({navigation, route}){
 
                   <TouchableOpacity 
                     style={[globals.saveBtnOK,{backgroundColor:'#a0f',borderWidth:0},globals.alCenter]} 
-                    onPress={()=>console.log("função de exporta")}>
+                    onPress={()=>createJsonArchive()}>
                     <Text style={{color:'#fff',fontWeight:'bold'}}>Importar</Text>
                   </TouchableOpacity>
 
@@ -388,17 +388,34 @@ const Home=function({navigation, route}){
       if(can) setNewImage(result.uri)
     }
   };
-  // Cria um arquivo txt
-  const createTxtArchive=async(Content)=>{
+
+  // Gera Arquivo de Banco de dados
+  const generateDataBase=async()=>{
+    let db=data
+    db.data.AppCompatibility="1"
+    // console.log(data)
+    for(let i=0;i<db.data.length;i++){
+      let x=JSON.parse(await AsyncStorage.getItem('@'+db.data[i].id))
+      db.data[i].GData=x
+      db.data[i].image="./../../assets/icon.png"
+
+    }
+    console.log(db)
+    createJsonArchive(JSON.stringify(db))
+  }
+
+  // Cria um arquivo json
+  const createJsonArchive=async(Content)=>{
     const permissions = await StorageAccessFramework.requestDirectoryPermissionsAsync();
     if (!permissions.granted) {
         return;
     }
  
     try {
-        await StorageAccessFramework.createFileAsync(permissions.directoryUri, "Data_SList", 'text/plain')
+        await StorageAccessFramework.createFileAsync(permissions.directoryUri, "Data_SList", 'aplication/json')
             .then(async(uri) => {
-                await FileSystem.writeAsStringAsync(uri, Constent, { encoding: FileSystem.EncodingType.UTF8 });
+                await FileSystem.writeAsStringAsync(uri, Content, { encoding: FileSystem.EncodingType.UTF8 });
+                alert("Dados Salvos Com Sucesso")
             })
             .catch((e) => {
                 console.log(e);
