@@ -32,7 +32,6 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#aa00ff",
-        "permissions":[]
       },
       "package": "com.rafelbenicio.SList"
     },
