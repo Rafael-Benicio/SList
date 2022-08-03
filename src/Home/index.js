@@ -9,6 +9,12 @@ import TextAviso from "./../components/TextAviso"
 
 import * as ImagePicker from 'expo-image-picker';
 
+import * as FileSystem from 'expo-file-system';
+import * as Permissions from 'expo-permissions'
+import * as MediaLibrary from 'expo-media-library'
+import { StorageAccessFramework } from 'expo-file-system';
+
+
 const Home=function({navigation, route}){
   const [data,setData]=useState({data:[]})
   const [imageSet,setImageSet]=useState(['cover', 'contain', 'stretch', 'repeat', 'center'])
@@ -17,6 +23,8 @@ const Home=function({navigation, route}){
   const [showSMode,setShowSMode]=useState(false)
   // Mostra Janela de criar
   const [showCrMo,setShowCrMo]=useState(false)
+  // Mostra Janela de criar
+  const [showConfW,setShowConfW]=useState(false)
   // Dis se pode ou não salvar os dados
   const [canSave,setCanSave]=useState(true)
   // Pergunta se realmente quer apagar o item
@@ -247,6 +255,60 @@ const Home=function({navigation, route}){
             </View>
           </View>
     )
+  }  
+  // Exibi uma janela para Configuara
+  const configWindow=()=>{
+    return(
+     <View style={globals.showSetItem}>
+              <ScrollView showsVerticalScrollIndicator={false}>
+                {/*Exportação dos dados do app*/}
+                <View>
+                  <View style={globals.setImgHead}>
+                    <Text style={globals.setImgHeadTxt}>EXPORTAR</Text>
+                  </View>
+
+                  <View style={globals.setImgDesc}>
+                    <Text><Text style={{color:'#f00'}}>*</Text> Click no botão abaixo para <Text style={{color:'#f00'}}>EXPORTAR</Text> os dados do seu app</Text>
+                  </View>
+
+                  <TouchableOpacity 
+                    style={[globals.saveBtnOK,{backgroundColor:'#a0f',borderWidth:0},globals.alCenter]} 
+                    onPress={()=>console.log("função de exporta")}>
+                    <Text style={{color:'#fff',fontWeight:'bold'}}>Exportar</Text>
+                  </TouchableOpacity>
+
+                </View>
+                {/*Importar dos dados pro app*/}
+                <View>
+                  <View style={globals.setImgHead}>
+                    <Text style={globals.setImgHeadTxt}>IMPORTAR</Text>
+                  </View>
+
+                  <View style={globals.setImgDesc}>
+                    <Text><Text style={{color:'#f00'}}>*</Text> Click no botão abaixo para <Text style={{color:'#f00'}}>IMPORTAR</Text> dados para seu app</Text>
+                  </View>
+
+                  <TouchableOpacity 
+                    style={[globals.saveBtnOK,{backgroundColor:'#a0f',borderWidth:0},globals.alCenter]} 
+                    onPress={()=>console.log("função de exporta")}>
+                    <Text style={{color:'#fff',fontWeight:'bold'}}>Importar</Text>
+                  </TouchableOpacity>
+
+                </View>
+                
+
+            
+            </ScrollView>
+            {/*But~ao para fechar tela*/}
+            <View style={globals.closeView}>
+              <TouchableOpacity 
+                style={[globals.closeBtn,globals.alCenter]} 
+                onPress={()=>{setShowConfW(false)}}>
+                <Icon name="close" color="#600" size={20}/>
+              </TouchableOpacity>
+            </View>
+          </View>
+    )
   }
   // Checa se pode salvar
   const dataCanSave=(name,uri)=>{
@@ -326,6 +388,25 @@ const Home=function({navigation, route}){
       if(can) setNewImage(result.uri)
     }
   };
+  // Cria um arquivo txt
+  const createTxtArchive=async(Content)=>{
+    const permissions = await StorageAccessFramework.requestDirectoryPermissionsAsync();
+    if (!permissions.granted) {
+        return;
+    }
+ 
+    try {
+        await StorageAccessFramework.createFileAsync(permissions.directoryUri, "Data_SList", 'text/plain')
+            .then(async(uri) => {
+                await FileSystem.writeAsStringAsync(uri, Constent, { encoding: FileSystem.EncodingType.UTF8 });
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    } catch (e) {
+        throw new Error(e);
+    }
+  }
   // Carrega os dados
   const loadData=async()=>{
     try{      
@@ -376,7 +457,8 @@ const Home=function({navigation, route}){
       <View style={globals.header}>
         <Text style={globals.headerText}>SList</Text>
         <TouchableOpacity 
-          style={[globals.alCenter,globals.itemBtn]}>
+          style={[globals.alCenter,globals.itemBtn]}
+          onPress={()=>setShowConfW(true)}>
           <Icon name="bars" color="#fff" size={30}/>
         </TouchableOpacity>
       </View>
@@ -401,6 +483,9 @@ const Home=function({navigation, route}){
       }
       {
         showCrMo && createItemList()
+      }
+      {
+        showConfW && configWindow()
       }
     </View>
   );
