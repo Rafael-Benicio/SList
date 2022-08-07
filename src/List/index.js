@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {AppState ,View, Text, TouchableOpacity, TextInput,StatusBar, ScrollView } from 'react-native';
+import {AppState ,View, Text, TouchableOpacity, TextInput,StatusBar, ScrollView,Modal } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
@@ -58,10 +58,18 @@ const List=function({navigation, route}){
   // Checa se os dados passado são minimos pra criar um novo item
   const createNewData=(name,desc)=>{
     if(name!=''){
-      // {id:'wkjwk',name:'',record:0,desc:''},
+      // {id:'',name:'',record:0,desc:'',lastUpdate:[],created:[]},
+      let today=new Date()
       let key=(Math.floor(Math.random()*8999)+1000).toString(16)
-      data.data.push({id:key,name,record:0,desc,showDesc:false})
-      console.log(data.data)
+      data.data.push({
+        id:key,
+        name,
+        record:0,
+        desc,
+        showDesc:false,
+        lastUpdate:[today.getDate(),today.getMonth(),today.getFullYear()],
+        created:[today.getDate(),today.getMonth(),today.getFullYear()]
+      })
       saveData(data)
       return true
     }else{
@@ -76,7 +84,7 @@ const List=function({navigation, route}){
       if(i!=getIndex(id)) dt.push(data.data[i])
     }
     data.data=dt
-    console.log(data)
+    // console.log(data)
     saveData(data)
     setLdData(true)
   }
@@ -114,7 +122,18 @@ const List=function({navigation, route}){
   }
 
   // Trata o valor passado por onChangeText
-  const filterValue=(x,id)=>{setData({...data,...data.data[getIndex(id)].record=parseInt(x)})}
+  const filterValue=(x,id)=>{
+    let dt=parseInt(x)
+    setData({...data,...data.data[getIndex(id)].record=((isNaN(dt))?0:dt)})
+    registChanges()
+  }
+
+  const registChanges=(id)=>{
+    let today=new Date()
+    data.data[getIndex(id)].lastUpdate=[today.getDate(),today.getMonth(),today.getFullYear()]
+    setData(data)
+
+  }
 
   // Carrega os dados
   const loadData=async()=>{
@@ -182,7 +201,7 @@ const List=function({navigation, route}){
               <TouchableOpacity 
                 style={[globals.itemBtn,globals.alCenter,{backgroundColor:'#0f0'}]}
                 disabled={erase}
-                onPress={()=>setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].record=i.record-1}})}
+                onPress={()=>{registChanges(i.id);setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].record=i.record-1}})}}
                 ><Text style={{fontSize:35}}>-</Text>
               </TouchableOpacity>
               }
@@ -202,7 +221,7 @@ const List=function({navigation, route}){
                 <TouchableOpacity 
                   style={[globals.itemBtn,globals.alCenter,{backgroundColor:'#0f0'}]} 
                   disabled={erase}
-                  onPress={()=>setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].record=i.record+1}})}
+                  onPress={()=>{registChanges(i.id);setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].record=i.record+1}})}}
                   ><Text style={{fontSize:25}}>+</Text>
                 </TouchableOpacity>
               }
@@ -221,6 +240,7 @@ const List=function({navigation, route}){
   // Exibi uma janela para criar e configurar uma lista
   const createItemList=()=>{
     return(
+    <Modal animationType={"fade"} visible={showCrMo} transparent={true}>
      <View style={globals.showSetItem}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 {/*Configurador do nome da Lista*/}
@@ -282,12 +302,14 @@ const List=function({navigation, route}){
               </TouchableOpacity>
             </View>
           </View>
+      </Modal>
     )
   }
 
   // Administração dos item da lista
   const configList=()=>{
     return(
+    <Modal animationType={"fade"} visible={confLs} transparent={true}>
      <View style={globals.showSetItem}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 {/*Configurador a ordem da lista*/}
@@ -349,6 +371,7 @@ const List=function({navigation, route}){
               </TouchableOpacity>
             </View>
           </View>
+        </Modal>
     )
   }
 
@@ -356,6 +379,7 @@ const List=function({navigation, route}){
     loadData()
     setLdData(false)
   }
+
   return (
     <View style={globals.background}>
       <StatusBar backgroundColor="#000"/>
@@ -387,17 +411,18 @@ const List=function({navigation, route}){
           onPress={()=>{
             setShowCrMo(true);
             setCanSave(true);
-            setErase(false)
+            setErase(false);
+            // console.log(data);
           }}>
           <Text>+</Text>
         </TouchableOpacity>
       </View>
       </ScrollView>
       {
-        showCrMo && createItemList()
+        createItemList()
       }
       {
-        confLs && configList()
+        configList()
       }
     </View>
   );
