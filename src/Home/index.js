@@ -11,6 +11,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library'
 import { StorageAccessFramework } from 'expo-file-system';
+import * as DocumentPicker from 'expo-document-picker';
 
 
 const Home=function({navigation, route}){
@@ -288,7 +289,7 @@ const Home=function({navigation, route}){
 
                   <TouchableOpacity 
                     style={[globals.saveBtnOK,{backgroundColor:'#a0f',borderWidth:0},globals.alCenter]} 
-                    onPress={()=>createJsonArchive()}>
+                    onPress={()=>readDataBase()}>
                     <Text style={{color:'#fff',fontWeight:'bold'}}>Importar</Text>
                   </TouchableOpacity>
 
@@ -390,7 +391,6 @@ const Home=function({navigation, route}){
   // Gera Arquivo de Banco de dados
   const generateDataBase=async()=>{
     let db=data
-    db.data.AppCompatibility="1"
     // console.log(data)
     for(let i=0;i<db.data.length;i++){
       let x=JSON.parse(await AsyncStorage.getItem('@'+db.data[i].id))
@@ -401,7 +401,34 @@ const Home=function({navigation, route}){
     console.log(db)
     createJsonArchive(JSON.stringify(db))
   }
+  // Ler conteudo do banco de dados importado e retorna um json
+  const readDataBase=async()=>{
+    const { type, uri, name, size } = await DocumentPicker.getDocumentAsync();
 
+    let newData;
+
+    try {
+      newData = JSON.parse(await FileSystem.readAsStringAsync(uri));
+    } catch (e) {
+      console.log("Error reading as string", e);
+      return null;
+    }
+    let db=data
+    db.data=db.data.concat(newData.data)
+    saveData(db)
+    console.log(newData.data)
+    for(let i=0;i<newData.data.length;i++){
+      try{
+        await AsyncStorage.setItem(
+          '@'+newData.data[i].id,
+          JSON.stringify(newData.data[i].GData)
+          )
+      }catch(e){
+        alert("erro ao carregar o conteudo do grupo")
+        console.log(e)
+      }
+    }
+  }
   // Cria um arquivo json
   const createJsonArchive=async(Content)=>{
     const permissions = await StorageAccessFramework.requestDirectoryPermissionsAsync();
@@ -422,6 +449,15 @@ const Home=function({navigation, route}){
         throw new Error(e);
     }
   }
+  // const setNewDataBase=async()=>{
+  //   let db=data
+  //   readDataBase().then((newData)=>{
+  //     console.log(newData)
+      
+      
+
+  //   })
+  // }
   // Carrega os dados
   const loadData=async()=>{
     try{      

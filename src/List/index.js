@@ -356,7 +356,6 @@ const List=function({navigation, route}){
     loadData()
     setLdData(false)
   }
-
   return (
     <View style={globals.background}>
       <StatusBar backgroundColor="#000"/>
