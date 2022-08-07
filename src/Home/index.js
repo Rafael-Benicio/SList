@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Text, View,TouchableOpacity,Image,StatusBar, ScrollView, TextInput } from 'react-native';
+import { Text, View,TouchableOpacity,Image,StatusBar, ScrollView, TextInput, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -41,124 +41,126 @@ const Home=function({navigation, route}){
     // Is pra testar se o conteudo vai ou não ser exibido
     return(
           // Configurador do item da lista
-          <View style={globals.showSetItem}>
-              <ScrollView showsVerticalScrollIndicator={false}>
+          <Modal animationType={"fade"} visible={showSMode} transparent={true}>
+            <View style={globals.showSetItem}>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                  {/*Configurador do nome da Lista*/}
+                  <View>
+                    <View style={globals.setImgHead}>
+                      <Text style={globals.setImgHeadTxt}>NOME</Text>
+                    </View>
+                    <View style={globals.setImgDesc}>
+                      <Text>Configura o nome de {tmpList.name}</Text>
+                    </View>
+                    <View style={styles.setNameView}>
+                    <TextInput 
+                      style={globals.setNameInput} 
+                      value={tmp} 
+                      onChangeText={tmp => setTmp(tmp)} 
+                      maxLength={25} 
+                      multiline={false}/> 
+                    <TouchableOpacity style={[styles.setNameBtn,globals.alCenter]} onPress={()=>setName(tmp)}>
+                      <Icon name="check" color="#fff" size={20}/>
+                    </TouchableOpacity>
+                    </View>
+                  </View>
+                  {/*Configurador da imagen da lista*/}
+                  <View>
+                    <View style={globals.setImgHead}>
+                      <Text style={globals.setImgHeadTxt}>CAPA</Text>
+                      <TouchableOpacity style={[styles.setImgButton,globals.alCenter]} onPress={()=>setCapa(0)}> 
+                        <Text style={styles.setImgBtnTxt}>
+                          Padrão
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={globals.setImgDesc}>
+                      <Text>Configuração da imagem de capa de {tmpList.name}</Text>
+                    </View>
+                    <View style={styles.setImgViewButtons}>
+                    <View style={styles.setImgButtons}>
+                      <TouchableOpacity style={[styles.setImgButton,globals.alCenter]} onPress={()=>setCapa(1)}>
+                        <Text style={styles.setImgBtnTxt}>
+                          Conter
+                        </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={[styles.setImgButton,globals.alCenter]} onPress={()=>setCapa(2)}>
+                        <Text style={styles.setImgBtnTxt}>
+                          Esticar
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={styles.setImgButtons}>
+                      <TouchableOpacity style={[styles.setImgButton,globals.alCenter]} onPress={()=>setCapa(3)}>
+                        <Text style={styles.setImgBtnTxt}>
+                          Repetir
+                        </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={[styles.setImgButton,globals.alCenter]} onPress={()=>setCapa(4)}>
+                        <Text style={styles.setImgBtnTxt}>
+                          Centralizar
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
                 {/*Configurador do nome da Lista*/}
-                <View>
-                  <View style={globals.setImgHead}>
-                    <Text style={globals.setImgHeadTxt}>NOME</Text>
-                  </View>
-                  <View style={globals.setImgDesc}>
-                    <Text>Configura o nome de {tmpList.name}</Text>
-                  </View>
-                  <View style={styles.setNameView}>
-                  <TextInput 
-                    style={globals.setNameInput} 
-                    value={tmp} 
-                    onChangeText={tmp => setTmp(tmp)} 
-                    maxLength={25} 
-                    multiline={false}/> 
-                  <TouchableOpacity style={[styles.setNameBtn,globals.alCenter]} onPress={()=>setName(tmp)}>
-                    <Icon name="check" color="#fff" size={20}/>
-                  </TouchableOpacity>
-                  </View>
-                </View>
-                {/*Configurador da imagen da lista*/}
-                <View>
-                  <View style={globals.setImgHead}>
-                    <Text style={globals.setImgHeadTxt}>CAPA</Text>
-                    <TouchableOpacity style={[styles.setImgButton,globals.alCenter]} onPress={()=>setCapa(0)}> 
-                      <Text style={styles.setImgBtnTxt}>
-                        Padrão
-                      </Text>
+                  <View>
+                    <View style={globals.setImgHead}>
+                      <Text style={globals.setImgHeadTxt}>IMAGEM</Text>
+                    </View>
+                    <View style={globals.setImgDesc}>
+                      <Text>Configura a imagem de {tmpList.name}</Text>
+                    </View>
+                    <View style={(image)?styles.test:styles.setNameView}>
+                    {image &&<Image source={{ uri: image }} style={[styles.imageSets,{resizeMode:'contain',}]} />}
+                    <TouchableOpacity 
+                      style={[styles.setNameBtn,{backgroundColor:'#a0f'},globals.alCenter]} 
+                      onPress={()=>pickImage()}>
+                      <Icon name="gear" color="#fff" size={20}/>
                     </TouchableOpacity>
+                    </View>
                   </View>
-                  <View style={globals.setImgDesc}>
-                    <Text>Configuração da imagem de capa de {tmpList.name}</Text>
+                {/*Deletar item*/}
+                  <View>
+                    <View style={globals.setImgHead}>
+                      <Text style={globals.setImgHeadTxt}>DELETAR</Text>
+                    </View>
+                    <View style={globals.setImgDesc}>
+                      <Text><Text style={{color:'#f00',fontWeight:'bold'}}>DELETAR</Text> o item {tmpList.name} </Text>
+                      {ask && <Text style={{color:'#600'}}>Certeza  que quer <Text style={{color:'#f00',fontWeight:'bold'}}>DELETAR</Text> o item <Text style={{textDecorationLine: 'underline'}}>'{tmpList.name}'</Text></Text>}
+                    </View>
+                    <View style={styles.setNameView}>
+                    <TouchableOpacity 
+                      style={[styles.setDeleteBtn,globals.alCenter]} 
+                      onPress={()=>setAsk(true)}>
+                      <Text style={styles.setDeleteBtnText}>DELETAR</Text>
+                    </TouchableOpacity>
+                      { ask &&
+                      <TouchableOpacity 
+                        style={[styles.setBtnConfirmation,globals.alCenter,{backgroundColor:'#f00'}]}
+                        onPress={()=>{setAsk(false)}}>
+                        <Icon name="close" color="#600" size={20}/>
+                      </TouchableOpacity>
+                      }
+                      { ask &&
+                      <TouchableOpacity 
+                        style={[styles.setBtnConfirmation,globals.alCenter,{backgroundColor:'#0f0'}]} 
+                        onPress={()=>{DeleteOperations();setImage(null)}}>
+                        <Icon name="check" color="#060" size={20}/>
+                      </TouchableOpacity>
+                      }
+                    </View>
                   </View>
-                  <View style={styles.setImgViewButtons}>
-                  <View style={styles.setImgButtons}>
-                    <TouchableOpacity style={[styles.setImgButton,globals.alCenter]} onPress={()=>setCapa(1)}>
-                      <Text style={styles.setImgBtnTxt}>
-                        Conter
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.setImgButton,globals.alCenter]} onPress={()=>setCapa(2)}>
-                      <Text style={styles.setImgBtnTxt}>
-                        Esticar
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={styles.setImgButtons}>
-                    <TouchableOpacity style={[styles.setImgButton,globals.alCenter]} onPress={()=>setCapa(3)}>
-                      <Text style={styles.setImgBtnTxt}>
-                        Repetir
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.setImgButton,globals.alCenter]} onPress={()=>setCapa(4)}>
-                      <Text style={styles.setImgBtnTxt}>
-                        Centralizar
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
+              </ScrollView>
+              {/*But~ao para fechar tela*/}
+              <View style={globals.closeView}>
+                <TouchableOpacity style={[globals.closeBtn,globals.alCenter]} onPress={()=>{setTmp('');setShowSMode(false);setImage(null);setImage(null);setAsk(false)}}>
+                  <Icon name="close" color="#600" size={20}/>
+                </TouchableOpacity>
               </View>
-              {/*Configurador do nome da Lista*/}
-                <View>
-                  <View style={globals.setImgHead}>
-                    <Text style={globals.setImgHeadTxt}>IMAGEM</Text>
-                  </View>
-                  <View style={globals.setImgDesc}>
-                    <Text>Configura a imagem de {tmpList.name}</Text>
-                  </View>
-                  <View style={(image)?styles.test:styles.setNameView}>
-                  {image &&<Image source={{ uri: image }} style={[styles.imageSets,{resizeMode:'contain',}]} />}
-                  <TouchableOpacity 
-                    style={[styles.setNameBtn,{backgroundColor:'#a0f'},globals.alCenter]} 
-                    onPress={()=>pickImage()}>
-                    <Icon name="gear" color="#fff" size={20}/>
-                  </TouchableOpacity>
-                  </View>
-                </View>
-              {/*Deletar item*/}
-                <View>
-                  <View style={globals.setImgHead}>
-                    <Text style={globals.setImgHeadTxt}>DELETAR</Text>
-                  </View>
-                  <View style={globals.setImgDesc}>
-                    <Text><Text style={{color:'#f00',fontWeight:'bold'}}>DELETAR</Text> o item {tmpList.name} </Text>
-                    {ask && <Text style={{color:'#600'}}>Certeza  que quer <Text style={{color:'#f00',fontWeight:'bold'}}>DELETAR</Text> o item <Text style={{textDecorationLine: 'underline'}}>'{tmpList.name}'</Text></Text>}
-                  </View>
-                  <View style={styles.setNameView}>
-                  <TouchableOpacity 
-                    style={[styles.setDeleteBtn,globals.alCenter]} 
-                    onPress={()=>setAsk(true)}>
-                    <Text style={styles.setDeleteBtnText}>DELETAR</Text>
-                  </TouchableOpacity>
-                    { ask &&
-                    <TouchableOpacity 
-                      style={[styles.setBtnConfirmation,globals.alCenter,{backgroundColor:'#f00'}]}
-                      onPress={()=>{setAsk(false)}}>
-                      <Icon name="close" color="#600" size={20}/>
-                    </TouchableOpacity>
-                    }
-                    { ask &&
-                    <TouchableOpacity 
-                      style={[styles.setBtnConfirmation,globals.alCenter,{backgroundColor:'#0f0'}]} 
-                      onPress={()=>{DeleteOperations();setImage(null)}}>
-                      <Icon name="check" color="#060" size={20}/>
-                    </TouchableOpacity>
-                    }
-                  </View>
-                </View>
-            </ScrollView>
-            {/*But~ao para fechar tela*/}
-            <View style={globals.closeView}>
-              <TouchableOpacity style={[globals.closeBtn,globals.alCenter]} onPress={()=>{setTmp('');setShowSMode(false);setImage(null);setImage(null);setAsk(false)}}>
-                <Icon name="close" color="#600" size={20}/>
-              </TouchableOpacity>
             </View>
-          </View>
+          </Modal>
       )
   }
   // Lista de itens
@@ -187,77 +189,81 @@ const Home=function({navigation, route}){
   // Exibi uma janela para criar e configurar uma lista
   const createItemList=()=>{
     return(
-     <View style={globals.showSetItem}>
-              <ScrollView showsVerticalScrollIndicator={false}>
-                {/*Configurador do nome da Lista*/}
-                <View>
-                  <View style={globals.setImgHead}>
-                    <Text style={globals.setImgHeadTxt}>NOME</Text>
-                  </View>
-                  <View style={globals.setImgDesc}>
-                    <Text><Text style={{color:'#f00'}}>*</Text> Escreva o nome do item</Text>
-                  </View>
-                  <View style={styles.setNameView}>
-                  <TextInput 
-                    style={globals.setNameInput} 
-                      value={tmp} 
-                      onChangeText={tmp => setTmp(tmp)} 
-                      maxLength={25} 
-                      multiline={false}/>        
-                  </View>
-                </View>
-                {/*Configura o tipo de lista*/}
+      <Modal animationType={"fade"} visible={showCrMo} transparent={true}>
+        <View style={globals.showSetItem}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {/*Configurador do nome da Lista*/}
+            <View>
+              <View style={globals.setImgHead}>
+                <Text style={globals.setImgHeadTxt}>NOME</Text>
+              </View>
+              <View style={globals.setImgDesc}>
+                <Text><Text style={{color:'#f00'}}>*</Text> Escreva o nome do item</Text>
+              </View>
+              <View style={styles.setNameView}>
+              <TextInput 
+                style={globals.setNameInput} 
+                  value={tmp} 
+                  onChangeText={tmp => setTmp(tmp)} 
+                  maxLength={25} 
+                  multiline={false}/>        
+              </View>
+            </View>
+            {/*Configura o tipo de lista*/}
 
-                {/*Configurador do nome da Lista*/}
-                <View>
-                  <View style={globals.setImgHead}>
-                    <Text style={globals.setImgHeadTxt}>IMAGEM</Text>
-                  </View>
-                  <View style={globals.setImgDesc}>
-                    <Text>Selecione uma capa da sua lista</Text>
-                  </View>
-                  <View style={(image)?styles.test:styles.setNameView}>
-                  {image &&<Image source={{ uri: image }} style={[styles.imageSets,{resizeMode:'contain',}]} />}
+            {/*Configurador do nome da Lista*/}
+            <View>
+              <View style={globals.setImgHead}>
+                <Text style={globals.setImgHeadTxt}>IMAGEM</Text>
+              </View>
+              <View style={globals.setImgDesc}>
+                <Text>Selecione uma capa da sua lista</Text>
+              </View>
+              <View style={(image)?styles.test:styles.setNameView}>
+              {image &&<Image source={{ uri: image }} style={[styles.imageSets,{resizeMode:'contain',}]} />}
+              <TouchableOpacity 
+                style={[styles.setNameBtn,{backgroundColor:'#a0f'},globals.alCenter]} 
+                onPress={()=>pickImage(false)}>
+                <Icon name="gear" color="#fff" size={20}/>
+              </TouchableOpacity>
+              </View>
+              <View>
+                <View style={globals.saveSetView}>
                   <TouchableOpacity 
-                    style={[styles.setNameBtn,{backgroundColor:'#a0f'},globals.alCenter]} 
-                    onPress={()=>pickImage(false)}>
-                    <Icon name="gear" color="#fff" size={20}/>
+                    style={(canSave)?globals.saveBtnOK:globals.saveBtnNot} 
+                    onPress={()=>{
+                      if(dataCanSave(tmp.trim(),image)){                  
+                        setTmp('');                    
+                        setImage(null);
+                        setShowCrMo(false);
+                      }
+                    }}>
+                      <Icon name="check" color={(canSave)?'#0a0':'#600'} size={30}/>
                   </TouchableOpacity>
-                  </View>
-                <View>
-                  <View style={globals.saveSetView}>
-                    <TouchableOpacity 
-                      style={(canSave)?globals.saveBtnOK:globals.saveBtnNot} 
-                      onPress={()=>{
-                        if(dataCanSave(tmp.trim(),image)){                  
-                          setTmp('');                    
-                          setImage(null);
-                          setShowCrMo(false);
-                        }
-                      }}>
-                        <Icon name="check" color={(canSave)?'#0a0':'#600'} size={30}/>
-                    </TouchableOpacity>
-                    {
-                      TextAviso(canSave)
-                    }
-                  </View>
+                  {
+                    TextAviso(canSave)
+                  }
                 </View>
               </View>
+            </View>
+
             </ScrollView>
             {/*But~ao para fechar tela*/}
-            <View style={globals.closeView}>
-              <TouchableOpacity 
-                style={[globals.closeBtn,globals.alCenter]} 
-                onPress={()=>{setShowCrMo(false);setTmp('');setImage(null)}}>
-                <Icon name="close" color="#600" size={20}/>
-              </TouchableOpacity>
-            </View>
+              <View style={globals.closeView}>
+                <TouchableOpacity 
+                  style={[globals.closeBtn,globals.alCenter]} 
+                  onPress={()=>{setShowCrMo(false);setTmp('');setImage(null)}}>
+                  <Icon name="close" color="#600" size={20}/>
+                </TouchableOpacity>
+              </View>
           </View>
+        </Modal>
     )
   }  
   // Exibi uma janela para Configuara
   const configWindow=()=>{
     return(
+    <Modal animationType={"fade"} visible={showConfW} transparent={true}>
      <View style={globals.showSetItem}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 {/*Exportação dos dados do app*/}
@@ -307,6 +313,7 @@ const Home=function({navigation, route}){
               </TouchableOpacity>
             </View>
           </View>
+    </Modal>
     )
   }
   // Checa se pode salvar
@@ -449,15 +456,6 @@ const Home=function({navigation, route}){
         throw new Error(e);
     }
   }
-  // const setNewDataBase=async()=>{
-  //   let db=data
-  //   readDataBase().then((newData)=>{
-  //     console.log(newData)
-      
-      
-
-  //   })
-  // }
   // Carrega os dados
   const loadData=async()=>{
     try{      
@@ -530,13 +528,13 @@ const Home=function({navigation, route}){
       </View>
       </ScrollView>
       {
-        showSMode && selectResizeMode()
+        selectResizeMode()
       }
       {
-        showCrMo && createItemList()
+        createItemList()
       }
       {
-        showConfW && configWindow()
+        configWindow()
       }
     </View>
   );
