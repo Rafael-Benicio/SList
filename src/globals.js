@@ -3,7 +3,7 @@ import {StyleSheet, Dimensions} from 'react-native'
 
 const widthWi = Dimensions.get('window').width;
 const heightHe = Dimensions.get('window').height;
-const sISize= widthWi*0.8
+const sISize= widthWi*0.9
 
 const globals = StyleSheet.create({
 	alCenter:{
@@ -46,9 +46,10 @@ const globals = StyleSheet.create({
 		backgroundColor:'#fff',
 		opacity:0.97,
 		borderRadius:8,
-		borderWidth:2,
-		borderColor:'#000',
+		// borderWidth:0.1,
+		// borderColor:'#000',
 		padding:sISize*0.05,
+		elevation:5
 	},
 	closeView:{
 		position:'absolute',
