@@ -128,11 +128,11 @@ const List=function({navigation, route}){
     registChanges()
   }
 
+  // Atualiza o dado de lastUpdate 
   const registChanges=(id)=>{
     let today=new Date()
     data.data[getIndex(id)].lastUpdate=[today.getDate(),today.getMonth(),today.getFullYear()]
     setData(data)
-
   }
 
   // Carrega os dados
@@ -164,6 +164,32 @@ const List=function({navigation, route}){
         console.log("Dados Resetados")
   } 
 
+  const calculaTempo=(time)=>{
+    let today =new Date()
+    let tdia=today.getDate()
+    let tmes=today.getMonth()
+    let tano=today.getFullYear()
+
+    let dia=time[0]
+    let mes=time[1]
+    let ano=time[2]
+
+    let tempo=((dia-tdia)+((mes-tmes)*30)+((ano-tano)*365))*-1
+
+    let text=""
+    
+    if(tempo>730)text="Há "+Math.floor((tempo/365))+" anos atrás"
+    else if(tempo>365)text="Há "+Math.floor((tempo/365))+" ano atrás"
+    else if(tempo>60)text="Há "+Math.floor((tempo/30))+" meses atrás"      
+    else if(tempo>30)text="Há "+Math.floor((tempo/30))+" mês atrás"      
+    else if(tempo>14)text="Há "+Math.floor((tempo/7))+" semanas atrás"      
+    else if(tempo>7)text="Há "+Math.floor((tempo/7))+" semana atrás"      
+    else if(tempo>1)text="Há "+Math.floor(tempo)+" dias atrás"      
+    else if(tempo==1) return text="Ontem" 
+    else return text="Hoje"
+
+  }
+
   // Gera lista de elementos
   const listElement=()=>{
     return(
@@ -173,6 +199,8 @@ const List=function({navigation, route}){
         const description=()=>{
             return(
               <View style={styles.itemDescView}>
+                <Text style={styles.itemDescText}>Criado : {calculaTempo(i.created)}</Text>
+                <Text style={styles.itemDescText}>Última Atualização : {calculaTempo(i.lastUpdate)}</Text>
                 <Text style={styles.itemDescText}>{i.desc}</Text>
               </View>
             )
@@ -191,7 +219,7 @@ const List=function({navigation, route}){
               {/* Butão com o nome do item */}
               <TouchableOpacity 
                 style={styles.itemBtnText} 
-                disabled={(i.desc=='')} 
+                // disabled={(i.desc=='')} 
                 onPress={()=>setData(dt=>{return{...dt,...dt.data[getIndex(i.id)].showDesc=(i.showDesc)?false:true}})}
                 ><Text style={styles[nameSize(i.name)]}>{i.name}</Text>
               </TouchableOpacity>
@@ -379,6 +407,8 @@ const List=function({navigation, route}){
     loadData()
     setLdData(false)
   }
+
+  console.log("Renderizou")
 
   return (
     <View style={globals.background}>
