@@ -17,8 +17,6 @@ const List=function({navigation, route}){
   const [showCrMo,setShowCrMo]=useState(false)
   // Janela para adiministração dos items
   const [confLs,setConfLs]=useState(false)
-  // Controla o carregamento da pagina
-  const [ldData,setLdData]=useState(true)
   // Checa se o elemento pode ou não ser salvo
   const [canSave,setCanSave]=useState(true)
   // Exibição dos botões de apagar item
@@ -31,7 +29,7 @@ const List=function({navigation, route}){
   useEffect(()=>{
     AppState.addEventListener('change', state => {
     if (state === 'background') {
-      console.log('back')
+      console.log('background')
       saveData(data)
     } else if (state === 'inactive') {
       console.log('inactive')
@@ -39,6 +37,11 @@ const List=function({navigation, route}){
     }
     });
   })
+  // Carregar dados na entrada
+  useEffect(()=>{
+    loadData()
+    console.log("Carrega")
+  },[])
 
   // Retorna o estilo de i.name
   const nameSize=(i)=>{
@@ -401,11 +404,6 @@ const List=function({navigation, route}){
           </View>
         </Modal>
     )
-  }
-
-  if(ldData){
-    loadData()
-    setLdData(false)
   }
 
   console.log("Renderizou")

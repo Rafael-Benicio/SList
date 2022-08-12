@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import { Text, View,TouchableOpacity,Image,StatusBar, ScrollView, TextInput, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -28,12 +28,16 @@ const Home=function({navigation, route}){
   const [canSave,setCanSave]=useState(true)
   // Pergunta se realmente quer apagar o item
   const [ask,setAsk]=useState(false)
-  // Faz com que os dados sejam carregados só uma vez
-  const [ldData,setLdData]=useState(true)
   // A imagem que ira ser carregada pelo picker
   const [image, setImage] = useState(null);
   // Texto temporario
   const [tmp,setTmp]=useState('')
+
+  // Carregar dados na entrada
+  useEffect(()=>{
+    loadData()
+    console.log("Carrega")
+  },[])
 
   // Cria elementos da tela 
   // Janela de configuração de item da lista
@@ -494,10 +498,7 @@ const Home=function({navigation, route}){
     alert("Dados Resetados")
   } 
 
-  if(ldData){
-    loadData()
-    setLdData(false)
-  }
+  console.log("Renderizou")
 
   return (
     <View style={globals.background}>
