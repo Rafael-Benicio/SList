@@ -199,8 +199,8 @@ const List=function({navigation, route}){
         const description=()=>{
             return(
               <View style={styles.itemDescView}>
-                <Text style={styles.itemDescText}>Criado : {calculaTempo(i.created)}</Text>
-                <Text style={styles.itemDescText}>Última Atualização : {calculaTempo(i.lastUpdate)}</Text>
+                <Text style={styles.itemDescText}>{(i.created!=null)? "Criado : "+calculaTempo(i.created):"Sem Registro"}</Text>
+                <Text style={styles.itemDescText}>{(i.lastUpdate!=null)? "Última Atualização : "+calculaTempo(i.lastUpdate):"Sem Registro"}</Text>
                 <Text style={styles.itemDescText}>{i.desc}</Text>
               </View>
             )
