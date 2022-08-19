@@ -188,8 +188,10 @@ const List=function({navigation, route}){
     else if(tempo>14)text="Há "+Math.floor((tempo/7))+" semanas atrás"      
     else if(tempo>7)text="Há "+Math.floor((tempo/7))+" semana atrás"      
     else if(tempo>1)text="Há "+Math.floor(tempo)+" dias atrás"      
-    else if(tempo==1) return text="Ontem" 
-    else return text="Hoje"
+    else if(tempo==1) text="Ontem" 
+    else text="Hoje"
+
+    return text
 
   }
 
@@ -202,8 +204,8 @@ const List=function({navigation, route}){
         const description=()=>{
             return(
               <View style={styles.itemDescView}>
-                <Text style={styles.itemDescText}>{(i.created!=null)? "Criado : "+calculaTempo(i.created):"Sem Registro"}</Text>
-                <Text style={styles.itemDescText}>{(i.lastUpdate!=null)? "Última Atualização : "+calculaTempo(i.lastUpdate):"Sem Registro"}</Text>
+                <Text style={styles.itemDescText}>Criado : {(i.created!=null)? calculaTempo(i.created):"Sem Registro"}</Text>
+                <Text style={styles.itemDescText}>Última Atualização : {(i.lastUpdate!=null)? calculaTempo(i.lastUpdate):"Sem Registro"}</Text>
                 <Text style={styles.itemDescText}>{i.desc}</Text>
               </View>
             )
