@@ -427,7 +427,7 @@ const Home=function({navigation, route}){
     let db=data
     db.data=db.data.concat(newData.data)
     saveData(db)
-    console.log(newData.data)
+    // console.log(newData.data)
     for(let i=0;i<newData.data.length;i++){
       try{
         await AsyncStorage.setItem(
@@ -439,6 +439,10 @@ const Home=function({navigation, route}){
         console.log(e)
       }
     }
+    data.data.forEach((element,index,arr)=> {
+      element.GData=[]
+    })
+    saveData(data)
   }
   // Cria um arquivo json
   const createJsonArchive=async(Content)=>{
