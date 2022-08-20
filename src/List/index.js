@@ -64,7 +64,6 @@ const List=function({navigation, route}){
   const createNewData=(name,desc)=>{
     if(name!=''){
       // {id:'',name:'',record:0,desc:'',lastUpdate:[],created:[]},
-      let today=new Date()
       let key=(Math.floor(Math.random()*8999)+1000).toString(16)
       data.data.push({
         id:key,
@@ -72,8 +71,8 @@ const List=function({navigation, route}){
         record:0,
         desc,
         showDesc:false,
-        lastUpdate:[today.getDate(),today.getMonth(),today.getFullYear()],
-        created:[today.getDate(),today.getMonth(),today.getFullYear()]
+        lastUpdate:currentData()
+        created:currentData()
       })
       saveData(data)
       return true
@@ -127,11 +126,16 @@ const List=function({navigation, route}){
     setData({...data,...data.data[getIndex(id)].record=((isNaN(dt))?0:dt)})
     registChanges()
   }
+  // Retorna a Data atual
+  const currentData=()=>{
+    let today=new Date()
+    return [today.getDate(),today.getMonth(),today.getFullYear()]
+  }
 
   // Atualiza o dado de lastUpdate 
   const registChanges=(id)=>{
     let today=new Date()
-    data.data[getIndex(id)].lastUpdate=[today.getDate(),today.getMonth(),today.getFullYear()]
+    data.data[getIndex(id)].lastUpdate=currentData()
     setData(data)
   }
 
