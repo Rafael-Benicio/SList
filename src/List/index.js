@@ -7,6 +7,7 @@ import globals from "./../globals"
 import styles from "./styles"
 
 import TextAviso from "./../components/TextAviso"
+import Description from "./../components/Description"
 
 const List=function({navigation, route}){
   // Parametro passados por Home
@@ -167,50 +168,10 @@ const List=function({navigation, route}){
         console.log("Dados Resetados")
   } 
 
-  const calculaTempo=(time)=>{
-    let today =new Date()
-    let tdia=today.getDate()
-    let tmes=today.getMonth()
-    let tano=today.getFullYear()
-
-    let dia=time[0]
-    let mes=time[1]
-    let ano=time[2]
-
-    let tempo=((dia-tdia)+((mes-tmes)*30)+((ano-tano)*365))*-1
-
-    let text=""
-    
-    if(tempo>730)text="Há "+Math.floor((tempo/365))+" anos atrás"
-    else if(tempo>365)text="Há "+Math.floor((tempo/365))+" ano atrás"
-    else if(tempo>60)text="Há "+Math.floor((tempo/30))+" meses atrás"      
-    else if(tempo>30)text="Há "+Math.floor((tempo/30))+" mês atrás"      
-    else if(tempo>14)text="Há "+Math.floor((tempo/7))+" semanas atrás"      
-    else if(tempo>7)text="Há "+Math.floor((tempo/7))+" semana atrás"      
-    else if(tempo>1)text="Há "+Math.floor(tempo)+" dias atrás"      
-    else if(tempo==1) text="Ontem" 
-    else text="Hoje"
-
-    return text
-
-  }
-
   // Gera lista de elementos
   const listElement=()=>{
     return(
       data.data.map(i=>{
-
-        // Elemento description
-        const description=()=>{
-            return(
-              <View style={(i.desc=='')?styles.itemNotDescView:styles.itemDescView}>
-                <Text style={styles.itemDescText}>Criado : {(i.created!=null)? calculaTempo(i.created):"Sem Registro"}</Text>
-                <Text style={styles.itemDescText}>Última Atualização : {(i.lastUpdate!=null)? calculaTempo(i.lastUpdate):"Sem Registro"}</Text>
-                <Text style={styles.itemDescText}>--------------</Text>
-                <Text style={styles.itemDescText}>{i.desc}</Text>
-              </View>
-            )
-        } 
 
         return(
           <View key={i.id} style={styles.itemView}>
@@ -262,7 +223,7 @@ const List=function({navigation, route}){
               </View>
             </View>
             {
-              i.showDesc && description()
+              i.showDesc && Description(i)
             }
           </View>
           )
