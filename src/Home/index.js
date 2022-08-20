@@ -150,7 +150,7 @@ const Home=function({navigation, route}){
                       { ask &&
                       <TouchableOpacity 
                         style={[styles.setBtnConfirmation,globals.alCenter,{backgroundColor:'#0f0'}]} 
-                        onPress={()=>{DeleteOperations();setImage(null)}}>
+                        onPress={()=>{DeleteOperations();setImage(null);setAsk(false)}}>
                         <Icon name="check" color="#060" size={20}/>
                       </TouchableOpacity>
                       }
