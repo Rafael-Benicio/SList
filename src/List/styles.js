@@ -61,6 +61,11 @@ const styles = StyleSheet.create({
 		fontSize:Math.floor(widthWi*0.05),
 	},
 	itemDescView:{
+		height: widthWi*0.25,
+		paddingHorizontal:widthWi*0.05,
+		paddingVertical:heightHe*0.005
+	},
+	itemNotDescView:{
 		height: widthWi*0.11,
 		paddingHorizontal:widthWi*0.05,
 		paddingVertical:heightHe*0.005

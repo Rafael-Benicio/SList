@@ -37,6 +37,7 @@ const List=function({navigation, route}){
     }
     });
   })
+
   // Carregar dados na entrada
   useEffect(()=>{
     loadData()
@@ -89,7 +90,6 @@ const List=function({navigation, route}){
     data.data=dt
     // console.log(data)
     saveData(data)
-    setLdData(true)
   }
 
   //Ordenar os dados pelo record
@@ -101,7 +101,7 @@ const List=function({navigation, route}){
 
     data.data=x
     saveData(data)
-    setLdData(true)
+    loadData()
   }
     //Ordenar os dados pelo nome
   const orderName=(i=true)=>{    
@@ -112,7 +112,7 @@ const List=function({navigation, route}){
 
     data.data=x
     saveData(data)
-    setLdData(true)
+    loadData()
   }
 
   // Descobre o index do elemento com base no id
@@ -203,9 +203,10 @@ const List=function({navigation, route}){
         // Elemento description
         const description=()=>{
             return(
-              <View style={styles.itemDescView}>
+              <View style={(i.desc=='')?styles.itemNotDescView:styles.itemDescView}>
                 <Text style={styles.itemDescText}>Criado : {(i.created!=null)? calculaTempo(i.created):"Sem Registro"}</Text>
                 <Text style={styles.itemDescText}>Última Atualização : {(i.lastUpdate!=null)? calculaTempo(i.lastUpdate):"Sem Registro"}</Text>
+                <Text style={styles.itemDescText}>--------------</Text>
                 <Text style={styles.itemDescText}>{i.desc}</Text>
               </View>
             )
@@ -367,16 +368,16 @@ const List=function({navigation, route}){
                     </View>
                     <Text style={styles.itemText_2}>VALOR:</Text>
                     <View style={[{justifyContent:'space-around'},styles.setHeight]}>
-                    <TouchableOpacity 
-                      onPress={()=>orderRecord(false)}
-                      style={globals.saveBtnOK}>
-                      <Icon name="angle-double-up" color="#060" size={25}/> 
-                    </TouchableOpacity>
-                    <TouchableOpacity 
-                      onPress={()=>orderRecord()}
-                      style={globals.saveBtnOK}>
-                      <Icon name="angle-double-down" color="#060" size={25}/>
-                    </TouchableOpacity>
+                      <TouchableOpacity 
+                        onPress={()=>orderRecord(false)}
+                        style={globals.saveBtnOK}>
+                        <Icon name="angle-double-up" color="#060" size={25}/> 
+                      </TouchableOpacity>
+                      <TouchableOpacity 
+                        onPress={()=>orderRecord()}
+                        style={globals.saveBtnOK}>
+                        <Icon name="angle-double-down" color="#060" size={25}/>
+                      </TouchableOpacity>
                     </View>
                   </View>
                 </View>
