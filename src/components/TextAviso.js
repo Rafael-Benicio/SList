@@ -1,4 +1,3 @@
-import React, {useState} from 'react';
 import { Text } from 'react-native';
 // Mansagem de aviso
 const TextAviso=(cSave=true)=>{
