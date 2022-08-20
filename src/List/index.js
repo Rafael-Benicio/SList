@@ -90,6 +90,7 @@ const List=function({navigation, route}){
     data.data=dt
     // console.log(data)
     saveData(data)
+    loadData()
   }
 
   //Ordenar os dados
@@ -106,7 +107,7 @@ const List=function({navigation, route}){
         else if(a.record>b.record) return (i)?1:-1
       })
     }
-    data.data=x
+    data.data=newData
     saveData(data)
     loadData()
   }
