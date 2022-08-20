@@ -71,8 +71,8 @@ const List=function({navigation, route}){
         record:0,
         desc,
         showDesc:false,
-        lastUpdate:currentData()
-        created:currentData()
+        lastUpdate:currentData(),
+        created:currentData(),
       })
       saveData(data)
       return true
