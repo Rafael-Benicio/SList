@@ -16,7 +16,7 @@ import * as DocumentPicker from 'expo-document-picker';
 
 const Home=function({navigation, route}){
   const [data,setData]=useState({data:[]})
-  const [imageSet,setImageSet]=useState(['cover', 'contain', 'stretch', 'repeat', 'center'])
+  const IMAGESET=['cover', 'contain', 'stretch', 'repeat', 'center']
   const [tmpList,setTmpList]=useState({name:'',dataPos:0})
   // Mostra Janela de configurar
   const [showGroupConfigWindow,setShowGroupConfigWindow]=useState(false)
@@ -25,7 +25,7 @@ const Home=function({navigation, route}){
   // Mostra Janela de criar
   const [showConfigWindow,setShowConfigWindow]=useState(false)
   // Dis se pode ou não salvar os dados
-  const [canSave,setCanSave]=useState(true)
+  const [canSaveGroup,setCanSaveGroup]=useState(true)
   // Pergunta se realmente quer apagar o item
   const [eraseConfirmation,setEraseConfirmation]=useState(false)
   // A imagem que ira ser carregada pelo picker
@@ -41,7 +41,7 @@ const Home=function({navigation, route}){
 
   // Cria elementos da tela 
   // Janela de configuração de item da lista
-  const groupConfigWindow=()=>{
+  const windowToGroupConfig=()=>{
     // Is pra testar se o conteudo vai ou não ser exibido
     return(
           // Configurador do item da lista
@@ -168,12 +168,12 @@ const Home=function({navigation, route}){
       )
   }
   
-  const renderItemList=()=>{
+  const renderGroupList=()=>{
     return(
     data.data.map((group,index)=>(
       <View key={index} style={styles.itemList}>
           <TouchableOpacity activeOpacity={0.8} onPress={()=>navigation.navigate('List',{id:group.id,name:group.name})}>
-              <Image style={[styles.itemImg,{resizeMode:imageSet[group.imageSet]}]} source={{uri:group.image}}/>
+              <Image style={[styles.itemImg,{resizeMode:IMAGESET[group.imageSet]}]} source={{uri:group.image}}/>
           </TouchableOpacity>
         {/*Engrenagem de configuração  */}
         <TouchableOpacity style={[styles.itemGear,globals.alCenter]} onPress={
@@ -191,7 +191,7 @@ const Home=function({navigation, route}){
     )
   }
   // Exibi uma janela para criar e configurar uma lista
-  const createGroupList=()=>{
+  const windowToCreateGroupList=()=>{
     return(
       <Modal animationType={"fade"} visible={showCreatWindow} transparent={true}>
         <View style={globals.showSetItem}>
@@ -234,18 +234,18 @@ const Home=function({navigation, route}){
               <View>
                 <View style={globals.saveSetView}>
                   <TouchableOpacity 
-                    style={(canSave)?globals.saveBtnOK:globals.saveBtnNot} 
+                    style={(canSaveGroup)?globals.saveBtnOK:globals.saveBtnNot} 
                     onPress={()=>{
-                      if(dataCanSave(tmp.trim(),image)){                  
+                      if(dataCanSaveGroup(tmp.trim(),image)){                  
                         setTmp('');                    
                         setImage(null);
                         setShowCreatWindow(false);
                       }
                     }}>
-                      <Icon name="check" color={(canSave)?'#0a0':'#600'} size={30}/>
+                      <Icon name="check" color={(canSaveGroup)?'#0a0':'#600'} size={30}/>
                   </TouchableOpacity>
                   {
-                    TextAviso(canSave)
+                    TextAviso(canSaveGroup)
                   }
                 </View>
               </View>
@@ -265,7 +265,7 @@ const Home=function({navigation, route}){
     )
   }  
   // Exibi uma janela para Configuara
-  const configWindow=()=>{
+  const windowToConfig=()=>{
     return(
     <Modal animationType={"fade"} visible={showConfigWindow} transparent={true}>
      <View style={globals.showSetItem}>
@@ -321,9 +321,9 @@ const Home=function({navigation, route}){
     )
   }
   // Checa se pode salvar
-  const dataCanSave=(name,uri)=>{
+  const dataCanSaveGroup=(name,uri)=>{
     if(name==''){
-      setCanSave(false)
+      setCanSaveGroup(false)
     }else{
       setShowCreatWindow(false)
       // [id]=nome
@@ -523,25 +523,25 @@ const Home=function({navigation, route}){
       <View style={globals.listItem}>
         {/*Itens com listas*/}
         {
-          renderItemList()
+          renderGroupList()
         }
         {/*Buttão de adicinar à lista*/}
         <TouchableOpacity 
           activeOpacity={0.55} 
           style={[globals.addButton,globals.alCenter]}
-          onPress={()=>{setShowCreatWindow(true);setCanSave(true)}}>
+          onPress={()=>{setShowCreatWindow(true);setCanSaveGroup(true)}}>
           <Text>+</Text>
         </TouchableOpacity>
       </View>
       </ScrollView>
       {
-        groupConfigWindow()
+        windowToGroupConfig()
       }
       {
-        createGroupList()
+        windowToCreateGroupList()
       }
       {
-        configWindow()
+        windowToConfig()
       }
     </View>
   );
