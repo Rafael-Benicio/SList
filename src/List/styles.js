@@ -60,16 +60,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     fontSize: Math.floor(widthWi * 0.05),
   },
-  itemDescView: {
-    height: widthWi * 0.25,
-    paddingHorizontal: widthWi * 0.05,
-    paddingVertical: heightHe * 0.005,
-  },
-  itemNotDescView: {
-    height: widthWi * 0.11,
-    paddingHorizontal: widthWi * 0.05,
-    paddingVertical: heightHe * 0.005,
-  },
   itemDescText: {
     color: "#000",
   },
@@ -79,6 +69,9 @@ const styles = StyleSheet.create({
   backBtnView: {
     width: widthWi * 0.5,
   },
+  innertPadding:{
+    padding: widthWi * 0.01,
+  }
 });
 
 export default styles;

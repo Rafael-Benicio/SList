@@ -30,7 +30,7 @@ const Description = (i) => {
   };
 
   return (
-    <View style={i.desc == "" ? styles.itemNotDescView : styles.itemDescView}>
+    <View style={styles.innertPadding}>
       <Text style={styles.itemDescText}>
         Criado : {i.created != null ? calculaTempo(i.created) : "Sem Registro"}
       </Text>
@@ -39,8 +39,9 @@ const Description = (i) => {
         {i.lastUpdate != null ? calculaTempo(i.lastUpdate) : "Sem Registro"}
       </Text>
       <Text style={styles.itemDescText}>{i.desc != "" ? "--------------" : ""}</Text>
+      <Text style={styles.itemDescText}>{i.name}</Text>
       <Text style={styles.itemDescText}>{i.desc}</Text>
-    </View>
+    </View> 
   );
 };
 
