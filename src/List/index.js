@@ -209,7 +209,7 @@ const List = function ({ navigation, route }) {
                 })
               }
             >
-              <Text style={styles[getNameStyle(i.name)]}>{i.name}</Text>
+              <Text style={styles[getNameStyle(i.name)]}>{i.name.substring(0,34)}</Text>
             </TouchableOpacity>
             <View style={styles.itemBtns}>
               {/* Botão de '-' */}
@@ -291,7 +291,6 @@ const List = function ({ navigation, route }) {
                   style={globals.setNameInput}
                   value={tmp}
                   onChangeText={(tmp) => setTmp(tmp)}
-                  maxLength={25}
                   multiline={false}
                 />
               </View>

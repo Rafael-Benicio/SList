@@ -29,8 +29,18 @@ const Description = (i) => {
     return text;
   };
 
+  const description=()=>{
+    return(
+      <View>
+        <Text style={styles.itemDescText}>--------------</Text>
+        <Text style={styles.itemDescText}>{i.desc}</Text>
+      </View>
+    )
+  }
+
   return (
     <View style={styles.innertPadding}>
+      <Text style={styles.itemDescText}>Nome : {i.name}</Text>
       <Text style={styles.itemDescText}>
         Criado : {i.created != null ? calculaTempo(i.created) : "Sem Registro"}
       </Text>
@@ -38,9 +48,7 @@ const Description = (i) => {
         Última Atualização :{" "}
         {i.lastUpdate != null ? calculaTempo(i.lastUpdate) : "Sem Registro"}
       </Text>
-      <Text style={styles.itemDescText}>{i.desc != "" ? "--------------" : ""}</Text>
-      <Text style={styles.itemDescText}>{i.name}</Text>
-      <Text style={styles.itemDescText}>{i.desc}</Text>
+    {i.desc != "" && description()}
     </View> 
   );
 };
