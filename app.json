@@ -16,14 +16,13 @@
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
-    ]],
+      ]
+    ],
 
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.rafelbenicio.SList"
@@ -31,7 +30,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#aa00ff",
+        "backgroundColor": "#aa00ff"
       },
       "package": "com.rafelbenicio.SList"
     },

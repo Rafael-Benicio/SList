@@ -1,10 +1,10 @@
 # App SList
 
-Uma aplicativo android desenvolvido em __react-native__, usando a tecnologia __expo__
+Uma aplicativo android desenvolvido em **react-native**, usando a tecnologia **expo**
 
 # Para Rodar o Projeto
 
-~~~bash
+```bash
 git clone "https://github.com/Rafael-Benicio/SList.git"
 
 cd SList
@@ -12,4 +12,4 @@ cd SList
 npm install
 
 npm start
-~~~
+```
