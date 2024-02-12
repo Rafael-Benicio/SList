@@ -23,16 +23,12 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": ["**/*"],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.rafelbenicio.SList"
-    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#aa00ff"
       },
-      "package": "com.rafelbenicio.SList"
+      "package": "com.androidApp.SList"
     },
     "web": {
       "favicon": "./assets/favicon.png"

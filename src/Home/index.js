@@ -18,7 +18,6 @@ import TextAviso from "./../components/TextAviso";
 
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
-import * as MediaLibrary from "expo-media-library";
 import { StorageAccessFramework } from "expo-file-system";
 import * as DocumentPicker from "expo-document-picker";
 
