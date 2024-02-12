@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Dimensions } from "react-native";
+import theme from "./utils/themePalet";
 
 const widthWi = Dimensions.get("window").width;
 const heightHe = Dimensions.get("window").height;
@@ -11,11 +12,11 @@ const globals = StyleSheet.create({
     alignItems: "center",
   },
   background: {
-    backgroundColor: "#a0f",
+    backgroundColor: theme.base,
     flex: 1,
   },
   header: {
-    backgroundColor: "#b6f",
+    backgroundColor: theme.lightBase,
     height: heightHe * 0.11,
     justifyContent: "space-between",
     alignItems: "center",
@@ -25,10 +26,10 @@ const globals = StyleSheet.create({
   headerText: {
     fontSize: 30,
     fontWeight: "bold",
-    color: "#fff",
+    color: theme.headerText,
   },
   addButton: {
-    backgroundColor: "#0f0",
+    backgroundColor: theme.okay,
     height: widthWi * 0.14,
     width: widthWi * 0.14,
     borderRadius: 8,
@@ -43,11 +44,9 @@ const globals = StyleSheet.create({
     top: heightHe * 0.5 - sISize / 1.3,
     width: sISize,
     height: sISize,
-    backgroundColor: "#fff",
+    backgroundColor: theme.windowBackground,
     opacity: 0.97,
     borderRadius: 8,
-    // borderWidth:0.1,
-    // borderColor:'#000',
     padding: sISize * 0.05,
     elevation: 5,
   },
@@ -59,10 +58,10 @@ const globals = StyleSheet.create({
   closeBtn: {
     width: sISize * 0.14,
     height: sISize * 0.14,
-    backgroundColor: "#ff7774",
+    backgroundColor: theme.lightNegate,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: "#a00",
+    borderColor: theme.darkNegate,
   },
   saveSetView: {
     flexDirection: "row",
@@ -73,19 +72,19 @@ const globals = StyleSheet.create({
   saveBtnOK: {
     width: sISize * 0.25,
     alignItems: "center",
-    backgroundColor: "#ccffc4",
+    backgroundColor: theme.lightOkay,
     borderRadius: 8,
     borderWidth: 2,
-    borderColor: "#0a0",
+    borderColor: theme.darkOkay,
     padding: 8,
   },
   saveBtnNot: {
     alignItems: "center",
     width: sISize * 0.25,
-    backgroundColor: "#ff7774",
+    backgroundColor: theme.lightNegate,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: "#a00",
+    borderColor: theme.darkNegate,
     padding: 8,
   },
   setImgHeadTxt: {
@@ -103,7 +102,7 @@ const globals = StyleSheet.create({
     justifyContent: "center",
   },
   setNameInput: {
-    backgroundColor: "#ddd",
+    backgroundColor: theme.innerInputText,
     borderRadius: 8,
     width: sISize * 0.7,
     height: sISize * 0.1,

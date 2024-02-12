@@ -20,6 +20,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import { StorageAccessFramework } from "expo-file-system";
 import * as DocumentPicker from "expo-document-picker";
+import theme from "../utils/themePalet";
 
 const Home = function ({ navigation, route }) {
   const [data, setData] = useState({ data: [] });
@@ -75,7 +76,7 @@ const Home = function ({ navigation, route }) {
                   style={[styles.setNameBtn, globals.alCenter]}
                   onPress={() => setName(tmp)}
                 >
-                  <Icon name="check" color="#fff" size={20} />
+                  <Icon name="check" color={theme.iconColor} size={20} />
                 </TouchableOpacity>
               </View>
             </View>
@@ -142,12 +143,12 @@ const Home = function ({ navigation, route }) {
                 <TouchableOpacity
                   style={[
                     styles.setNameBtn,
-                    { backgroundColor: "#a0f" },
+                    { backgroundColor: theme.base },
                     globals.alCenter,
                   ]}
                   onPress={() => pickImage()}
                 >
-                  <Icon name="gear" color="#fff" size={20} />
+                  <Icon name="gear" color={theme.iconColor} size={20} />
                 </TouchableOpacity>
               </View>
             </View>
@@ -158,14 +159,16 @@ const Home = function ({ navigation, route }) {
               </View>
               <View style={globals.setImgDesc}>
                 <Text>
-                  <Text style={{ color: "#f00", fontWeight: "bold" }}>DELETAR</Text> o
-                  item {tmpList.name}{" "}
+                  <Text style={{ color: theme.negate, fontWeight: "bold" }}>DELETAR</Text>{" "}
+                  o item {tmpList.name}{" "}
                 </Text>
                 {eraseConfirmation && (
-                  <Text style={{ color: "#600" }}>
+                  <Text style={{ color: theme.darkNegate }}>
                     Certeza que quer{" "}
-                    <Text style={{ color: "#f00", fontWeight: "bold" }}>DELETAR</Text> o
-                    item{" "}
+                    <Text style={{ color: theme.negate, fontWeight: "bold" }}>
+                      DELETAR
+                    </Text>{" "}
+                    o item{" "}
                     <Text style={{ textDecorationLine: "underline" }}>
                       '{tmpList.name}'
                     </Text>
@@ -184,13 +187,13 @@ const Home = function ({ navigation, route }) {
                     style={[
                       styles.setBtnConfirmation,
                       globals.alCenter,
-                      { backgroundColor: "#f00" },
+                      { backgroundColor: theme.negate },
                     ]}
                     onPress={() => {
                       setEraseConfirmation(false);
                     }}
                   >
-                    <Icon name="close" color="#600" size={20} />
+                    <Icon name="close" color={theme.darkNegate} size={20} />
                   </TouchableOpacity>
                 )}
                 {eraseConfirmation && (
@@ -198,7 +201,7 @@ const Home = function ({ navigation, route }) {
                     style={[
                       styles.setBtnConfirmation,
                       globals.alCenter,
-                      { backgroundColor: "#0f0" },
+                      { backgroundColor: theme.okay },
                     ]}
                     onPress={() => {
                       DeleteOperations();
@@ -206,7 +209,7 @@ const Home = function ({ navigation, route }) {
                       setEraseConfirmation(false);
                     }}
                   >
-                    <Icon name="check" color="#060" size={20} />
+                    <Icon name="check" color={theme.darkOkay} size={20} />
                   </TouchableOpacity>
                 )}
               </View>
@@ -223,7 +226,7 @@ const Home = function ({ navigation, route }) {
                 setEraseConfirmation(false);
               }}
             >
-              <Icon name="close" color="#600" size={20} />
+              <Icon name="close" color={theme.darkNegate} size={20} />
             </TouchableOpacity>
           </View>
         </View>
@@ -253,7 +256,7 @@ const Home = function ({ navigation, route }) {
               : setShowGroupConfigWindow(true);
           }}
         >
-          <Icon name="gear" color="#fff" size={20} />
+          <Icon name="gear" color={theme.iconColor} size={20} />
         </TouchableOpacity>
         {/*Texto com nome da lista*/}
         <Text style={styles.itemText}>{group.name}</Text>
@@ -273,7 +276,7 @@ const Home = function ({ navigation, route }) {
               </View>
               <View style={globals.setImgDesc}>
                 <Text>
-                  <Text style={{ color: "#f00" }}>*</Text> Escreva o nome do item
+                  <Text style={{ color: theme.negate }}>*</Text> Escreva o nome do item
                 </Text>
               </View>
               <View style={styles.setNameView}>
@@ -306,12 +309,12 @@ const Home = function ({ navigation, route }) {
                 <TouchableOpacity
                   style={[
                     styles.setNameBtn,
-                    { backgroundColor: "#a0f" },
+                    { backgroundColor: theme.base },
                     globals.alCenter,
                   ]}
                   onPress={() => pickImage(false)}
                 >
-                  <Icon name="gear" color="#fff" size={20} />
+                  <Icon name="gear" color={theme.iconColor} size={20} />
                 </TouchableOpacity>
               </View>
               <View>
@@ -326,7 +329,11 @@ const Home = function ({ navigation, route }) {
                       }
                     }}
                   >
-                    <Icon name="check" color={canSaveGroup ? "#0a0" : "#600"} size={30} />
+                    <Icon
+                      name="check"
+                      color={canSaveGroup ? theme.darkOkay : theme.darkNegate}
+                      size={30}
+                    />
                   </TouchableOpacity>
                   {TextAviso(canSaveGroup)}
                 </View>
@@ -343,7 +350,7 @@ const Home = function ({ navigation, route }) {
                 setImage(null);
               }}
             >
-              <Icon name="close" color="#600" size={20} />
+              <Icon name="close" color={theme.darkNegate} size={20} />
             </TouchableOpacity>
           </View>
         </View>
@@ -364,20 +371,23 @@ const Home = function ({ navigation, route }) {
 
               <View style={globals.setImgDesc}>
                 <Text>
-                  <Text style={{ color: "#f00" }}>*</Text> Click no botão abaixo para{" "}
-                  <Text style={{ color: "#f00" }}>EXPORTAR</Text> os dados do seu app
+                  <Text style={{ color: theme.negate }}>*</Text> Click no botão abaixo
+                  para <Text style={{ color: theme.negate }}>EXPORTAR</Text> os dados do
+                  seu app
                 </Text>
               </View>
 
               <TouchableOpacity
                 style={[
                   globals.saveBtnOK,
-                  { backgroundColor: "#a0f", borderWidth: 0 },
+                  { backgroundColor: theme.base, borderWidth: 0 },
                   globals.alCenter,
                 ]}
                 onPress={() => getDataBaseAndCreateJSON()}
               >
-                <Text style={{ color: "#fff", fontWeight: "bold" }}>Exportar</Text>
+                <Text style={{ color: theme.textBtnGroup, fontWeight: "bold" }}>
+                  Exportar
+                </Text>
               </TouchableOpacity>
             </View>
             {/*Importar dos dados pro app*/}
@@ -388,20 +398,23 @@ const Home = function ({ navigation, route }) {
 
               <View style={globals.setImgDesc}>
                 <Text>
-                  <Text style={{ color: "#f00" }}>*</Text> Click no botão abaixo para{" "}
-                  <Text style={{ color: "#f00" }}>IMPORTAR</Text> dados para seu app
+                  <Text style={{ color: theme.negate }}>*</Text> Click no botão abaixo
+                  para <Text style={{ color: theme.negate }}>IMPORTAR</Text> dados para
+                  seu app
                 </Text>
               </View>
 
               <TouchableOpacity
                 style={[
                   globals.saveBtnOK,
-                  { backgroundColor: "#a0f", borderWidth: 0 },
+                  { backgroundColor: theme.base, borderWidth: 0 },
                   globals.alCenter,
                 ]}
                 onPress={() => getImportDataBase()}
               >
-                <Text style={{ color: "#fff", fontWeight: "bold" }}>Importar</Text>
+                <Text style={{ color: theme.textBtnGroup, fontWeight: "bold" }}>
+                  Importar
+                </Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
@@ -413,7 +426,7 @@ const Home = function ({ navigation, route }) {
                 setShowConfigWindow(false);
               }}
             >
-              <Icon name="close" color="#600" size={20} />
+              <Icon name="close" color={theme.darkNegate} size={20} />
             </TouchableOpacity>
           </View>
         </View>
@@ -628,7 +641,7 @@ const Home = function ({ navigation, route }) {
           style={[globals.alCenter, globals.itemBtn]}
           onPress={() => setShowConfigWindow(true)}
         >
-          <Icon name="bars" color="#fff" size={30} />
+          <Icon name="bars" color={theme.iconColor} size={30} />
         </TouchableOpacity>
       </View>
       {/*Lista*/}

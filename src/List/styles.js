@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Dimensions } from "react-native";
+import theme from "../utils/themePalet";
 
 const widthWi = Dimensions.get("window").width;
 const heightHe = Dimensions.get("window").height;
@@ -8,11 +9,11 @@ const wW12 = widthWi * 0.12;
 
 const styles = StyleSheet.create({
   itemView: {
-    backgroundColor: "#dddd",
+    backgroundColor: theme.itemView,
   },
   itemViewValues: {
     flexDirection: "row",
-    backgroundColor: "#eeeeee",
+    backgroundColor: theme.itemViewValues,
     height: wW12,
   },
   itemBtnText: {
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthWi * 0.05,
   },
   itemTrash: {
-    backgroundColor: "#a0f",
+    backgroundColor: theme.base,
     height: wW12,
     width: wW12,
   },
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
   },
   itemInput: {
     height: wW12,
-    backgroundColor: "#fff",
+    backgroundColor: theme.itemViewValues,
     width: wW12,
     fontSize: Math.floor(widthWi * 0.05),
     textAlign: "center",
@@ -57,11 +58,11 @@ const styles = StyleSheet.create({
     right: wW12,
     width: wW12,
     height: wW12,
-    backgroundColor: "#fff",
+    backgroundColor: theme.itemView,
     fontSize: Math.floor(widthWi * 0.05),
   },
   itemDescText: {
-    color: "#000",
+    color: theme.textDescColor,
   },
   setHeight: {
     height: sISize * 0.3,
@@ -69,9 +70,9 @@ const styles = StyleSheet.create({
   backBtnView: {
     width: widthWi * 0.5,
   },
-  innertPadding:{
+  innertPadding: {
     padding: widthWi * 0.01,
-  }
+  },
 });
 
 export default styles;

@@ -14,6 +14,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 import globals from "./../globals";
 import styles from "./styles";
+import theme from "./../utils/themePalet";
 
 import TextAviso from "./../components/TextAviso";
 import Description from "./../components/Description";
@@ -193,7 +194,7 @@ const List = function ({ navigation, route }) {
                 style={[globals.alCenter, styles.itemTrash]}
                 onPress={() => deleteItemInList(i.id)}
               >
-                <Icon name="trash" color={"#fff"} size={30} />
+                <Icon name="trash" color={theme.iconColor} size={30} />
               </TouchableOpacity>
             )}
             {/* Butão com o nome do item */}
@@ -209,20 +210,25 @@ const List = function ({ navigation, route }) {
                 })
               }
             >
-              <Text style={styles[getNameStyle(i.name)]}>{i.name.substring(0,34)}</Text>
+              <Text style={styles[getNameStyle(i.name)]}>{i.name.substring(0, 34)}</Text>
             </TouchableOpacity>
             <View style={styles.itemBtns}>
               {/* Botão de '-' */}
               {!showTrashButton && (
                 <TouchableOpacity
-                  style={[globals.itemBtn, globals.alCenter, { backgroundColor: "#0f0" }]}
+                  style={[
+                    globals.itemBtn,
+                    globals.alCenter,
+                    { backgroundColor: theme.okay },
+                  ]}
                   disabled={showTrashButton}
                   onPress={() => {
                     registLastUpdadeOfItem(i.id);
                     setData((dt) => {
                       return {
                         ...dt,
-                        ...(dt.data[getIndex(i.id)].record = (i.record==0)?0:i.record-1),
+                        ...(dt.data[getIndex(i.id)].record =
+                          i.record == 0 ? 0 : i.record - 1),
                       };
                     });
                   }}
@@ -241,13 +247,16 @@ const List = function ({ navigation, route }) {
                 maxLength={4}
                 multiline={false}
                 keyboardType={"phone-pad"}
-                selectionColor={"#fff"}
                 editable={!showTrashButton}
               />
               {/* Botão de '+' */}
               {!showTrashButton && (
                 <TouchableOpacity
-                  style={[globals.itemBtn, globals.alCenter, { backgroundColor: "#0f0" }]}
+                  style={[
+                    globals.itemBtn,
+                    globals.alCenter,
+                    { backgroundColor: theme.okay },
+                  ]}
                   disabled={showTrashButton}
                   onPress={() => {
                     registLastUpdadeOfItem(i.id);
@@ -283,7 +292,7 @@ const List = function ({ navigation, route }) {
               </View>
               <View style={globals.setImgDesc}>
                 <Text>
-                  <Text style={{ color: "#f00" }}>*</Text> Escreva o nome da lista
+                  <Text style={{ color: theme.negate }}>*</Text> Escreva o nome da lista
                 </Text>
               </View>
               <View style={styles.setNameView}>
@@ -325,7 +334,11 @@ const List = function ({ navigation, route }) {
                   setCanSaveItem(t ? true : false);
                 }}
               >
-                <Icon name="check" color={canSaveItem ? "#0a0" : "#600"} size={30} />
+                <Icon
+                  name="check"
+                  color={canSaveItem ? theme.darkOkay : theme.darkNegate}
+                  size={30}
+                />
               </TouchableOpacity>
               {TextAviso(canSaveItem)}
             </View>
@@ -339,7 +352,7 @@ const List = function ({ navigation, route }) {
                 setTmp("");
               }}
             >
-              <Icon name="close" color="#600" size={20} />
+              <Icon name="close" color={theme.darkNegate} size={20} />
             </TouchableOpacity>
           </View>
         </View>
@@ -366,13 +379,13 @@ const List = function ({ navigation, route }) {
                     onPress={() => orderRegisters(true, true)}
                     style={globals.saveBtnOK}
                   >
-                    <Icon name="angle-double-up" color="#060" size={25} />
+                    <Icon name="angle-double-up" color={theme.darkOkay} size={25} />
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => orderRegisters(false, true)}
                     style={globals.saveBtnOK}
                   >
-                    <Icon name="angle-double-down" color="#060" size={25} />
+                    <Icon name="angle-double-down" color={theme.darkOkay} size={25} />
                   </TouchableOpacity>
                 </View>
                 <Text style={styles.itemText_2}>VALOR:</Text>
@@ -381,13 +394,13 @@ const List = function ({ navigation, route }) {
                     onPress={() => orderRegisters(false, false)}
                     style={globals.saveBtnOK}
                   >
-                    <Icon name="angle-double-up" color="#060" size={25} />
+                    <Icon name="angle-double-up" color={theme.darkOkay} size={25} />
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => orderRegisters(true, false)}
                     style={globals.saveBtnOK}
                   >
-                    <Icon name="angle-double-down" color="#060" size={25} />
+                    <Icon name="angle-double-down" color={theme.darkOkay} size={25} />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -408,7 +421,7 @@ const List = function ({ navigation, route }) {
                   }}
                   style={globals.saveBtnNot}
                 >
-                  <Text style={{ color: "#a00", fontWeight: "bold" }}>Deletar</Text>
+                  <Text style={{ color: theme.negate, fontWeight: "bold" }}>Deletar</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -421,7 +434,7 @@ const List = function ({ navigation, route }) {
                 setShowConfigList(false);
               }}
             >
-              <Icon name="close" color="#600" size={20} />
+              <Icon name="close" color={theme.darkNegate} size={20} />
             </TouchableOpacity>
           </View>
         </View>
@@ -452,7 +465,11 @@ const List = function ({ navigation, route }) {
           }
           style={[globals.alCenter, globals.itemBtn]}
         >
-          <Icon name="bars" color={showTrashButton ? "#900" : "#fff"} size={30} />
+          <Icon
+            name="bars"
+            color={showTrashButton ? theme.darkNegate : theme.iconColor}
+            size={30}
+          />
         </TouchableOpacity>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>

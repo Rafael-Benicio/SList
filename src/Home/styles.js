@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Dimensions } from "react-native";
+import theme from "./../utils/themePalet";
 
 const widthWi = Dimensions.get("window").width;
 const heightHe = Dimensions.get("window").height;
@@ -10,7 +11,7 @@ const styles = StyleSheet.create({
     width: widthWi * 0.9,
     height: heightHe * 0.17,
     marginBottom: heightHe * 0.02,
-    backgroundColor: "#000",
+    backgroundColor: theme.groupCoverColorLayer,
     borderRadius: 8,
   },
   itemImg: {
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     fontSize: 20,
-    color: "#fff",
+    color: theme.textCoverGroupColor,
     fontWeight: "bold",
     marginLeft: widthWi * 0.02,
   },
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   setNameBtn: {
-    backgroundColor: "#0f0",
+    backgroundColor: theme.okay,
     width: sISize * 0.1,
     height: sISize * 0.1,
     borderRadius: 8,
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   setImgBtnTxt: {
-    color: "#fff",
+    color: theme.textBtnGroup,
     fontWeight: "bold",
     fontSize: Math.floor(sISize / 13),
   },
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   setImgButton: {
-    backgroundColor: "#a0f",
+    backgroundColor: theme.base,
     borderRadius: 4,
     width: sISize / 2.3,
     height: sISize / 8,
@@ -73,39 +74,20 @@ const styles = StyleSheet.create({
     height: sISize * 0.3,
     alignItems: "flex-start",
   },
-  setRadioBtn: {
-    justifyContent: "center",
-    width: sISize * 0.7,
-    height: sISize * 0.14,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    backgroundColor: "#ddd",
-  },
-  setRadioBtnok: {
-    justifyContent: "center",
-    width: sISize * 0.7,
-    height: sISize * 0.14,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    backgroundColor: "#ccffc4",
-    borderWidth: 1,
-    borderColor: "#0a0",
-  },
   setDeleteBtn: {
-    backgroundColor: "#f00",
+    backgroundColor: theme.negate,
     width: sISize * 0.3,
     height: sISize * 0.15,
     borderRadius: 8,
   },
   setDeleteBtnText: {
-    color: "#fff",
+    color: theme.textDeleteGroupBtn,
     fontWeight: "bold",
     fontSize: sISize * 0.05,
   },
   imageSets: {
     width: sISize * 0.7,
     height: sISize * 0.7,
-    backgroundColor: "#eee",
   },
   test: {
     flexDirection: "row",
